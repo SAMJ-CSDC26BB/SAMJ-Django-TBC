@@ -1,10 +1,11 @@
-<!-- samj/templates/tbc.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Based Calling System</title>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <style>
         table th, table td {
@@ -44,14 +45,11 @@
         <button class="btn btn-secondary" id="filter-button">Filter</button>
         <button class="btn btn-secondary" id="zielnummern-button">Zielnummern</button>
     </div>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Save</button>
-    </form>
+    <input type="hidden" id="csrf-token" value="{% csrf_token %}">
     <table class="table table-bordered">
         <thead>
         <tr>
+            <th><button class="btn btn-primary" id="add-entry">+</button></th>
             <th>Kopfnummer ▲▼</th>
             <th>Durchwahl ▲▼</th>
             <th>Zielnummer ▲▼</th>
@@ -61,11 +59,36 @@
             <th>Aktionen</th>
         </tr>
         </thead>
-        <tbody id="table-body">
-        <!-- Placeholder for dynamic rows -->
+        <tbody>
+        <tr id="form-placeholder" style="display: none;"></tr>
+        {% if entries %}
+        {% for entry in entries %}
+        <tr>
+            <td></td>
+            <td>{{ entry.kopfnummer }}</td>
+            <td>{{ entry.durchwahl }}</td>
+            <td>{{ entry.zielnummer }}</td>
+            <td>{{ entry.anfangsdatum }}</td>
+            <td>{{ entry.endedatum }}</td>
+            <td>{{ entry.dauer }}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-edit btn-sm" onclick="editEntry({{ entry.id }})">Edit</button>
+                    <button class="btn btn-delete btn-sm" onclick="deleteEntry({{ entry.id }})">Löschen</button>
+                    <button class="btn btn-copy btn-sm" onclick="copyEntry({{ entry.id }})">Kopieren</button>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="8">No entries found.</td>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
 </div>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/tbc.js' %}"></script>
 </body>
 </html>

@@ -9,19 +9,38 @@ class TbcView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = EntryForm(user=self.request.user)
-        context['entries'] = []  # Replace with actual data fetching logic
+        context['form'] = EntryForm()
+        context['entries'] = [
+            {
+                'id': 1,
+                'kopfnummer': '4327',
+                'durchwahl': '001',
+                'zielnummer': 'Beierl',
+                'anfangsdatum': '2024-05-31 10:00',
+                'endedatum': '2024-05-31 12:00',
+                'dauer': '2 hours',
+            },
+            {
+                'id': 2,
+                'kopfnummer': '4328',
+                'durchwahl': '002',
+                'zielnummer': 'Info',
+                'anfangsdatum': '2024-05-31 14:00',
+                'endedatum': '2024-05-31 16:00',
+                'dauer': '2 hours',
+            },
+        ]
         return context
 
 def add_entry(request):
     if request.method == "POST":
-        form = EntryForm(request.POST, user=request.user)
+        form = EntryForm(request.POST)
         if form.is_valid():
             # Save the form data to the database
             # Implement your logic here
             return redirect('tbc')
     else:
-        form = EntryForm(user=request.user)
+        form = EntryForm()
     return render(request, 'tbc.html', {'form': form, 'entries': []})
 
 def edit_entry(request, entry_id):

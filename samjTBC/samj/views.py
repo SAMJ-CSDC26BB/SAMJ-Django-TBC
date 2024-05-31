@@ -1,10 +1,11 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.views.generic import FormView
+from django.shortcuts import render, redirect
 
 from .auth.appleOAuth2 import AppleOAuth2
+from .forms import GlobalSettingsForm
 
 
-# Create your views here.
 def index(request):
     return render(request, "index.html")
 
@@ -30,3 +31,12 @@ def login(request):
     else:
         # This is a normal GET request, render the login page
         return render(request, "./login/login.html")
+
+
+class GlobalSettingsView(FormView):
+    form_class = GlobalSettingsForm
+    template_name = 'global_settings/global_settings.html'
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('home')

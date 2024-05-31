@@ -11,7 +11,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 250px;
+            max-width: 150px;
         }
         .action-buttons {
             display: flex;
@@ -19,6 +19,10 @@
         }
         .btn-edit {
             background-color: #17a2b8;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #dc3545;
             color: white;
         }
         .btn-copy {
@@ -32,61 +36,62 @@
             white-space: nowrap;
         }
         .btn-custom-width {
-            width: 55px; /* Adjust this value as needed */
+            width: 50px; /* Adjust this value as needed */
+        }
+        th.sortable {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <div class="container mt-4">
     <div class="top-buttons">
-        <button class="btn btn-primary btn-custom-width" id="samj-button">Samj</button>
-        <button class="btn btn-secondary" id="filter-button">Filter</button>
-        <button class="btn btn-secondary" id="zielnummern-button">Zielnummern</button>
+        <button class="btn btn-primary btn-custom-width" id="samj-button">Samj</button> <!-- Samj button -->
+        <button class="btn btn-secondary" id="filter-button">Filter</button> <!-- Filter button -->
+        <button class="btn btn-secondary" id="zielnummern-button">Zielnummern</button> <!-- Zielnummern button -->
     </div>
     <!-- Hidden CSRF token field -->
     <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th><button class="btn btn-primary btn-custom-width" id="add-entry">+</button></th>
-            <th>Kopfnummer ▲▼</th>
-            <th>Durchwahl ▲▼</th>
-            <th>Zielnummer ▲▼</th>
-            <th>Anfang ▲▼</th>
-            <th>Ende  ▲▼</th>
+            <th><button class="btn btn-primary btn-custom-width" id="add-entry">+</button></th> <!-- Add button -->
+            <th class="sortable" data-column="kopfnummer" data-order="asc">Kopfnummer ▲▼</th>
+            <th class="sortable" data-column="durchwahl" data-order="asc">Durchwahl ▲▼</th>
+            <th class="sortable" data-column="zielnummer" data-order="asc">Zielnummer ▲▼</th>
+            <th class="sortable" data-column="anfangsdatum" data-order="asc">Anfang ▲▼</th>
+            <th class="sortable" data-column="endedatum" data-order="asc">Ende ▲▼</th>
             <th>Dauer</th>
             <th>Aktionen</th>
         </tr>
         </thead>
         <tbody>
-        <tr id="form-placeholder" style="display: none;"></tr>
-        {% if entries %}
+        <tr id="form-placeholder" style="display: none;"></tr> <!-- Placeholder for the form -->
         {% for entry in entries %}
         <tr>
-            <td><button class="btn btn-danger btn-custom-width">-</button></td>
-            <td>{{ entry.kopfnummer }}</td>
-            <td>{{ entry.durchwahl }}</td>
-            <td>{{ entry.zielnummer }}</td>
-            <td>{{ entry.anfangsdatum }}</td>
-            <td>{{ entry.endedatum }}</td>
+            <td><button class="btn btn-danger btn-custom-width">-</button></td> <!-- Delete button -->
+            <td data-column="kopfnummer">{{ entry.kopfnummer }}</td>
+            <td data-column="durchwahl">{{ entry.durchwahl }}</td>
+            <td data-column="zielnummer">{{ entry.zielnummer }}</td>
+            <td data-column="anfangsdatum">{{ entry.anfangsdatum }}</td>
+            <td data-column="endedatum">{{ entry.endedatum }}</td>
             <td>{{ entry.dauer }}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn btn-edit btn-sm">Edit</button>
-                    <button class="btn btn-copy btn-sm">Kopieren</button>
+                    <button class="btn btn-edit btn-sm">Edit</button> <!-- Edit button -->
+                    <button class="btn btn-copy btn-sm">Kopieren</button> <!-- Copy button -->
                 </div>
             </td>
         </tr>
-        {% endfor %}
-        {% else %}
+        {% empty %}
         <tr>
-            <td colspan="8">No entries found.</td>
+            <td colspan="8">No entries found.</td> <!-- No entries message -->
         </tr>
-        {% endif %}
+        {% endfor %}
         </tbody>
     </table>
 </div>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'js/tbc.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> <!-- Bootstrap JS -->
+<script src="{% static 'js/tbc.js' %}"></script> <!-- Custom JS -->
 </body>
 </html>

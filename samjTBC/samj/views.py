@@ -3,6 +3,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from .forms import EntryForm
+from .models import Zielnummer
+from .forms import ZielnummerForm
 
 class TbcView(TemplateView):
     template_name = 'tbc.html'
@@ -54,3 +56,14 @@ def delete_entry(request, entry_id):
 def copy_entry(request, entry_id):
     # Implement your logic to copy an entry
     pass
+
+
+class ZielnummernView(TemplateView):
+    template_name = 'zielnummern.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['zielnummern'] = Zielnummer.objects.all()
+        context['form'] = ZielnummerForm()
+        return context
+

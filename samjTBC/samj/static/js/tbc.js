@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Form HTML with the cancel button
             const formHtml = `
                 <form method="post" id="entry-form">
-                    <td><button type="button" class="btn btn-secondary" id="cancel-entry">C</button> <!-- Cancel button --></td> <!-- Empty cell for the add/delete button column -->
-                    <td>
+                    <td><button type="button" class="btn btn-secondary" id="cancel-entry" style="background-color: orange; width: 55px;">C</button></td> 
+                    </td>
                         <select name="kopfnummer" class="form-control">
                             <option value="4327">4327</option>
                             <option value="4328">4328</option>
@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const cancelButton = document.getElementById('cancel-entry');
             if (cancelButton) {
                 cancelButton.addEventListener('click', function() {
-                    console.log('Cancel button clicked');
                     formPlaceholder.style.display = 'none'; // Hide the form
                     formPlaceholder.innerHTML = ''; // Clear the form content
                 });

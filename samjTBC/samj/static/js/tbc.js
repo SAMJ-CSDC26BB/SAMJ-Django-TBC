@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('add-entry');
     const formPlaceholder = document.getElementById('form-placeholder');
@@ -13,26 +14,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Use the retrieved CSRF token in the form HTML
             const formHtml = `
-                <td colspan="8">
-                    <form method="post" id="entry-form">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
-                        <select name="kopfnummer">
-                            <option value="4327">4327</option>
-                            <option value="4328">4328</option>
-                        </select>
-                        <input type="text" name="durchwahl" placeholder="Durchwahl">
-                        <select name="zielnummer">
-                            <option value="Beierl">Beierl</option>
-                            <option value="Info">Info</option>
-                        </select>
-                        <input type="datetime-local" name="anfangsdatum">
-                        <input type="datetime-local" name="endedatum">
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </form>
+                <td></td> <!-- Empty cell for the add/delete button column -->
+                <td>
+                    <select name="kopfnummer" class="form-control">
+                        <option value="4327">4327</option>
+                        <option value="4328">4328</option>
+                    </select>
+                </td>
+                <td><input type="text" name="durchwahl" placeholder="Durchwahl" class="form-control"></td>
+                <td>
+                    <select name="zielnummer" class="form-control">
+                        <option value="Beierl">Beierl</option>
+                        <option value="Info">Info</option>
+                    </select>
+                </td>
+                <td><input type="datetime-local" name="anfangsdatum" class="form-control"></td>
+                <td><input type="datetime-local" name="endedatum" class="form-control"></td>
+                <td></td> <!-- Empty cell for the duration column -->
+                <td>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </td>
             `;
 
-            formPlaceholder.innerHTML = formHtml;
+            formPlaceholder.innerHTML = `<form method="post" id="entry-form">${formHtml}<input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}"></form>`;
             formPlaceholder.style.display = 'table-row';
         });
     } else {

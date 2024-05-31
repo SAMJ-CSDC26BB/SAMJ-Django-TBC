@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}SAMJ Login{% endblock %}
+
+{% block body %}
+<form>
+    <div class="mb-3">
+        <label for="email_input" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email_input" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label for="password_input" class="form-label">Password</label>
+        <input type="password" class="form-control input-group" id="password_input">
+        <div class="input-group-addon">
+            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input input-group-addon" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+    <button class="input" id="login">Log in</button>
+    <button class="input" id="signup">Sign up</button>
+</div>
+<div id="login-with-apple">
+    <a href="https://appleid.apple.com/auth/authorize?response_type=code&client_id=<Your Client ID>&redirect_uri=<Your Redirect URI>&scope=email">
+        <button class="input" id="login-apple"><i class="bi bi-apple"></i>Log in with Apple</button>
+    </a>
+</div>
+<div id="login-with-google">
+    <button class="btn btn-primary" id="login-google">Log in with Google</button>
+</div>
+<div id="login-with-gh">
+    <button class="input" id="login-github">Log in with GitHub</button>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="samj/static/js/login.js"></script>
+{% endblock %}

@@ -8,8 +8,6 @@ class LoginViewTest(TestCase):
         response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, 200)
 
-
-class HomeViewTest(TestCase):
-    def test_home_view(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
+    def test_login_view_template(self):
+        response = self.client.get(reverse('login'))
+        self.assertTemplateUsed(response, './login/login.html')

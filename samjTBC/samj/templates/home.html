@@ -3,10 +3,41 @@
 
 {% block title %}SAMJ Index Page{% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block body %}
-    <h1>Home site</h1>
+<div class="container px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Features</h2>
+
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5 features-container">
+
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden bg-dark rounded-3 shadow-lg tbc--container feature__container">
+                <div class="overlay"></div>
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1 position-relative">
+                    <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-white">Time Based Calling</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden bg-dark rounded-3 shadow-lg feature__container inactive-feature">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden bg-dark rounded-3 shadow-lg feature__container inactive-feature">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}
-<!--    <script src="{% static 'mail/inbox.js' %}"></script>-->
 {% endblock %}

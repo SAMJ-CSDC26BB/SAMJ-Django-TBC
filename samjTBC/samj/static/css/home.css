@@ -1,4 +1,4 @@
-@import "styles.css";
+@import url(base.css);
 
 .tbc--container {
     background-image: url('../images/samj_logo.png');

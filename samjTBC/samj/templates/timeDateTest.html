@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}timeDate{% endblock %}
+
+{% block body %}
+<h1>timeDate</h1>
+<!-- timeDate.html -->
+
+<!-- Django-Variablen hinzufügen -->
+<h1 id="time">{{ django_time }}</h1>
+<h1 id="day">{{ django_day }}</h1>
+<h1 id="date">{{ django_date }}</h1>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/timeDateTest.js' %}"></script>
+{% endblock %}

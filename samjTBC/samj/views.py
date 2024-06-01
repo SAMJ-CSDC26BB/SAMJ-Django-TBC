@@ -1,10 +1,10 @@
 # samj/views.py
 
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from .forms import EntryForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, View
+from django.contrib.auth.models import User
 from .models import Zielnummer
-from .forms import ZielnummerForm
+from .forms import EntryForm, ZielnummerForm
 
 class TbcView(TemplateView):
     template_name = 'tbc.html'
@@ -57,7 +57,6 @@ def copy_entry(request, entry_id):
     # Implement your logic to copy an entry
     pass
 
-
 class ZielnummernView(TemplateView):
     template_name = 'zielnummern.html'
 
@@ -67,3 +66,23 @@ class ZielnummernView(TemplateView):
         context['form'] = ZielnummerForm()
         return context
 
+class AddZielnummer(View):
+    def post(self, request):
+        form = ZielnummerForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('zielnummern')
+
+class EditZielnummer(View):
+    def post(self, request, pk):
+        zielnummer = get_object_or_404(Zielnummer, pk=pk)
+        form = ZielnummerForm(request.POST, instance=zielnummer)
+        if form.is_valid():
+            form.save()
+        return redirect('zielnummern')
+
+class DeleteZielnummer(View):
+    def post(self, request, pk):
+        zielnummer = get_object_or_404(Zielnummer, pk=pk)
+        zielnummer.delete()
+        return redirect('zielnummern')

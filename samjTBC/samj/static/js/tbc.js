@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('add-entry');
     const formPlaceholder = document.getElementById('form-placeholder');
+    const navToZielnummernButton = document.getElementById('zielnummern-button');
+
+    // Navigation event listener for Zielnummern button
+    if (navToZielnummernButton) {
+        navToZielnummernButton.addEventListener('click', function() {
+            window.location.href = 'zielnummern';
+        });
+    }
 
     console.log('DOM fully loaded and parsed');
 
+    // Add event listener for the add button
     if (addButton) {
         console.log('Add button found');
         addButton.addEventListener('click', function() {

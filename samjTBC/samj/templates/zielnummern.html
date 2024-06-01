@@ -1,9 +1,10 @@
+<!-- samj/templates/zielnummern.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Based Calling System</title>
+    <title>Zielnummern</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <style>
@@ -21,67 +22,159 @@
             background-color: #17a2b8;
             color: white;
         }
-
-        .btn-copy {
-            background-color: #28a745;
+        .btn-delete {
+            background-color: #dc3545;
             color: white;
         }
         .top-buttons {
             margin-bottom: 10px;
-        }
-        .btn-copy {
-            white-space: nowrap;
-        }
-        .btn-custom-width {
-            width: 50px; /* Adjust this value as needed */
-        }
-        th.sortable {
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <div class="container mt-4">
     <div class="top-buttons">
-        <button class="btn btn-primary btn-custom-width" id="samj-button">Samj</button> <!-- Samj button -->
-        <button class="btn btn-secondary" id="filter-button">Filter</button> <!-- Filter button -->
-        <button class="btn btn-secondary" id="nav_to_TBC">TBC</button> <!-- Zielnummern button -->
+        <button class="btn btn-primary" onclick="window.location.href='{% url 'tbc' %}'">Samj</button>
+        <button class="btn btn-secondary" id="zielnummern-button">Zielnummern</button>
     </div>
-    <!-- Hidden CSRF token field -->
-    <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th><button class="btn btn-primary btn-custom-width" id="addZielrufnummer">+</button></th> <!-- Add button -->
-            <th class="sortable" data-column="Zielnummer" data-order="asc">Zielnummer ▲▼</th>
-            <th class="sortable" data-column="Name" data-order="asc">Name ▲▼</th>
+            <th><button class="btn btn-primary" id="add-zielnummer">+</button></th>
+            <th>Name</th>
+            <th>Rufnummer</th>
             <th>Aktionen</th>
         </tr>
         </thead>
         <tbody>
         <tr id="form-placeholder" style="display: none;"></tr> <!-- Placeholder for the form -->
-        {% for entry in entries %}
+        {% for zielnummer in zielnummern %}
         <tr>
-            <td><button class="btn btn-danger btn-custom-width">-</button></td> <!-- Delete button -->
-            <td data-column="Zielnummer">{{ entry.zielnummer }}</td>
-            <td data-column="Name">{{ entry.name }}</td>
-
+            <td></td>
+            <td>{{ zielnummer.user.username }}</td>
+            <td>{{ zielnummer.number }}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn btn-edit btn-sm">Edit</button> <!-- Edit button -->
-                    <button class="btn btn-copy btn-sm">Kopieren</button> <!-- Copy button -->
+                    <form method="post" action="{% url 'edit_zielnummer' zielnummer.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="user" value="{{ zielnummer.user.id }}">
+                        <input type="hidden" name="number" value="{{ zielnummer.number }}">
+                        <button type="submit" class="btn btn-edit btn-sm">Edit</button>
+                    </form>
+                    <form method="post" action="{% url 'delete_zielnummer' zielnummer.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-delete btn-sm">Löschen</button>
+                    </form>
                 </div>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="8">No entries found.</td> <!-- No entries message -->
+            <td colspan="4">No entries found.</td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> <!-- Bootstrap JS -->
-<script src="{% static 'js/zielnummern.js' %}"></script> <!-- Custom JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addZielnummer = document.getElementById("add-zielnummer");
+        const placeholder = document.getElementById("form-placeholder");
+        const navToZielnummernButton = document.getElementById("zielnummern-button");
+
+        // Navigation event listener for Zielnummern button
+        if (navToZielnummernButton) {
+            navToZielnummernButton.addEventListener('click', function() {
+                window.location.href = '{% url "zielnummern" %}';
+            });
+        }
+
+        console.log('DOM fully loaded and parsed');
+
+        // Add event listener for the add button
+        if (addZielnummer) {
+            console.log('Add button found');
+            addZielnummer.addEventListener('click', function() {
+                console.log('Add button clicked');
+                // Retrieve CSRF token from the hidden input field
+                const csrfToken = document.getElementById('csrf-token').value;
+
+                // Form HTML with the cancel button
+                const formHtml = `
+                        <form method="post" id="entry-form">
+                            <td><button type="button" class="btn btn-secondary" id="cancel-entry" style="background-color: orange; width: 50px;">C</button></td>
+                            <td>
+                                <select name="kopfnummer" class="form-control">
+                                    <option value="4327">4327</option>
+                                    <option value="4328">4328</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="durchwahl" placeholder="Durchwahl" class="form-control"></td>
+                            <td>
+                                <select name="zielnummer" class="form-control">
+                                    <option value="Beierl">Beierl</option>
+                                    <option value="Info">Info</option>
+                                </select>
+                            </td>
+                            <td><input type="datetime-local" name="anfangsdatum" class="form-control"></td>
+                            <td><input type="datetime-local" name="endedatum" class="form-control"></td>
+                            <td></td> <!-- Empty cell for the duration column -->
+                            <td>
+                                <button type="submit" class="btn btn-success">Save</button> <!-- Save button -->
+                            </td>
+                            <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+                        </form>
+                    `;
+
+                // Insert the form HTML into the placeholder
+                placeholder.innerHTML = formHtml;
+                placeholder.style.display = 'table-row';
+
+                // Add event listener for the cancel button
+                const cancelButton = document.getElementById('cancel-entry');
+                if (cancelButton) {
+                    cancelButton.addEventListener('click', function() {
+                        console.log('Cancel button clicked');
+                        placeholder.style.display = 'none'; // Hide the form
+                        placeholder.innerHTML = ''; // Clear the form content
+                    });
+                }
+            });
+        } else {
+            console.log('Add button not found');
+        }
+
+        // Add sorting functionality
+        document.querySelectorAll('.sortable').forEach(function(header) {
+            header.addEventListener('click', function() {
+                const column = header.getAttribute('data-column');
+                const order = header.getAttribute('data-order');
+                const newOrder = order === 'asc' ? 'desc' : 'asc';
+                header.setAttribute('data-order', newOrder);
+                sortTable(column, newOrder);
+            });
+        });
+
+        function sortTable(column, order) {
+            const rows = Array.from(document.querySelectorAll('tbody tr')).slice(1); // Exclude the form row
+            rows.sort(function(a, b) {
+                const cellA = a.querySelector(`td[data-column="${column}"]`);
+                const cellB = b.querySelector(`td[data-column="${column}"]`);
+                const textA = cellA ? cellA.innerText : '';
+                const textB = cellB ? cellB.innerText : '';
+                if (order === 'asc') {
+                    return textA.localeCompare(textB);
+                } else {
+                    return textB.localeCompare(textA);
+                }
+            });
+
+            // Reattach sorted rows
+            const tbody = document.querySelector('tbody');
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    });
+</script>
 </body>
 </html>

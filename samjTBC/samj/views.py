@@ -1,4 +1,5 @@
 from allauth.account.forms import UserForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render, redirect
@@ -6,6 +7,10 @@ from django.shortcuts import render, redirect
 from .auth.appleOAuth2 import AppleOAuth2
 from .forms import GlobalSettingsForm
 from .models import User
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -27,7 +32,7 @@ def login(request):
         return render(request, "./login/login.html")
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
 
 
@@ -59,3 +64,9 @@ class GlobalSettingsView(FormView):
     def form_valid(self, form):
         form.save()
         return redirect('home')
+
+
+class GitHubLogin(SocialLoginView):
+    adapter_class = GitHubOAuth2Adapter
+    callback_url = "127.0.0.1/login"
+    client_class = OAuth2Client

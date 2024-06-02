@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 {% load static %}
+{% block head %}
+<meta name="appleid-signin-client-id" content="[CLIENT_ID]">
+<meta name="appleid-signin-scope" content="[SCOPES]">
+<meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">
+<meta name="appleid-signin-state" content="[STATE]">
+
+{% endblock %}
+
+{% block style %}
+<style>
+    .signin-button {
+        width: 210px;
+        height: 40px;
+    }
+</style>
+
+{% endblock %}
 
 {% block title %}SAMJ Login{% endblock %}
 
@@ -21,26 +38,34 @@
         <input type="checkbox" class="form-check-input input-group-addon" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <button class="btn btn-primary" id="signup">Sign up</button>
+    </div>
+    <div class="button-container">
+    <button class="btn">
+        <a href="{% url 'social:begin' 'github' %}">
+            <img src="{% static 'images/login/gh_icon.png' %}" alt="Login with GitHub" style="width: 50px; height: 50px;">
+        </a>
+    </button>
+
+    <button class="btn">
+        <a href="{% url 'social:begin' 'apple' %}">
+            <img src="{% static 'images/login/apple_icon_w.png' %}" alt="Login with Apple" style="width: 50px; height: 50px;">
+        </a>
+    </button>
+    <button class="btn">
+        <a href="{% url 'social:begin' 'google' %}">
+            <img src="{% static 'images/login/google_logo.png' %}" alt="Login with Google" style="width: 50px; height: 50px;">
+        </a>
+    </button>
+</div>
+
 </form>
 
-<div>
-    <button class="input" id="login">Log in</button>
-    <button class="input" id="signup">Sign up</button>
-</div>
-<div id="login-with-apple">
-    <a href="https://appleid.apple.com/auth/authorize?response_type=code&client_id=<Your Client ID>&redirect_uri=<Your Redirect URI>&scope=email">
-        <button class="input" id="login-apple"><i class="bi bi-apple"></i>Log in with Apple</button>
-    </a>
-</div>
-<div id="login-with-google">
-    <button class="btn btn-primary" id="login-google">Log in with Google</button>
-</div>
-<div id="login-with-gh">
-    <button class="input" id="login-github">Log in with GitHub</button>
-</div>
 {% endblock %}
 
 {% block script %}
-<script src="samj/static/js/login.js"></script>
+<script type="text/javascript"
+        src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 {% endblock %}

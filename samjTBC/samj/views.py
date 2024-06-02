@@ -29,6 +29,10 @@ class HomeView(TemplateView):
     template_name = "home.html"
 
 
+class UserManagementView(TemplateView):
+    template_name = "user_management.html"
+
+
 class GlobalSettingsView(FormView):
     form_class = GlobalSettingsForm
     template_name = 'global_settings/global_settings.html'

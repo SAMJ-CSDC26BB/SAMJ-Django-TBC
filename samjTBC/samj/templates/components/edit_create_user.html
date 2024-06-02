@@ -23,15 +23,17 @@
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-control" id="status" name="status">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            {% for value, display in status_options %}
+                            <option value="{{ value }}">{{ display }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
                         <select class="form-control" id="role" name="role">
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
+                            {% for value, display in role_options %}
+                            <option value="{{ value }}">{{ display }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">

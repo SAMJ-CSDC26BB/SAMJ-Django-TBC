@@ -38,6 +38,8 @@ class UserManagementView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['users'] = User.objects.all()
         context['user_form'] = UserForm()
+        context['status_options'] = [choice for choice in User.STATUS_CHOICES if choice[0] != 'deleted']
+        context['role_options'] = User.ROLE_CHOICES
         return context
 
     def post(self, request, *args, **kwargs):

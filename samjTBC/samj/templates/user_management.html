@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}SAMJ Index Page{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="mb-4">User Table</h2>
+        <table id="userTable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Number</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr data-username="{{ user.username }}" data-fullname="{{ user.fullname }}" data-number="{{ user.number }}" data-status="{{ user.status }}" data-role="{{ user.role }}">
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.fullname }}</td>
+                        <td>{{ user.number }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm me-2 edit-user-btn" data-bs-toggle="modal" data-bs-target="#editCreateUserModal">Edit</button>
+                            <button class="btn btn-danger btn-sm delete-user-btn">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% block script %}
+        <script src="../static/js/userManagement.js"></script>
+    {% endblock %}
+
+    {% include './components/edit_create_user.html' %}
+{% endblock %}

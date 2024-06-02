@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 
 from .auth.appleOAuth2 import AppleOAuth2
 from .forms import GlobalSettingsForm
+from .models import User
 
 
 def login(request):
@@ -31,6 +32,11 @@ class HomeView(TemplateView):
 
 class UserManagementView(TemplateView):
     template_name = "user_management.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.all()  # Collect all users from the database
+        return context
 
 
 class GlobalSettingsView(FormView):

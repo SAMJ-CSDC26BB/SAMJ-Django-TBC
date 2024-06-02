@@ -22,29 +22,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>john_doe</td>
-                <td>John Doe</td>
-                <td>1234567890</td>
-                <td>active</td>
-                <td>user</td>
-                <td>
-                    <button class="btn btn-primary btn-sm me-2">Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>jane_smith</td>
-                <td>Jane Smith</td>
-                <td>0987654321</td>
-                <td>inactive</td>
-                <td>admin</td>
-                <td>
-                    <button class="btn btn-primary btn-sm me-2">Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-            <!-- Add more rows as needed -->
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.fullname }}</td>
+                        <td>{{ user.number }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm me-2">Edit</button>
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

@@ -1,3 +1,4 @@
+from allauth.account.forms import UserForm
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render, redirect
@@ -35,8 +36,18 @@ class UserManagementView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.all()  # Collect all users from the database
+        context['users'] = User.objects.all()
+        context['user_form'] = UserForm()
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user_management')
+        context = self.get_context_data()
+        context['user_form'] = form
+        return self.render_to_response(context)
 
 
 class GlobalSettingsView(FormView):

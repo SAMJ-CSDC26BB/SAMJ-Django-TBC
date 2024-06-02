@@ -1,35 +1,38 @@
 from allauth.account.forms import UserForm
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.views.generic import FormView, TemplateView
 from django.shortcuts import render, redirect
+from django.views.generic import FormView, TemplateView
 
 from .auth.appleOAuth2 import AppleOAuth2
 from .forms import GlobalSettingsForm
 from .models import User
-from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
-from django.contrib.auth.decorators import login_required
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     code = request.GET.get('code')
     if code is not None:
-        # This is a redirect from Apple with an authorization code
         apple_auth = AppleOAuth2()
         user = apple_auth.do_auth(code)
 
         if user is not None:
-            # Log in the user and redirect to home page
-            login(request, user)
+            auth_login(request, user)
             return HttpResponseRedirect('/')
         else:
-            # Authentication failed, redirect to login page
             return HttpResponseRedirect('/login')
     else:
-        # This is a normal GET request, render the login page
         return render(request, "./login/login.html")
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
 
 
 class HomeView(LoginRequiredMixin, TemplateView):

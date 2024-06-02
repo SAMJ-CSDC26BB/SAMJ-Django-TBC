@@ -136,6 +136,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend'
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
 ]
 
 # GitHub Auth
@@ -144,5 +147,3 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
-SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
-SOCIAL_AUTH_GITHUB_SECRET = '446b8aeb105608685e477bd3d124a35fa85bf9e3'

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.apple",
     "social_django"
 ]
 
@@ -55,7 +57,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "samjTBC.urls"
@@ -71,7 +73,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'social_django.context_processors.backends',
+                "social_django.context_processors.backends",
             ],
         },
     },
@@ -110,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en-UK"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "EST"
 
 USE_I18N = True
 
@@ -137,12 +139,23 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google.GoogleOAuth'
+    'social_core.backends.apple.AppleIdAuth',
 ]
 
-# GitHub Auth
+# Social  Auth
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
 SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
+SOCIAL_AUTH_GOOGLE_KEY = '382133458640-bpt47r6gap2hklct3kfu1gv9u86mume5.apps.googleusercontent.com'
+
+SOCIAL_AUTH_APPLE_ID_CLIENT = '...'  # Your client_id com.application.your, aka "Service ID"
+SOCIAL_AUTH_APPLE_ID_TEAM = '...'  # Your Team ID, ie K2232113
+SOCIAL_AUTH_APPLE_ID_KEY = '...'  # Your Key ID, ie Y2P99J3N81K
+
+SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
+SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
+
+

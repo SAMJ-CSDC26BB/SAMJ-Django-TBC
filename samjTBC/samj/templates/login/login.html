@@ -49,7 +49,7 @@
         </button>
 
         <button class="btn" type="button">
-            <a href="{% url 'social:begin' 'google' %}">
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
                 <img src="{% static 'images/login/google_logo.png' %}" alt="Login with Google"
                      style="width: 50px; height: 50px;">
             </a>

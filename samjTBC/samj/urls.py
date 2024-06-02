@@ -2,7 +2,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
 from . import views
-from .views import GitHubLogin
+from .views import GitHubLogin, GoogleLogin
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -13,6 +13,7 @@ urlpatterns = [
     path("settings", views.GlobalSettingsView.as_view(), name="settings"),
     path('user-management/', views.UserManagementView.as_view(), name='user_management'),
     path('github/', GitHubLogin.as_view(), name='github_login'),
+    path('google/', GoogleLogin.as_view(), name='google_login'),
     path('social-auth/', include('social_django.urls', namespace='social')),
 
 ]

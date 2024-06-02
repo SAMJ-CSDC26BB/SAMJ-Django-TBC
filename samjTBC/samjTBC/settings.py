@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-UK"
 
-TIME_ZONE = "EST"
+TIME_ZONE = "CET"
 
 USE_I18N = True
 
@@ -130,15 +130,13 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Apple OAuth2 settings
-CLIENT_ID = 'Your Client ID'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth'
+    'social_core.backends.google.GoogleOAuth',
     'social_core.backends.apple.AppleIdAuth',
 ]
 
@@ -151,10 +149,7 @@ LOGOUT_REDIRECT_URL = 'login'
 SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
 SOCIAL_AUTH_GOOGLE_KEY = '382133458640-bpt47r6gap2hklct3kfu1gv9u86mume5.apps.googleusercontent.com'
 
-SOCIAL_AUTH_APPLE_ID_CLIENT = '...'  # Your client_id com.application.your, aka "Service ID"
-SOCIAL_AUTH_APPLE_ID_TEAM = '...'  # Your Team ID, ie K2232113
-SOCIAL_AUTH_APPLE_ID_KEY = '...'  # Your Key ID, ie Y2P99J3N81K
-
+SOCIAL_AUTH_APPLE_ID_REDIRECT_URI = 'https://localhost:8000/social-auth/complete/apple-id'
 SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
 SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
 

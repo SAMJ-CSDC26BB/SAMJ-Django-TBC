@@ -16,5 +16,6 @@ urlpatterns = [
     path('google/', GoogleLogin.as_view(), name='google_login'),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('accounts/', include('allauth.urls')),
+    path('signup/', views.as_view(template_name='singup.html'), name='signup'),
 
 ]

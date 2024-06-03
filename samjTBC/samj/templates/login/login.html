@@ -12,51 +12,48 @@
 
 {% block body %}
 
-<form>
+<form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
     <div class="mb-3">
-        <label for="email_input" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email_input" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <label for="username_email_input" class="form-label">Username or Email address</label>
+        <input type="text" class="form-control" id="username_email_input" name="login"
+               aria-describedby="usernameEmailHelp">
+        <div id="usernameEmailHelp" class="form-text">We'll never share your username or email with anyone else.</div>
     </div>
     <div class="mb-3">
         <label for="password_input" class="form-label">Password</label>
-        <input type="password" class="form-control input-group" id="password_input">
+        <input type="password" class="form-control input-group" id="password_input" name="password">
         <div class="input-group-addon">
             <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
         </div>
-    </div>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input input-group-addon" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Login</button>
-        <button class="btn btn-primary" id="signup" type="button">
-            <a href="{% url 'accounts' 'signup' %}">Sign up</a>
-        </button>
-    </div>
-    <div class="button-container">
-        <button class="btn" type="button">
-            <a href="{% url 'social:begin' 'github' %}" target="_blank">
-                <img src="{% static 'images/login/gh_icon.png' %}" alt="Login with GitHub"
-                     style="width: 50px; height: 50px;">
-            </a>
-        </button>
+        <div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button class="btn btn-primary" id="signup" type="button">
+                <a href="{% url 'account_signup' %}">Sign up</a>
+            </button>
+        </div>
+        <div class="button-container">
+            <button class="btn" type="button">
+                <a href="{% url 'social:begin' 'github' %}" target="_blank">
+                    <img src="{% static 'images/login/gh_icon.png' %}" alt="Login with GitHub"
+                         style="width: 50px; height: 50px;">
+                </a>
+            </button>
 
-        <button class="btn" type="button">
-            <a href="{% url 'social:begin' 'apple-id' %}">
-                <img src="{% static 'images/login/apple_icon.png' %}" alt="Login with Apple"
-                     style="width: 50px; height: 50px;">
-            </a>
-        </button>
+            <button class="btn" type="button">
+                <a href="{% url 'social:begin' 'apple-id' %}">
+                    <img src="{% static 'images/login/apple_icon.png' %}" alt="Login with Apple"
+                         style="width: 50px; height: 50px;">
+                </a>
+            </button>
 
-        <button class="btn" type="button">
-            <a href="{% url 'social:begin' 'google-oauth2' %}">
-                <img src="{% static 'images/login/google_logo.png' %}" alt="Login with Google"
-                     style="width: 50px; height: 50px;">
-            </a>
-        </button>
-    </div>
+            <button class="btn" type="button">
+                <a href="{% url 'social:begin' 'google-oauth2' %}">
+                    <img src="{% static 'images/login/google_logo.png' %}" alt="Login with Google"
+                         style="width: 50px; height: 50px;">
+                </a>
+            </button>
+        </div>
 
 </form>
 

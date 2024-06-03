@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="username_email_input" class="form-label">Username or Email address</label>
+        <input type="text" class="form-control" id="username_email_input" name="login"
+               aria-describedby="usernameEmailHelp">
+        <div id="usernameEmailHelp" class="form-text">We'll never share your username or email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label for="password_input" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password_input" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{% endblock %}

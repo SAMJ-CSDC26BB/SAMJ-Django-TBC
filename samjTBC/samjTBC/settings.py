@@ -139,7 +139,7 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth',
     'social_core.backends.apple.AppleIdAuth',
 ]
-
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SITE_ID = 1
 # Social  Auth
 
@@ -154,3 +154,12 @@ SOCIAL_AUTH_APPLE_ID_REDIRECT_URI = 'https://localhost:8000/social-auth/complete
 SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
 SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
 
+
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''

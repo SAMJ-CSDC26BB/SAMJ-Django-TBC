@@ -25,6 +25,14 @@ def logout(request):
     return redirect('login')
 
 
+class SignupView(TemplateView):
+    template_name = "signup.html"
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
+
+
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
 

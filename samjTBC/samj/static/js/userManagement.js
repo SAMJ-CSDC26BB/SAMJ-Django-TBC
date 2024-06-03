@@ -3,13 +3,14 @@ import { initializeVanillaDataTable } from './utils/utils.js';
 document.addEventListener('DOMContentLoaded', function() {
     initializeVanillaDataTable('#userTable');
     addEventListenersOnEditButtonClick();
+    addEventListenerOnDeleteButtonClick();
     addEventListenersOnSaveButtonClick();
 });
 
 function addEventListenersOnEditButtonClick() {
     document.querySelectorAll('.edit-user-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            let row = this.closest('tr'),
+        button.addEventListener('click', function(event) {
+            let row = getTableRowOfEditedUser(this),
                 form = document.querySelector('#userForm');
 
             if (!form || !row) {
@@ -27,6 +28,25 @@ function addEventListenersOnEditButtonClick() {
             form.querySelector('#password').value = '';
         });
     });
+}
+
+function addEventListenerOnDeleteButtonClick() {
+    document.querySelectorAll('.delete-user-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            let row = getTableRowOfEditedUser(this),
+                deleteModalMessage = document.querySelector('.modal-body-message');
+
+            if (!row) {
+                return;
+            }
+
+            deleteModalMessage.innerText = deleteModalMessage.innerText.replace('{0}', row.dataset.username);
+        });
+    });
+}
+
+function getTableRowOfEditedUser(context) {
+    return context.closest('tr');
 }
 
 function addEventListenersOnSaveButtonClick() {

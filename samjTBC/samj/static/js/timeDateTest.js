@@ -4,17 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.onload = function ()
 {
-    const timeElement = document.querySelector("#time");
-    const dayElement = document.querySelector("#day");
-    const dateElement = document.querySelector("#date");
+    const timeElement = document.querySelector("#text");
 
-    function fetchTimeDate() {
+    function fetchTimeDate(string) {
         fetch('/time_date/')
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                timeElement.textContent = data.time;
-                dayElement.textContent = data.day;
-                dateElement.textContent = data.date;
+                console.log(data);
+                timeElement.innerHTML = data;
             });
     }
     

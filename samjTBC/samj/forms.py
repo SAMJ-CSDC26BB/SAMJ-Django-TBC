@@ -10,7 +10,7 @@ class GlobalSettingsForm(forms.ModelForm):
 
 from .models import CallForwardingRecords, TbcDestination
 
-class CallForwardingRecords(forms.ModelForm):
+class CallForwardingRecordsForm(forms.ModelForm):
     class Meta:
         model = CallForwardingRecords
         fields = ['kopfnummer', 'anfang', 'ende', 'dauer', 'erinnerung', 'durchwahl', 'ziel']

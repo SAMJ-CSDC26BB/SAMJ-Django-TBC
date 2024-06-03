@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
@@ -130,7 +131,6 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -140,6 +140,7 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.apple.AppleIdAuth',
 ]
 
+SITE_ID = 1
 # Social  Auth
 
 LOGIN_URL = 'login'
@@ -152,5 +153,4 @@ SOCIAL_AUTH_GOOGLE_KEY = '382133458640-bpt47r6gap2hklct3kfu1gv9u86mume5.apps.goo
 SOCIAL_AUTH_APPLE_ID_REDIRECT_URI = 'https://localhost:8000/social-auth/complete/apple-id'
 SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
 SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
-
 

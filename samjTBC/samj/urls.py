@@ -15,5 +15,6 @@ urlpatterns = [
     path('github/', GitHubLogin.as_view(), name='github_login'),
     path('google/', GoogleLogin.as_view(), name='google_login'),
     path('social-auth/', include('social_django.urls', namespace='social')),
+    path('accounts/', include('allauth.urls')),
 
 ]

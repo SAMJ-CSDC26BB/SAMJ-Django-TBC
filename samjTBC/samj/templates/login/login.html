@@ -31,7 +31,9 @@
     </div>
     <div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <button class="btn btn-primary" id="signup">Sign up</button>
+        <button class="btn btn-primary" id="signup" type="button">
+            <a href="{% url 'accounts' 'signup' %}">Sign up</a>
+        </button>
     </div>
     <div class="button-container">
         <button class="btn" type="button">

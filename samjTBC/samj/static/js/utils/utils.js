@@ -13,7 +13,6 @@ const dataTableDefaultOptions = {
  * If not passed, dataTableDefaultOptions will be used.
  */
 export function initializeVanillaDataTable(tableSelector, options = dataTableDefaultOptions) {
-    debugger
     let table = document.querySelector(tableSelector);
 
     if (!table || typeof DataTable === 'undefined') {

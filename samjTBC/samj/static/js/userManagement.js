@@ -1,5 +1,7 @@
+import { initializeVanillaDataTable } from './utils/utils.js';
+
 document.addEventListener('DOMContentLoaded', function() {
-    initializeDataTable();
+    initializeVanillaDataTable('#userTable');
     addEventListenersOnEditButtonClick();
     addEventListenersOnSaveButtonClick();
 });
@@ -35,20 +37,5 @@ function addEventListenersOnSaveButtonClick() {
 
     saveButton.addEventListener('click', function() {
         document.querySelector('#userForm').submit();
-    });
-}
-
-function initializeDataTable() {
-    let userTable = document.querySelector('#userTable');
-    if (!userTable) {
-        return;
-    }
-
-    let dataTable = new DataTable(userTable, {
-        sortable: true,
-        searchable: true,
-        fixedHeight: true,
-        perPage: 10,
-        perPageSelect: [5, 10, 15, 20]
     });
 }

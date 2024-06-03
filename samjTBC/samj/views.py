@@ -59,3 +59,8 @@ class GlobalSettingsView(FormView):
     def form_valid(self, form):
         form.save()
         return redirect('home')
+
+
+class tbcView(TemplateView):
+    template_name = "tbc.html"
+

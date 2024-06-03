@@ -53,3 +53,31 @@ class User(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
     global_settings = models.OneToOneField(GlobalSettings, on_delete=models.CASCADE)
+
+
+from django.db import models
+
+class TbcDestination(models.Model):
+    TYPE_CHOICES = [
+        ('Rufnummer', 'Rufnummer'),
+        ('Ansage', 'Ansage'),
+    ]
+
+    name = models.CharField(max_length=100)
+    value = models.CharField(max_length=255)
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+
+    def __str__(self):
+        return self.name
+
+class CallForwardingRecords(models.Model):
+    kopfnummer = models.IntegerField()
+    anfang = models.DateTimeField()
+    ende = models.DateTimeField()
+    dauer = models.DurationField()
+    erinnerung = models.BooleanField(default=False)
+    durchwahl = models.IntegerField()
+    ziel = models.ForeignKey(TbcDestination, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.kopfnummer} - {self.durchwahl} - {self.ziel.name}"

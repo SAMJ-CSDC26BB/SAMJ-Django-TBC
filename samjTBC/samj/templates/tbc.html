@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}SAMJ Index Page{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container px-4 py-5" id="custom-cards">
+    <h2 class="mb-4">User Table</h2>
+    <table id="userTable" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>+</th>
+            <th>Kopfnummer</th>
+            <th>Durchwahl</th>
+            <th>Ziel</th>
+            <th>Anfang</th>
+            <th>Ende</th>
+            <th>Dauer</th>
+            <th>Erinnerung</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for callForwardingRecord in callForwardingRecord %}
+        <tr data-username="{{ user.username }}" data-fullname="{{ user.fullname }}" data-number="{{ user.number }}" data-status="{{ user.status }}" data-role="{{ user.role }}">
+            <td>{{ callForwardingRecord.kopfnummer }}</td>
+            <td>{{ callForwardingRecord.durchwahl }}</td>
+            <td>{{ callForwardingRecord.Ziel }}</td>
+            <td>{{ callForwardingRecord.Anfang }}</td>
+            <td>{{ callForwardingRecord.Ende }}</td>
+            <td>{{ callForwardingRecord.Dauer }}</td>
+            <td>{{ callForwardingRecord.Erinngerung }}</td>
+            <td>
+                <button class="btn btn-primary btn-sm me-2 edit-user-btn" data-bs-toggle="modal" data-bs-target="#editCreateUserModal">Edit</button>
+                <button class="btn btn-danger btn-sm delete-user-btn" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% block script %}
+<script type="module" src="../static/js/tbc.js"></script>
+{% endblock %}
+
+{% endblock %}

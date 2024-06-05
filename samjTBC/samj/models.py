@@ -30,8 +30,13 @@ class GlobalSettings(models.Model):
 class CallForwardingRecords(models.Model):
     calledNumber = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
     username = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
+    destination = models.ForeignKey("DestinationRecords", on_delete=models.CASCADE, to_field='destination')
     startDate = models.DateField(null=False, blank=False)
     endDate = models.DateField(null=False, blank=False)
+
+class DestinationRecords(models.Model):
+    destination = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
+    name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 
 class User(models.Model):

@@ -1,3 +1,5 @@
+import { ToastBuilder } from '../builder/builder.js';
+
 const dataTableDefaultOptions = {
     sortable: true,
     searchable: true,
@@ -21,4 +23,16 @@ export function initializeVanillaDataTable(tableSelector, options = dataTableDef
     }
 
     new DataTable(table, options);
+}
+
+/**
+ * Use bootstrap toast to show notification message.
+ * @param message message to be shown
+ * @param type type can be success, error, warning, info
+ */
+export function showNotificationMessage(message, type="success") {
+    const myToast = new ToastBuilder();
+    myToast.setBody('Hello, world! This is a toast message.');
+    myToast.setType(type);
+    myToast.show();
 }

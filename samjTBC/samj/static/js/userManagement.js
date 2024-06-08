@@ -1,4 +1,4 @@
-import { initializeVanillaDataTable } from './utils/utils.js';
+import {initializeVanillaDataTable, showNotificationMessage} from './utils/utils.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeVanillaDataTable('#userTable');

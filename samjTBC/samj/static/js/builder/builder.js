@@ -36,8 +36,33 @@ export class ElementBuilder {
         return this;
     }
 
+    text(content) {
+        this.element.textContent = content;
+        return this;
+    }
+
+    with(name, value) {
+        this.element.setAttribute(name, value);
+        return this;
+    }
+
+    listener(name, listener) {
+        this.element.addEventListener(name, listener);
+        return this;
+    }
+
     build() {
         return this.element;
+    }
+}
+
+export class ButtonBuilder extends ElementBuilder {
+    constructor(text) {
+        super("button").with("type", "button").text(text)
+    }
+
+    onclick(handler) {
+        return this.listener("click", handler)
     }
 }
 

@@ -32,7 +32,26 @@ export function initializeVanillaDataTable(tableSelector, options = dataTableDef
  */
 export function showNotificationMessage(message, type="success") {
     const myToast = new ToastBuilder();
-    myToast.setBody('Hello, world! This is a toast message.');
+    myToast.setBody(message);
     myToast.setType(type);
     myToast.show();
+}
+
+export function resetForm(form) {
+    form.reset();
+    form.classList.remove('was-validated');
+}
+
+/**
+ * Loop through the form elements and add or remove the required attribute.
+ * @param form form selector
+ * @param isMakeInputsRequired if true, make the inputs required
+ */
+export function toggleRequiredInputsInForm(form, isMakeInputsRequired) {
+    const elements = form.elements;
+
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        element.required = isMakeInputsRequired;
+    }
 }

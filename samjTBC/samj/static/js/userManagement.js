@@ -1,9 +1,11 @@
 import * as Utils from './utils/utils.js';
-import {ElementBuilder, ButtonBuilder} from './builder/builder.js';
+import {ButtonBuilder, ElementBuilder} from './builder/builder.js';
 
 const SELECTORS = {
     'editUserButton'            : '.edit-user-btn',
     'deleteUserButton'          : '.delete-user-btn',
+    'deleteUserBtnInModal'      : '.uiDeleteUserButton',
+    'modalBodyMessage'          : '.modal-body-message',
     'createUserButton'          : '.create-user-btn',
     'saveUserButton'            : '#saveUserBtn',
     'fullnameInput'             : '#fullname',
@@ -53,6 +55,7 @@ function initializeEvents() {
     });
 
     document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
+    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
 }
 
 function onEditButtonClick(event) {
@@ -92,17 +95,6 @@ function onCreateButtonClick(event) {
     Utils.toggleRequiredInputsInForm(userForm, true);
     setFormActionMode(DATA.createActionMode, userForm);
     setUserManagementModalTitle(DATA.createUserModalTitle);
-}
-
-function onDeleteButtonClick(event) {
-    let row = getTableRowOfEditedUser(this),
-        deleteModalMessage = document.querySelector('.modal-body-message');
-
-    if (!row) {
-        return;
-    }
-
-    deleteModalMessage.innerText = deleteModalMessage.innerText.replace('{0}', row.dataset.username);
 }
 
 function populateUserTable() {
@@ -169,12 +161,15 @@ function createUser(userForm = getUserManagementForm()) {
     }
 
     const newUser = getUserDataFromForm(userForm);
+    createNewUser(newUser);
+}
 
+function createNewUser(newUser) {
     fetch('/api/user_management/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCsrfTokenFromForm(userForm)
+            'X-CSRFToken': getCsrfTokenFromForm()
         },
         body: JSON.stringify(newUser)
     })
@@ -187,7 +182,7 @@ function createUser(userForm = getUserManagementForm()) {
         })
         .then(data => {
 
-            closeUserManagementModal();
+            Utils.closeModal(SELECTORS.editCreateUserModal);
             Utils.showNotificationMessage(`${newUser.username} created successfully`);
             addUserToTable(newUser);
             initializeEvents();
@@ -209,14 +204,16 @@ function editUser(userForm = getUserManagementForm()) {
         return;
     }
 
-    const username = userForm.querySelector(SELECTORS.usernameInput).value;
     const updatedUser = getUserDataFromForm(userForm);
+    updateUser(updatedUser);
+}
 
+function updateUser(updatedUser) {
     fetch('/api/user_management/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCsrfTokenFromForm(userForm)
+            'X-CSRFToken': getCsrfTokenFromForm()
         },
         body: JSON.stringify(updatedUser)
     })
@@ -228,14 +225,61 @@ function editUser(userForm = getUserManagementForm()) {
         })
         .then(data => {
 
-            closeUserManagementModal();
-            Utils.showNotificationMessage(`${username} updated successfully`);
+            Utils.closeModal(SELECTORS.editCreateUserModal);
+            Utils.showNotificationMessage(`${updatedUser.username} updated successfully`);
             updateUserInTable(updatedUser);
 
         })
         .catch(error => {
             console.error('Error updating user:', error);
-            Utils.showNotificationMessage(`Error updating ${username}`, "error");
+            Utils.showNotificationMessage(`Error updating ${updatedUser.username}`, "error");
+        });
+}
+
+function onDeleteButtonClick(event) {
+    const row = getTableRowOfEditedUser(this);
+
+    if (!row) {
+        return;
+    }
+
+    const username = row.dataset.username;
+    const deleteUserModal = document.querySelector(SELECTORS.deleteUserModal);
+    if (deleteUserModal) {
+        deleteUserModal.querySelector(SELECTORS.modalBodyMessage).innerText
+            = deleteUserModal.querySelector(SELECTORS.modalBodyMessage).innerText.replace('{0}', username);
+
+        deleteUserModal.querySelector(SELECTORS.deleteUserBtnInModal).addEventListener('click', (e) => {deleteUser(username, row)});
+    }
+}
+
+function deleteUser(username, row) {
+    fetch('/api/user_management/', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfTokenFromForm()
+        },
+        body: JSON.stringify({username: username})
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            // Check if the response status is 204 (No Content)
+            if (response.status === 204) {
+                return null;
+            }
+            return response.json();
+        })
+        .then(data => {
+            Utils.showNotificationMessage(`${username} deleted successfully`, "success");
+            Utils.closeModal(SELECTORS.deleteUserModal);
+            row.remove();
+        })
+        .catch(error => {
+            console.error('Error deleting user:', error);
+            Utils.showNotificationMessage(`Error deleting ${username}`, "error");
         });
 }
 
@@ -301,14 +345,6 @@ function getUserManagementForm() {
 function setFormActionMode(mode, form = getUserManagementForm()) {
     if (form) {
         form.dataset.mode = mode;
-    }
-}
-
-function closeUserManagementModal() {
-    const modalElement = document.querySelector(SELECTORS.editCreateUserModal);
-    const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-    if (modalInstance) {
-        modalInstance.hide();
     }
 }
 

@@ -1,6 +1,6 @@
 import { ToastBuilder } from '../builder/builder.js';
 
-const dataTableDefaultOptions = {
+const DATA_TABLE_DEFAULT_OPTIONS = {
     sortable: true,
     searchable: true,
     fixedHeight: true,
@@ -12,9 +12,9 @@ const dataTableDefaultOptions = {
  * Function used to initialize a table using Vanilla Datatables.
  * @param tableSelector - table selector (id or class)
  * @param options - options to be used for the table. This is a default param.
- * If not passed, dataTableDefaultOptions will be used.
+ * If not passed, DATA_TABLE_DEFAULT_OPTIONS will be used.
  */
-export function initializeVanillaDataTable(tableSelector, options = dataTableDefaultOptions) {
+export function initializeVanillaDataTable(tableSelector, options = DATA_TABLE_DEFAULT_OPTIONS) {
     let table = document.querySelector(tableSelector);
 
     if (!table || typeof DataTable === 'undefined') {
@@ -53,5 +53,13 @@ export function toggleRequiredInputsInForm(form, isMakeInputsRequired) {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         element.required = isMakeInputsRequired;
+    }
+}
+
+export function closeModal(modalSelector) {
+    const modalElement = document.querySelector(modalSelector);
+    const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+    if (modalInstance) {
+        modalInstance.hide();
     }
 }

@@ -26,7 +26,8 @@ const SELECTORS = {
     'tableDataStatus'           : ".tableDataStatus",
     'tableDataRole'             : ".tableDataRole",
     'userForm'                  : '#userForm',
-    'dataTableBottom'           : '.dataTable-bottom'
+    'dataTableBottom'           : '.dataTable-bottom',
+    'passwordInputHelperText'   : '.passwordInputHelperText'
 };
 
 const DATA = {
@@ -34,7 +35,8 @@ const DATA = {
     'createActionMode'        : 'create',
     'editUserModalTitle'      : 'Edit user',
     'createUserModalTitle'    : 'Create user',
-    'bootstrapFormValidated'  : 'was-validated'
+    'bootstrapFormValidated'  : 'was-validated',
+    'displayNoneClassName'    : 'd-none'
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -72,6 +74,8 @@ function onEditButtonClick(event) {
     let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
     userNameInput.value = row.dataset.username;
     userNameInput.disabled = true;
+
+    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
 
     setFormActionMode(DATA.editActionMode, userForm);
     userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
@@ -200,7 +204,19 @@ function createNewUser(newUser) {
 }
 
 function editUser(userForm = getUserManagementForm()) {
-    if (!userForm || !userForm.checkValidity()) {
+    if (!userForm) {
+        return;
+    }
+
+    const passwordInput = userForm.querySelector(SELECTORS.passwordInput);
+    if (passwordInput.innerText.length) {
+        passwordInput.required = true;
+    } else {
+        passwordInput.required = false;
+    }
+
+    if (!userForm.checkValidity()) {
+        userForm.classList.add(DATA.bootstrapFormValidated);
         return;
     }
 

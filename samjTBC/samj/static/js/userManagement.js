@@ -209,11 +209,7 @@ function editUser(userForm = getUserManagementForm()) {
     }
 
     const passwordInput = userForm.querySelector(SELECTORS.passwordInput);
-    if (passwordInput.innerText.length) {
-        passwordInput.required = true;
-    } else {
-        passwordInput.required = false;
-    }
+    passwordInput.required = passwordInput.innerText.length > 0;
 
     if (!userForm.checkValidity()) {
         userForm.classList.add(DATA.bootstrapFormValidated);

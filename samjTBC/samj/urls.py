@@ -1,5 +1,5 @@
 from django.urls import path
-from .viewsT.restEndpoint import restEndpoint
+from .viewClasses.restEndpoint import restEndpoint
 from . import views
 
 urlpatterns = [

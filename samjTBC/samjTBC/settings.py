@@ -178,7 +178,7 @@ LOGGING = {
             "formatter": "colored",
         },
         "djengo_all": {
-            "level": "ERROR",
+            "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": "./logs/djengo_all.log",
             "formatter": "standard",
@@ -190,16 +190,16 @@ LOGGING = {
             "formatter": "standard",
         },
         "djengo_error": {
-            "level": "WARNING",
+            "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "./logs/djengo_error.log",
             "formatter": "standard",
         },
         "samj_all": {
-            "level": "ERROR",
+            "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": "./logs/samj_all.log",
-            "formatter": "colored",
+            "formatter": "standard",
         },
         "samj_info": {
             "level": "INFO",
@@ -208,7 +208,7 @@ LOGGING = {
             "formatter": "standard",
         },
         "samj_error": {
-            "level": "WARNING",
+            "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "./logs/samj_error.log",
             "formatter": "standard",
@@ -221,7 +221,7 @@ LOGGING = {
             "propagate": True,
         },
         "samj": {
-            "handlers": ["console", "samj_info", "samj_error"],
+            "handlers": ["console", "samj_info", "samj_error", "samj_all"],
             "level": "DEBUG",
             "propagate": True,
         },

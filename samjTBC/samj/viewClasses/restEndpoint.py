@@ -11,13 +11,6 @@ class restEndpoint(View):
         dest = getDestination(query)
         logger.info("dest -> " + dest)
 
-
-        logger.debug("lol")
-        logger.info("lol")
-        logger.warning("lol")
-        logger.error("lol")
-
-
         return HttpResponse(dest)
 
 

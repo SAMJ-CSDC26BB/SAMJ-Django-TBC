@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from .logger import CustomFormatter
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -154,4 +156,74 @@ SOCIALACCOUNT_PROVIDERS = {
             "redirect_uri": "http://localhost:8000/accounts/github/login/callback/",
         }
     }
+}
+
+# Logging settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s][%(levelname)s] %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S"
+        },
+        "colored": {
+            "()": CustomFormatter,
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "colored",
+        },
+        "djengo_all": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "./logs/djengo_all.log",
+            "formatter": "standard",
+        },
+        "djengo_info": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "./logs/djengo_info.log",
+            "formatter": "standard",
+        },
+        "djengo_error": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "./logs/djengo_error.log",
+            "formatter": "standard",
+        },
+        "samj_all": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "./logs/samj_all.log",
+            "formatter": "standard",
+        },
+        "samj_info": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "./logs/samj_info.log",
+            "formatter": "standard",
+        },
+        "samj_error": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "./logs/samj_error.log",
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "djengo_info", "djengo_error"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+        "samj": {
+            "handlers": ["console", "samj_info", "samj_error", "samj_all"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
 }

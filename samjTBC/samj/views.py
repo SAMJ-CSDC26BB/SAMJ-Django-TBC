@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView, TemplateView
@@ -44,7 +45,8 @@ class LogoutView(LoginRequiredMixin, View):
 
 class SignupView(TemplateView):
     def get(self, request, *args, **kwargs):
-        return render(request, './login/signup.html')
+        form = UserCreationForm()
+        return render(request, 'login/signup.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)
@@ -52,7 +54,7 @@ class SignupView(TemplateView):
             form.save()
             return redirect('login')
         else:
-            return render(request, './login/signup.html', {'form': form})
+            return render(request, 'login/signup.html', {'form': form})
 
 
 class HomeView(LoginRequiredMixin, TemplateView):

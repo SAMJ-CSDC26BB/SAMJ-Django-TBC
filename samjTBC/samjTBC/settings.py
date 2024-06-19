@@ -203,22 +203,22 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "colored",
         },
-        "djengo_all": {
+        "django_all": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "./logs/djengo_all.log",
+            "filename": "./logs/django_all.log",
             "formatter": "standard",
         },
-        "djengo_info": {
+        "django_info": {
             "level": "INFO",
             "class": "logging.FileHandler",
-            "filename": "./logs/djengo_info.log",
+            "filename": "./logs/django_info.log",
             "formatter": "standard",
         },
-        "djengo_error": {
+        "django_error": {
             "level": "ERROR",
             "class": "logging.FileHandler",
-            "filename": "./logs/djengo_error.log",
+            "filename": "./logs/django_error.log",
             "formatter": "standard",
         },
         "samj_all": {
@@ -242,7 +242,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "djengo_info", "djengo_error"],
+            "handlers": ["console", "django_info", "django_error"],
             "level": "DEBUG",
             "propagate": True,
         },

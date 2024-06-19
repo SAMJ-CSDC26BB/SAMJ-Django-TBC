@@ -1757,3 +1757,4 @@ NameError: name 'getDest' is not defined
 [2024-06-19 15:07:02][WARNING] "GET /login/samj/static/js/login.js HTTP/1.1" 404 4668
 [2024-06-19 15:07:08][INFO] "GET /signup/ HTTP/1.1" 200 7647
 [2024-06-19 15:07:17][INFO] "POST /signup/ HTTP/1.1" 200 7755
+[2024-06-19 15:13:04][INFO] /Users/andi/Documents/FH/2_semester/Web Technologies/samj-tbc/SAMJ-Django-TBC/samjTBC/samjTBC/settings.py changed, reloading.

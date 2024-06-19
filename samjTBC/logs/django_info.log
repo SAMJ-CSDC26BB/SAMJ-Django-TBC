@@ -1,0 +1,10 @@
+[2024-06-19 15:13:05][INFO] Watching for file changes with StatReloader
+[2024-06-19 15:13:59][INFO] "GET /login/ HTTP/1.1" 200 7618
+[2024-06-19 15:13:59][INFO] "GET /static/css/login.css HTTP/1.1" 200 31
+[2024-06-19 15:13:59][WARNING] Not Found: /login/samj/static/js/login.js
+[2024-06-19 15:13:59][WARNING] "GET /login/samj/static/js/login.js HTTP/1.1" 404 4668
+[2024-06-19 15:14:08][INFO] "GET /login/ HTTP/1.1" 200 7618
+[2024-06-19 15:14:08][WARNING] Not Found: /login/samj/static/js/login.js
+[2024-06-19 15:14:08][WARNING] "GET /login/samj/static/js/login.js HTTP/1.1" 404 4668
+[2024-06-19 15:14:08][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-19 15:14:09][INFO] "GET /home HTTP/1.1" 200 5583

@@ -4,9 +4,9 @@ from django.urls import path
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Your API Title",
+        title="Forwardcheck",
         default_version='v1',
-        description="Description of your API",
+        description="send called Number and retrieve Destination if Callforwarding is set for the time the request is received ",
     ),
     public=True,
 )

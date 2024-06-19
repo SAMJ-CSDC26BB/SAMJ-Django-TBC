@@ -2070,3 +2070,31 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'rest-endpoint' not found. 'r
 [2024-06-19 17:25:45][INFO] - Broken pipe from ('127.0.0.1', 55616)
 [2024-06-19 17:26:38][INFO] "GET /endpoint HTTP/1.1" 301 0
 [2024-06-19 17:26:38][INFO] "GET /endpoint/ HTTP/1.1" 200 5188
+[2024-06-19 17:31:29][INFO] Watching for file changes with StatReloader
+[2024-06-19 17:31:37][INFO] "GET /swagger HTTP/1.1" 301 0
+[2024-06-19 17:31:37][INFO] "GET /swagger/ HTTP/1.1" 200 2161
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 14964
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+[2024-06-19 17:31:37][INFO] "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+[2024-06-19 17:31:37][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 1395
+[2024-06-19 17:38:08][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\swagger_config.py changed, reloading.
+[2024-06-19 17:38:08][INFO] Watching for file changes with StatReloader
+[2024-06-19 17:38:57][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\swagger_config.py changed, reloading.
+[2024-06-19 17:38:57][INFO] Watching for file changes with StatReloader
+[2024-06-19 17:39:52][INFO] "GET /swagger/ HTTP/1.1" 200 2161
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 14964
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+[2024-06-19 17:39:52][INFO] "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+[2024-06-19 17:39:52][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 1395
+[2024-06-19 17:42:23][INFO] "GET /endpoint/?number=%2B4369918822211 HTTP/1.1" 200 23
+[2024-06-19 21:22:42][INFO] Watching for file changes with StatReloader

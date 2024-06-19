@@ -13,6 +13,11 @@ from .auth.appleOAuth2 import AppleOAuth2
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from drf_yasg.utils import swagger_auto_schema
+from .serializer import ExampleSerializer
 
 from .businessLogic import getDestination
 import logging
@@ -182,44 +187,17 @@ class GlobalSettingsView(FormView):
 
 # views.py
 from django.http import JsonResponse
-from django.views import View
 
 
-class restEndpoint(View):
+class ExampleAPIView(APIView):
+    @swagger_auto_schema(
+        operation_summary="Summary of the endpoint",
+        responses={200: ExampleSerializer()},
+    )
     def get(self, request):
-        openapi_data = {
-            "openapi": "2.2.0",  # Replace with your desired OpenAPI version
-            "info": {
-                "title": "Your API Title",
-                "version": "1.0.0",
-                "description": "Description of your API",
-            },
-            "paths": {
-                "/example/path": {
-                    "get": {
-                        "summary": "Summary of the endpoint",
-                        "responses": {
-                            "200": {
-                                "description": "Successful response",
-                                "content": {
-                                    "application/json": {
-                                        "schema": {
-                                            "type": "object",
-                                            "properties": {
-                                                "example": {
-                                                    "type": "string",
-                                                    "example": "value"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                # Add more paths as needed
-            }
-        }
-        # Rest of your view logic to handle the request and return the openapi_data
-        return JsonResponse(openapi_data)  # Assuming you're using JsonResponse
+        data = {'field1': 'value', 'field2': 123}
+        serializer = ExampleSerializer(data=data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

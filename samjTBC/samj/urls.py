@@ -1,10 +1,25 @@
 from django.urls import path
 from .viewClasses.restEndpoint import restEndpoint
 from . import views
-from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
-from uritemplate import URITemplate
+from .swagger_config import urlpatterns as swagger_urls, schema_view
+from django.urls import path, include
 
+from .views import ExampleAPIView  # Replace with your actual app name
+
+from django.urls import path
+
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Your API Title",
+        default_version='v1',
+        description="Description of your API",
+    ),
+    public=True,
+)
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -15,11 +30,7 @@ urlpatterns = [
     path("user", views.UserManagementView.as_view(), name="user"),
     path("settings", views.GlobalSettingsView.as_view(), name="settings"),
     path('user-management/', views.UserManagementView.as_view(), name='user_management'),
-    path('api_schema', get_schema_view(title='API Schema', description='Guide for the REST API'), name='api_schema'),
-    path('swagger-ui/', TemplateView.as_view(
-        template_name='swagger_schema.html',
-        extra_context={'schema_url': 'api_schema'}  # Use extra_context here
-    ), name='swagger-ui'),
-    path('api/endpoint/', restEndpoint.as_view(), name='rest-endpoint'),
 
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('endpoint/', restEndpoint.as_view(), name='rest-endpoint'),
 ]

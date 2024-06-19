@@ -23,8 +23,9 @@ from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
 
-class HomeView(LoginRequiredMixin, View):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
+
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):

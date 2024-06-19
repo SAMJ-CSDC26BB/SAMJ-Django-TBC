@@ -185,6 +185,11 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Logging settings
+
+# Ensure log directory exists
+log_dir = os.path.join(BASE_DIR, 'logs')
+os.makedirs(log_dir, exist_ok=True)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

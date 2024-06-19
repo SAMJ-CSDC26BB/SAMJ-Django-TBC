@@ -1743,3 +1743,17 @@ NameError: name 'getDest' is not defined
 [2024-06-18 17:20:02][INFO] /home/schwerti/Documents/GitHub/SAMJ-CSDC26BB/SAMJ-Django-TBC/samjTBC/samjTBC/settings.py changed, reloading.
 [2024-06-18 17:20:02][INFO] Watching for file changes with StatReloader
 [2024-06-18 17:20:15][INFO] "GET /restEndpoint/?number=%2B4367763106443 HTTP/1.1" 200 14
+[2024-06-19 15:06:44][INFO] Watching for file changes with StatReloader
+[2024-06-19 15:06:44][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-19 15:06:48][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-19 15:06:55][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-19 15:06:55][INFO] "GET //login HTTP/1.1" 301 0
+[2024-06-19 15:06:55][INFO] "GET /login/ HTTP/1.1" 200 7618
+[2024-06-19 15:06:55][INFO] "GET /static/css/login.css HTTP/1.1" 200 31
+[2024-06-19 15:06:55][WARNING] Not Found: /login/samj/static/js/login.js
+[2024-06-19 15:06:55][WARNING] "GET /login/samj/static/js/login.js HTTP/1.1" 404 4668
+[2024-06-19 15:07:02][INFO] "POST /login/ HTTP/1.1" 200 7797
+[2024-06-19 15:07:02][WARNING] Not Found: /login/samj/static/js/login.js
+[2024-06-19 15:07:02][WARNING] "GET /login/samj/static/js/login.js HTTP/1.1" 404 4668
+[2024-06-19 15:07:08][INFO] "GET /signup/ HTTP/1.1" 200 7647
+[2024-06-19 15:07:17][INFO] "POST /signup/ HTTP/1.1" 200 7755

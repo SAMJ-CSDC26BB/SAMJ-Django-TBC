@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+# Log and Signup URL
+LOGIN_URL = 'login'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +29,6 @@ SECRET_KEY = "django-insecure-$zjcwp(2#5js7o=9-@e(b@boja)qb=-7(csf9_541_(egi%u(6
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -66,7 +70,7 @@ ROOT_URLCONF = "samjTBC.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "samj/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -154,12 +158,6 @@ SOCIAL_AUTH_APPLE_ID_REDIRECT_URI = 'https://localhost:8000/social-auth/complete
 SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
 SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
 
-
-
-# Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+SOCIAL_AUTH_APPLE_ID_CLIENT = 'at.drozd.SAMJ-TBC'  # Your client_id com.application.your, aka "Service ID"
+SOCIAL_AUTH_APPLE_ID_TEAM = 'X2TCD4883M'  # Your Team ID, ie K2232113
+SOCIAL_AUTH_APPLE_ID_KEY = 'CG8UPH6YSM'  # Your Key ID, ie Y2P99J3N81K

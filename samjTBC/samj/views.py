@@ -4,33 +4,55 @@ from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
-from django.contrib.auth import logout as auth_logout
+from django.contrib import messages
+from django.contrib.auth import logout as auth_logout, login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views import View
 from django.views.generic import FormView, TemplateView
 
 from .forms import GlobalSettingsForm
 from .models import User
 
 
-def login(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        return render(request, "./login/login.html")
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        else:
+            return render(request, "./login/login.html")
+
+    def post(self, request, *args, **kwargs):
+        username_or_email = request.POST['login']
+        password = request.POST['password']
+        user = authenticate(request, username=username_or_email, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return render(request, "./login/login.html")
 
 
-def logout(request):
-    auth_logout(request)
-    return redirect('login')
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        auth_logout(request)
+        return redirect('login')
 
 
 class SignupView(TemplateView):
-    template_name = "signup.html"
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('home')
-        return super().dispatch(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return render(request, './login/signup.html')
+
+    def post(self, request, *args, **kwargs):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            return render(request, './login/signup.html', {'form': form})
 
 
 class HomeView(LoginRequiredMixin, TemplateView):

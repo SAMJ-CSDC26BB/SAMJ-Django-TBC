@@ -1,17 +1,46 @@
 {% extends "layout.html" %}
+{% load static %}
+{% block head %}
+
+{% block title %}SAMJ | Login{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% endblock %}
+
 {% block body %}
-<form method="post" action="{% url 'account_login' %}">
+<h1>SAMJ Sign Up</h1>
+<p>
+    Already have an account? Then please <a href="{% url 'login' %}">sign in</a>.
+</p>
+<form method="post" action="{% url 'signup' %}">
     {% csrf_token %}
-    <div class="mb-3">
-        <label for="username_email_input" class="form-label">Username or Email address</label>
-        <input type="text" class="form-control" id="username_email_input" name="login"
-               aria-describedby="usernameEmailHelp">
-        <div id="usernameEmailHelp" class="form-text">We'll never share your username or email with anyone else.</div>
+    <div class="form-group">
+        <label for="id_username">Username:</label>
+        <input type="text" name="username" value="" placeholder="Username" autocomplete="username" minlength="1"
+               maxlength="150" required id="id_username">
     </div>
-    <div class="mb-3">
-        <label for="password_input" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password_input" name="password">
+    <div class="form-group">
+        <label for="id_email">Email (optional):</label>
+        <input type="email" name="email" value="" placeholder="Email address" autocomplete="email" maxlength="320"
+               id="id_email">
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <div class="form-group">
+        <label for="id_password1">Password:</label>
+        <input type="password" name="password1" placeholder="Password" autocomplete="new-password" required
+               id="id_password1">
+    </div>
+    <div class="form-group">
+        <label for="id_password2">Password (again):</label>
+        <input type="password" name="password2" placeholder="Password (again)" autocomplete="new-password" required
+               id="id_password2">
+    </div>
+    <button type="submit">Sign Up</button>
 </form>
+</body>
+{% endblock %}
+
+{% block script %}
 {% endblock %}

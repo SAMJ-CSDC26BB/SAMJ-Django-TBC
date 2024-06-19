@@ -62,8 +62,10 @@ class SignupView(TemplateView):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Signup successful. You can now login.')
             return redirect('login')
         else:
+            messages.error(request, 'Signup was not successful. Please try again.')
             return render(request, 'login/signup.html', {'form': form})
 
 

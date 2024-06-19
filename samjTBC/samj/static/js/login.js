@@ -7,4 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         Utils.showNotificationMessage(errormessage.innerText, "error");
         errormessage.remove();
     }
-})
+});
+
+$(document).ready(function () {
+    $('.toast').toast('show');
+});

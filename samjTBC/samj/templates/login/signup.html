@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>SAMJ Sign Up</h1>
+<h1>SAMJ | Sign Up</h1>
 <p>
     Already have an account? Then please <a href="{% url 'login' %}">sign in</a>.
 </p>
@@ -24,7 +24,7 @@
     </div>
     {{ form.as_p }}
 
-    <button type="submit">Sign Up</button>
+    <button type="submit" class="btn btn-primary ">Sign Up</button>
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
@@ -37,52 +37,8 @@
 
 </form>
 <div id="passwordError" style="color: red;"></div>
-<script>
-    var passwordField = document.querySelector('#id_password1');
-    var confirmPasswordField = document.querySelector('#id_password2');
-    var passwordError = document.querySelector('#passwordError');
-
-    passwordField.addEventListener('input', validatePasswords);
-    confirmPasswordField.addEventListener('input', validatePasswords);
-
-    function validatePasswords() {
-        var password = passwordField.value;
-        var confirmPassword = confirmPasswordField.value;
-
-        if (password !== confirmPassword) {
-            passwordError.textContent = 'Passwords do not match.';
-            return;
-        }
-
-        var errorMessage = validatePassword(password);
-        if (errorMessage) {
-            passwordError.textContent = errorMessage;
-        } else {
-            passwordError.textContent = '';
-        }
-    }
-
-    function validatePassword(password) {
-        if (password.length < 8) {
-            return 'Password should be at least 8 characters long.';
-        }
-        if (!/[a-z]/.test(password)) {
-            return 'Password should contain at least one lowercase letter.';
-        }
-        if (!/[A-Z]/.test(password)) {
-            return 'Password should contain at least one uppercase letter.';
-        }
-        if (!/[0-9]/.test(password)) {
-            return 'Password should contain at least one digit.';
-        }
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            return 'Password should contain at least one special character.';
-        }
-        return null;
-    }
-</script>
-</body>
 {% endblock %}
 
 {% block script %}
+<script type="module" src="../../static/js/signup.js"></script>
 {% endblock %}

@@ -2,35 +2,69 @@ import json
 import re
 
 from allauth.account.forms import UserForm
-from django.http import HttpResponseRedirect, JsonResponse
+from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib import messages
+from django.contrib.auth import logout as auth_logout, login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
-from django.shortcuts import render, redirect
 
-from .auth.appleOAuth2 import AppleOAuth2
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
 
-def login(request):
-    code = request.GET.get('code')
-    if code is not None:
-        # This is a redirect from Apple with an authorization code
-        apple_auth = AppleOAuth2()
-        user = apple_auth.do_auth(code)
+class HomeView(TemplateView):
+    template_name = "home.html"
+
+
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        else:
+            return render(request, "./login/login.html")
+
+    def post(self, request, *args, **kwargs):
+        username_or_email = request.POST['login']
+        password = request.POST['password']
+        user = authenticate(request, username=username_or_email, password=password)
 
         if user is not None:
-            # Log in the user and redirect to home page
             login(request, user)
-            return HttpResponseRedirect('/')
+            return redirect('home')
         else:
-            # Authentication failed, redirect to login page
-            return HttpResponseRedirect('/login')
-    else:
-        # This is a normal GET request, render the login page
-        return render(request, "./login/login.html")
+            messages.error(request, 'Invalid username or password.')
+            return render(request, "./login/login.html")
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        auth_logout(request)
+        return redirect('login')
+
+
+class SignupView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        form = UserCreationForm()
+        return render(request, 'login/signup.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            return render(request, 'login/signup.html', {'form': form})
 
 
 def validate_password(password):
@@ -142,10 +176,6 @@ class UserManagementAPIView(View):
             return JsonResponse({'error': str(e)}, status=400)
 
 
-class HomeView(TemplateView):
-    template_name = "home.html"
-
-
 class UserManagementView(TemplateView):
     template_name = "user_management.html"
 
@@ -174,3 +204,21 @@ class GlobalSettingsView(FormView):
     def form_valid(self, form):
         form.save()
         return redirect('home')
+
+
+class GitHubLogin(SocialLoginView):
+    adapter_class = GitHubOAuth2Adapter
+    callback_url = "127.0.0.1/login"
+    client_class = OAuth2Client
+
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = "127.0.0.1/login"
+    client_class = OAuth2Client
+
+
+class AppleLogin(SocialLoginView):
+    adapter_class = AppleOAuth2Adapter
+    callback_url = "127.0.0.1/login"
+    client_class = OAuth2Client

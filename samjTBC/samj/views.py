@@ -23,9 +23,8 @@ from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, View):
     template_name = "home.html"
-
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
@@ -176,7 +175,7 @@ class UserManagementAPIView(View):
             return JsonResponse({'error': str(e)}, status=400)
 
 
-class UserManagementView(TemplateView):
+class UserManagementView(LoginRequiredMixin, TemplateView):
     template_name = "user_management.html"
 
     def get_context_data(self, **kwargs):

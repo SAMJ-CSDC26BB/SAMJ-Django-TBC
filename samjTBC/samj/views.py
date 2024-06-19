@@ -14,6 +14,10 @@ from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
 
+from .businessLogic import getDestination
+import logging
+from django.http import HttpResponse
+
 def login(request):
     code = request.GET.get('code')
     if code is not None:
@@ -174,3 +178,48 @@ class GlobalSettingsView(FormView):
     def form_valid(self, form):
         form.save()
         return redirect('home')
+
+
+# views.py
+from django.http import JsonResponse
+from django.views import View
+
+
+class restEndpoint(View):
+    def get(self, request):
+        openapi_data = {
+            "openapi": "2.2.0",  # Replace with your desired OpenAPI version
+            "info": {
+                "title": "Your API Title",
+                "version": "1.0.0",
+                "description": "Description of your API",
+            },
+            "paths": {
+                "/example/path": {
+                    "get": {
+                        "summary": "Summary of the endpoint",
+                        "responses": {
+                            "200": {
+                                "description": "Successful response",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "example": {
+                                                    "type": "string",
+                                                    "example": "value"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                # Add more paths as needed
+            }
+        }
+        # Rest of your view logic to handle the request and return the openapi_data
+        return JsonResponse(openapi_data)  # Assuming you're using JsonResponse

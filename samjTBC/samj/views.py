@@ -1,6 +1,8 @@
 import json
+import os
 import re
 
+import requests
 from allauth.account.forms import UserForm
 from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -19,6 +21,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
+from .forms import GitHubIssueForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
@@ -225,3 +228,53 @@ class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
     callback_url = "127.0.0.1/login"
     client_class = OAuth2Client
+
+
+# GitHub Issue Form
+class CreateIssueView(FormView):
+    template_name = './support/create_support.html'
+    form_class = GitHubIssueForm
+    success_url = '/support/ticket'  # update this to your desired URL
+
+    def form_valid(self, form):
+        title = form.cleaned_data['title']
+        url = form.cleaned_data['url']
+        short_description = form.cleaned_data['shortDescription']
+        detailed_description = form.cleaned_data['detailedDescription']
+        steps_to_reproduce = form.cleaned_data['stepsToReproduce']
+        expected_results = form.cleaned_data['expectedResults']
+        actual_results = form.cleaned_data['actualResults']
+
+        body = f"""
+        - URL: {url}
+        - Short Description: {short_description}
+        - Detailed Description: {detailed_description}
+        - Steps to Reproduce: {steps_to_reproduce}
+        - Expected Results: {expected_results}
+        - Actual Results: {actual_results}
+        
+        """
+
+        token = os.environ['GITHUB_TOKEN_SAMJ']
+        owner = 'SAMJ-CSDC26BB'
+        repo = 'SAMJ-Django-TBC'
+        url = f'https://api.github.com/repos/{owner}/{repo}/issues'
+        headers = {
+            'Authorization': f'token {token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        data = {
+            'title': title,
+            'body': body,
+            'labels': 'bug'
+        }
+        response = requests.post(url, headers=headers, json=data)
+        if response.status_code == 201:
+            message = 'Issue created successfully'
+        else:
+            message = 'Failed to create issue'
+
+        # Store the message in the session so it can be accessed in the next view
+        self.request.session['message'] = message
+
+        return super().form_valid(form)

@@ -1,8 +1,8 @@
 from django.urls import path, include
 
 from . import views
-from .views import GitHubLogin, GoogleLogin
 from .viewClasses.restEndpoint import restEndpoint
+from .views import GitHubLogin, GoogleLogin
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -24,4 +24,7 @@ urlpatterns = [
     # API
     path('restEndpoint/', restEndpoint.as_view(), name='restEndpoint'),
     path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
+    # Support with GitHub REST API
+    path('support/', views.CreateIssueView.as_view(), name='support_via_github'),
+    # path('support/ticket', views.CreateIssueView.as_view(), name='github_issue'),
 ]

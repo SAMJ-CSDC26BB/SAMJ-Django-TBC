@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load static %}
+{% block head %}
+{% block title %} SAMJ | Support Ticket {% endblock %}
+{% endblock %}
+
+{% block body %}
+<form method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Title of your Issue</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+        <div class="invalid-feedback"></div>
+    </div>
+    <div class="mb-3">
+        <label for="url" class="form-label">URL where the issue occurred</label>
+        <input type="text" class="form-control" id="url" name="url" required>
+        <div class="invalid-feedback"></div>
+    </div>
+    <div class="mb-3">
+        <label for="shortDescription" class="form-label">Short description of the issue</label>
+        <input type="text" class="form-control" id="shortDescription" name="shortDescription" required>
+        <div class="invalid-feedback"></div>
+    </div>
+    <div class="mb-3">
+        <label for="detailedDescription" class="form-label">Detailed description of the issue</label>
+        <textarea class="form-control" id="detailedDescription" name="detailedDescription" rows="3" required></textarea>
+        <div class="invalid-feedback">
+            Please provide a detailed description.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="stepsToReproduce" class="form-label">Steps to reproduce the issue</label>
+        <textarea class="form-control" id="stepsToReproduce" name="stepsToReproduce" rows="3" required></textarea>
+        <div class="invalid-feedback">
+            Please provide the steps to reproduce the issue.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="expectedResults" class="form-label">Expected results</label>
+        <textarea class="form-control" id="expectedResults" name="expectedResults" rows="3" required></textarea>
+        <div class="invalid-feedback">
+            Please provide the expected results.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="actualResults" class="form-label">Actual results</label>
+        <textarea class="form-control" id="actualResults" name="actualResults" rows="3" required></textarea>
+        <div class="invalid-feedback">
+            Please provide the actual results.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="attachment" class="form-label">Attach a screenshot or other relevant file</label>
+        <input type="file" class="form-control" id="attachment" name="attachment">
+    </div>
+    <button type="submit" class="btn btn-primary">Get Support</button>
+</form>
+{% endblock %}

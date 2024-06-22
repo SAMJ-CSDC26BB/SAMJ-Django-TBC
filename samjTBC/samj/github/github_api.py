@@ -1,35 +1,77 @@
-import requests
+import logging
 import os
 
+import requests
 
-# Replace with your GitHub token
-token = os.environ['GITHUB_TOKEN_SAMJ']
+from samjTBC.logger import CustomFormatter
 
-# Replace with the repository owner and repository name
-owner = 'SAMJ-CSDC26BB'
-repo = 'SAMJ-Django-TBC'
 
-# URL for creating an issue
-url = f'https://api.github.com/repos/{owner}/{repo}/issues'
+class GitHubAPI:
+    # Create a logger instance
+    logger = logging.getLogger(__name__)
 
-# Headers including the authorization token
-headers = {
-    'Authorization': f'token {token}',
-    'Accept': 'application/vnd.github.v3+json'
-}
+    # Define log file path
+    log_file_path = 'samjTBC/logs/support.log'
 
-# Data for the new issue
-data = {
-    'title': 'Issue title',
-    'body': 'Description of the issue'
-}
+    # Check if the directory exists, if not, create it
+    log_dir = os.path.dirname(log_file_path)
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
-# Sending the request to create an issue
-response = requests.post(url, headers=headers, json=data)
+    # Create a file handler
+    handler = logging.FileHandler(log_file_path)
 
-# Printing the response
-if response.status_code == 201:
-    print('Issue created successfully')
-else:
-    print('Failed to create issue')
-    print('Response:', response.json())
+    # Set the formatter for the handler
+    handler.setFormatter(CustomFormatter())
+
+    # Add the handler to the logger
+    logger.addHandler(handler)
+
+    def __init__(self):
+        self.gh_token = os.getenv('GITHUB_TOKEN_SAMJ')
+        self.owner = 'SAMJ-CSDC26BB'
+        self.repo = 'SAMJ-Django-TBC'
+        self.url = f'https://api.github.com/repos/{self.owner}/{self.repo}'
+
+    def get_github_token(self):
+        return self.gh_token
+
+    def create_github_issue(self, title, body=None, labels=None):
+        data = {'title': title}
+        headers = {
+            'Authorization': f'token {self.gh_token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        if body:
+            data['body'] = body
+        if labels:
+            data['labels'] = labels
+
+        self.logger.info('Sending request to GitHub API')
+        response = requests.post(self.url, headers=headers, json=data)
+        if response.status_code == 201:
+            self.logger.info('Issue created successfully:%s', response.text)
+        else:
+            self.logger.error('Failed to create issue: %s', response.text)
+
+        return response
+
+    def list_github_issues(self, labels=None):
+        query = {}
+        headers = {
+            'Authorization': f'token {self.gh_token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        if labels:
+            query = {
+                'labels': labels
+            }
+
+        self.logger.info('Sending request to GitHub API')
+        response = requests.get(self.url, headers=headers, params=query)
+        if response.status_code == 201:
+            self.logger.info('Issue created successfully:%s', response.text)
+        else:
+            self.logger.error('Failed to create issue: %s', response.text)
+
+        return response

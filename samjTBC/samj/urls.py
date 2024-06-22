@@ -26,5 +26,5 @@ urlpatterns = [
     path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
     # Support with GitHub REST API
     path('support/', views.CreateIssueView.as_view(), name='support_via_github'),
-    # path('support/ticket', views.CreateIssueView.as_view(), name='github_issue'),
+    path('support/ticket', views.CreateIssueView.as_view(), name='support_ticket'),
 ]

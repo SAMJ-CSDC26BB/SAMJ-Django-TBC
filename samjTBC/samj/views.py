@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import re
 
@@ -24,6 +25,8 @@ from django.views.generic import FormView, TemplateView
 from .forms import GitHubIssueForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
+
+logger = logging.getLogger(__name__)
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -237,6 +240,9 @@ class CreateIssueView(FormView):
     success_url = '/support/ticket'  # update this to your desired URL
 
     def form_valid(self, form):
+        token = os.environ['GITHUB_TOKEN_SAMJ']
+
+        logger.info('form_valid method started')
         title = form.cleaned_data['title']
         url = form.cleaned_data['url']
         short_description = form.cleaned_data['shortDescription']
@@ -252,10 +258,8 @@ class CreateIssueView(FormView):
         - Steps to Reproduce: {steps_to_reproduce}
         - Expected Results: {expected_results}
         - Actual Results: {actual_results}
-        
         """
 
-        token = os.environ['GITHUB_TOKEN_SAMJ']
         owner = 'SAMJ-CSDC26BB'
         repo = 'SAMJ-Django-TBC'
         url = f'https://api.github.com/repos/{owner}/{repo}/issues'
@@ -266,15 +270,19 @@ class CreateIssueView(FormView):
         data = {
             'title': title,
             'body': body,
-            'labels': 'bug'
+            'labels': 'bug',
         }
+        logger.info('Sending request to GitHub API')
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 201:
             message = 'Issue created successfully'
+            logger.info('Issue created successfully')
         else:
             message = 'Failed to create issue'
+            logger.error('Failed to create issue: %s', response.text)
 
-        # Store the message in the session so it can be accessed in the next view
+        # Store the message in the session, so it can be accessed in the next view
         self.request.session['message'] = message
 
+        logger.info('form_valid method finished')
         return super().form_valid(form)

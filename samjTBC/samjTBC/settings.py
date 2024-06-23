@@ -51,13 +51,10 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.apple",
-    "social_django"
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'rest_framework',
+    "social_django",
     'rest_framework_swagger',
     'drf_yasg',
+
 ]
 
 MIDDLEWARE = [

@@ -96,3 +96,12 @@
 [2024-06-19 17:42:23][INFO] dest -> Error
 [2024-06-23 19:36:41][INFO] query -> 
 [2024-06-23 19:36:41][INFO] dest -> Error
+[2024-06-23 22:43:43][INFO] query -> +4367763106443
+[2024-06-23 22:43:43][DEBUG] Object: CallForwarding object (1)
+[2024-06-23 22:43:43][DEBUG] calledNumber: +4367763106443
+[2024-06-23 22:43:43][DEBUG] destination: +4367763106443
+[2024-06-23 22:43:43][INFO] dest -> +4367763106443
+[2024-06-23 22:44:18][INFO] query -> +436776310644
+[2024-06-23 22:44:18][ERROR] No object or multiple objects found
+[2024-06-23 22:44:18][DEBUG] Destination: <QuerySet []>
+[2024-06-23 22:44:18][INFO] dest -> Error

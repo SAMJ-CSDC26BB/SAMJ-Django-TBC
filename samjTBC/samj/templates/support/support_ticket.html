@@ -7,3 +7,22 @@
 
 {%
 <p>{{ message }}</p>
+
+
+{% block content %}
+<h2>Bug Tickets</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Status</th>
+    </tr>
+    {% for issue in issues %}
+    <tr>
+        <td>{{ issue.id }}</td>
+        <td>{{ issue.title }}</td>
+        <td>{{ issue.state }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

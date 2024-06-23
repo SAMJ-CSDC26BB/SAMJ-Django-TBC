@@ -67,6 +67,8 @@ class GitHubAPI:
             'Accept': 'application/vnd.github_api.v3+json'
         }
         if labels:
+            if isinstance(labels, str):
+                labels = [labels]
             query = {
                 'labels': labels
             }

@@ -1,9 +1,7 @@
 from django.urls import path, include
-
 from . import views
 from .views import GitHubLogin, GoogleLogin
-from .viewClasses.restEndpoint import restEndpoint
-
+from .viewClasses.api_v2_tbc import api_v2_tbc
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
     path("home", views.HomeView.as_view(), name="home"),
@@ -22,6 +20,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('signup/', views.SignupView.as_view(), name='signup'),
     # API
-    path('restEndpoint/', restEndpoint.as_view(), name='restEndpoint'),
+    path('api/v2/tbc/', api_v2_tbc.as_view(), name='api_v2_tbc'),
     path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
 ]

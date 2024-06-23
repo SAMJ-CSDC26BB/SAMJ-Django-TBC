@@ -2098,3 +2098,80 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'rest-endpoint' not found. 'r
 [2024-06-19 17:39:52][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 1395
 [2024-06-19 17:42:23][INFO] "GET /endpoint/?number=%2B4369918822211 HTTP/1.1" 200 23
 [2024-06-19 21:22:42][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:36:15][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:36:18][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-23 19:36:18][INFO] "GET /static/css/home.css HTTP/1.1" 304 0
+[2024-06-23 19:36:18][INFO] "GET /static/css/base.css HTTP/1.1" 200 69
+[2024-06-23 19:36:18][INFO] "GET /static/images/samj_logo.png HTTP/1.1" 304 0
+[2024-06-23 19:36:18][INFO] "GET /static/images/inactive_feature.webp HTTP/1.1" 304 0
+[2024-06-23 19:36:18][WARNING] Not Found: /favicon.ico
+[2024-06-23 19:36:18][INFO] - Broken pipe from ('127.0.0.1', 64111)
+[2024-06-23 19:36:41][INFO] "GET /endpoint/ HTTP/1.1" 200 5188
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+[2024-06-23 19:36:41][INFO] "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+[2024-06-23 19:36:46][WARNING] Not Found: /swagger-ui/
+[2024-06-23 19:36:46][WARNING] "GET /swagger-ui/ HTTP/1.1" 404 3860
+[2024-06-23 19:37:04][INFO] "GET /swagger HTTP/1.1" 301 0
+[2024-06-23 19:37:04][INFO] "GET /swagger/ HTTP/1.1" 200 2161
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 14964
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+[2024-06-23 19:37:04][INFO] "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+[2024-06-23 19:37:04][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 1395
+[2024-06-23 19:37:22][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\urls.py changed, reloading.
+[2024-06-23 19:37:23][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:38:17][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\urls.py changed, reloading.
+[2024-06-23 19:38:18][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:40:13][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\urls.py changed, reloading.
+[2024-06-23 19:40:13][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:40:15][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-23 19:40:21][INFO] "GET /swagger/ HTTP/1.1" 200 2155
+[2024-06-23 19:40:22][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 991
+[2024-06-23 19:41:20][INFO] "GET /swagger/ HTTP/1.1" 200 2155
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 14964
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+[2024-06-23 19:41:20][INFO] "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+[2024-06-23 19:41:20][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 991
+[2024-06-23 19:41:48][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 991
+[2024-06-23 19:42:38][WARNING] Not Found: /redoc/
+[2024-06-23 19:42:38][WARNING] "GET /redoc/ HTTP/1.1" 404 3667
+[2024-06-23 19:42:38][WARNING] Not Found: /favicon.ico
+[2024-06-23 19:42:38][INFO] - Broken pipe from ('127.0.0.1', 64249)
+[2024-06-23 19:42:44][WARNING] Not Found: /favicon.ico
+[2024-06-23 19:42:44][INFO] - Broken pipe from ('127.0.0.1', 64250)
+[2024-06-23 19:42:44][INFO] - Broken pipe from ('127.0.0.1', 64248)
+[2024-06-23 19:46:21][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\viewClasses\restEndpoint.py changed, reloading.
+[2024-06-23 19:46:22][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:48:01][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\viewClasses\restEndpoint.py changed, reloading.
+[2024-06-23 19:48:02][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:48:03][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-23 19:48:03][INFO] - Broken pipe from ('127.0.0.1', 64400)
+[2024-06-23 19:48:09][INFO] "GET /swagger/ HTTP/1.1" 200 2155
+[2024-06-23 19:48:10][INFO] - Broken pipe from ('127.0.0.1', 64408)
+[2024-06-23 19:48:10][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 999
+[2024-06-23 19:49:00][INFO] C:\Users\Joni\PycharmProjects\SAMJ-Django-TBC\samjTBC\samj\viewClasses\restEndpoint.py changed, reloading.
+[2024-06-23 19:49:00][INFO] Watching for file changes with StatReloader
+[2024-06-23 19:49:01][INFO] "GET / HTTP/1.1" 200 5583
+[2024-06-23 19:49:01][INFO] - Broken pipe from ('127.0.0.1', 64429)
+[2024-06-23 19:49:08][INFO] "GET /swagger/ HTTP/1.1" 200 2155
+[2024-06-23 19:49:08][INFO] - Broken pipe from ('127.0.0.1', 64434)
+[2024-06-23 19:49:08][INFO] "GET /swagger/?format=openapi HTTP/1.1" 200 1028

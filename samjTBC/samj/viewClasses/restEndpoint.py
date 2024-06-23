@@ -12,12 +12,12 @@ class DestinationSerializer(serializers.Serializer):
 
 class restEndpoint(APIView):
     @swagger_auto_schema(
-        operation_summary="Get destination based on query",
+        operation_summary="Called +E164",
         manual_parameters=[
             openapi.Parameter(
-                'number',
+                'callednumber',
                 openapi.IN_QUERY,
-                description="Number parameter for querying destination",
+                description="get dest. number if current Time matches callforwarding Entry coresponding to callednumber",
                 type=openapi.TYPE_STRING,
             ),
         ],

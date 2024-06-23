@@ -14,9 +14,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Your API Title",
+        title="SAMJ API",
         default_version='v1',
-        description="Description of your API",
+        description="Samjservices:\nTBC: Retrieve Destination Numver based on time",
     ),
     public=True,
 )
@@ -30,7 +30,5 @@ urlpatterns = [
     path("user", views.UserManagementView.as_view(), name="user"),
     path("settings", views.GlobalSettingsView.as_view(), name="settings"),
     path('user-management/', views.UserManagementView.as_view(), name='user_management'),
-
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('endpoint/', restEndpoint.as_view(), name='rest-endpoint'),
 ]

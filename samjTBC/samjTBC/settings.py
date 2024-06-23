@@ -250,7 +250,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "django_info", "django_error"],
+            "handlers": ["console", "django_info", "django_error", "django_all"],
             "level": "DEBUG",
             "propagate": True,
         },

@@ -22,6 +22,15 @@ from django.views.generic import FormView, TemplateView
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from drf_yasg.utils import swagger_auto_schema
+from .serializer import ExampleSerializer
+
+from .businessLogic import getDestination
+import logging
+from django.http import HttpResponse
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -222,3 +231,21 @@ class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
     callback_url = "127.0.0.1/login"
     client_class = OAuth2Client
+
+
+# views.py
+from django.http import JsonResponse
+
+
+class ExampleAPIView(APIView):
+    @swagger_auto_schema(
+        operation_summary="Summary of the endpoint",
+        responses={200: ExampleSerializer()},
+    )
+    def get(self, request):
+        data = {'field1': 'value', 'field2': 123}
+        serializer = ExampleSerializer(data=data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

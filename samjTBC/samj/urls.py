@@ -2,6 +2,26 @@ from django.urls import path, include
 from . import views
 from .views import GitHubLogin, GoogleLogin
 from .viewClasses.api_v2_tbc import api_v2_tbc
+from django.views.generic import TemplateView
+from .swagger_config import urlpatterns as swagger_urls, schema_view
+from django.urls import path, include
+
+from .views import ExampleAPIView  # Replace with your actual app name
+
+from django.urls import path
+
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="SAMJ API",
+        default_version='v1',
+        description="Samjservices:\nTBC: Retrieve Destination Numver based on time",
+    ),
+    public=True,
+)
+
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
     path("home", views.HomeView.as_view(), name="home"),
@@ -22,4 +42,5 @@ urlpatterns = [
     # API
     path('api/v2/tbc/', api_v2_tbc.as_view(), name='api_v2_tbc'),
     path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

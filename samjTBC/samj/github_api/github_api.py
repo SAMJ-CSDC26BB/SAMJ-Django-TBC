@@ -41,7 +41,7 @@ class GitHubAPI:
         data = {'title': title}
         headers = {
             'Authorization': f'token {self.gh_token}',
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github_api.v3+json'
         }
         if body:
             data['body'] = body
@@ -64,18 +64,18 @@ class GitHubAPI:
         query = {}
         headers = {
             'Authorization': f'token {self.gh_token}',
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github_api.v3+json'
         }
         if labels:
             query = {
                 'labels': labels
             }
 
-        self.logger.info('Sending request to GitHub API')
+        self.logger.info('Sending GET request to GitHub API')
         response = requests.get(self.url, headers=headers, params=query)
         if response.status_code == 201:
-            self.logger.info('Issue created successfully:%s', response.text)
+            self.logger.info('Github Issues listed successfully:%s', response.text)
         else:
-            self.logger.error('Failed to create issue: %s', response.text)
+            self.logger.error('Failed to list github_api issue: %s', response.text)
 
         return response

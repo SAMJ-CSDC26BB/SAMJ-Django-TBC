@@ -15,7 +15,7 @@ from .logger import CustomFormatter
 from pathlib import Path
 
 # Log and Signup URL
-LOGIN_URL = 'login'
+LOGIN_URL = 'authentication'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -149,10 +149,10 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SITE_ID = 1
 # Social  Auth
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'authentication'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'authentication'
 SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
 SOCIAL_AUTH_GOOGLE_KEY = '382133458640-bpt47r6gap2hklct3kfu1gv9u86mume5.apps.googleusercontent.com'
 
@@ -174,7 +174,7 @@ ZzQ7gm+D
 -----END PRIVATE KEY-----"""
 
 SOCIALACCOUNT_PROVIDERS = {
-    "github": {
+    "github_api": {
         "APP": {
             "client_id": "YOUR_GITHUB_CLIENT_ID",
             "secret": "YOUR_GITHUB_SECRET_KEY",

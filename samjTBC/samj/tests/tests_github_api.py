@@ -1,6 +1,6 @@
 import unittest
 
-from samj.github.github_api import GitHubAPI
+from samj.github_api.github_api import GitHubAPI
 
 
 class TestGitHubAPI(unittest.TestCase):

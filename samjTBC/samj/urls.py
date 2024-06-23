@@ -13,10 +13,10 @@ urlpatterns = [
     path('user-management/', views.UserManagementView.as_view(), name='user_management'),
 
     # Login, Session
-    path("login/", views.LoginView.as_view(), name="login"),
+    path("authentication/", views.LoginView.as_view(), name="authentication"),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path("user", views.UserManagementView.as_view(), name="user"),
-    path('github/', GitHubLogin.as_view(), name='github_login'),
+    path('github_api/', GitHubLogin.as_view(), name='github_login'),
     path('google/', GoogleLogin.as_view(), name='google_login'),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('accounts/', include('allauth.urls')),
@@ -26,5 +26,5 @@ urlpatterns = [
     path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
     # Support with GitHub REST API
     path('support/', views.CreateIssueView.as_view(), name='support_via_github'),
-    path('support/ticket', views.CreateIssueView.as_view(), name='support_ticket'),
+    path('support/ticket', views.SupportTicketView.as_view(), name='support_ticket'),
 ]

@@ -2,13 +2,14 @@ import logging
 import logging.config
 from datetime import datetime
 
+
 class CustomFormatter(logging.Formatter):
     # Farbdefinitionen
     COLORS = {
-        'DEBUG': '\033[94m',    # Blau
-        'INFO': '\033[92m',     # Grün
+        'DEBUG': '\033[94m',  # Blau
+        'INFO': '\033[92m',  # Grün
         'WARNING': '\033[93m',  # Gelb
-        'ERROR': '\033[91m',    # Rot
+        'ERROR': '\033[91m',  # Rot
         'CRITICAL': '\033[95m'  # Magenta
     }
     DARK_GREEN = '\033[32m'

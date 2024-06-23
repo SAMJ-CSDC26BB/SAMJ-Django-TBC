@@ -20,7 +20,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
-from samj.github.github_api import GitHubAPI
+from samj.github_api.github_api import GitHubAPI
 from .forms import GitHubIssueForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
@@ -34,45 +34,60 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
+        logger.info('LoginView GET request')
         if request.user.is_authenticated:
+            logger.info('User is authenticated, redirecting to home')
             return redirect('home')
         else:
-            return render(request, "./login/login.html")
+            return render(request, "./authentication/login/login.html")
 
     def post(self, request, *args, **kwargs):
-        username_or_email = request.POST['login']
+        logger.info('LoginView POST request')
+        username_or_email = request.POST['authentication']
         password = request.POST['password']
         user = authenticate(request, username=username_or_email, password=password)
 
         if user is not None:
             login(request, user)
+            logger.info('User authenticated successfully')
             messages.success(request, 'Login successful.')
             return redirect('home')
         else:
+            logger.warning('Invalid username or password')
             messages.error(request, 'Invalid username or password.')
-            return render(request, "./login/login.html")
+            return render(request, "./authentication/login/login.html")
 
 
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        logger.info('LogoutView GET request')
         auth_logout(request)
+        if request.user.is_authenticated:
+            logger.error('Logout failed.')
+        else:
+            logger.info('User logged out successfully')
+            messages.error(request, 'Logout was not successful. Please try again.')
         return redirect('login')
 
 
 class SignupView(TemplateView):
     def get(self, request, *args, **kwargs):
+        logger.info('SignupView GET request')
         form = UserCreationForm()
-        return render(request, 'login/signup.html', {'form': form})
+        return render(request, 'authentication/signup/signup.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
+        logger.info('SignupView POST request')
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Signup successful. You can now login.')
+            logger.info(f'User {form.username} signed up successfully')
+            messages.success(request, 'Signup successful. You can now authentication.')
             return redirect('login')
         else:
+            logger.warning(f'Signup of User {form.username} was not successful')
             messages.error(request, 'Signup was not successful. Please try again.')
-            return render(request, 'login/signup.html', {'form': form})
+            return render(request, 'authentication/signup/signup.html', {'form': form})
 
 
 def validate_password(password):
@@ -216,19 +231,19 @@ class GlobalSettingsView(FormView):
 
 class GitHubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
-    callback_url = "127.0.0.1/login"
+    callback_url = "127.0.0.1/authentication"
     client_class = OAuth2Client
 
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = "127.0.0.1/login"
+    callback_url = "127.0.0.1/authentication"
     client_class = OAuth2Client
 
 
 class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
-    callback_url = "127.0.0.1/login"
+    callback_url = "127.0.0.1/authentication"
     client_class = OAuth2Client
 
 

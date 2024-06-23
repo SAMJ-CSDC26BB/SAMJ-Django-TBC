@@ -1,4 +1,6 @@
 from samj.models import CallForwardingRecords
+
+
 def getDestination(query):
     try:
         dest = CallForwardingRecords.objects.values('destination_id').get(calledNumber=query)

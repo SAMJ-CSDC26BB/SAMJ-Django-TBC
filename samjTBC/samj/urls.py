@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from . import views
 from .viewClasses.restEndpoint import restEndpoint
-from .views import GitHubLogin, GoogleLogin
+from .views import GitHubLogin
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -15,12 +15,11 @@ urlpatterns = [
     # Login, Session
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
+    path("signup/", views.SignupView.as_view(), name="signup"),
     path("user", views.UserManagementView.as_view(), name="user"),
     path("github_api/", GitHubLogin.as_view(), name="github_login"),
-    path("google/", GoogleLogin.as_view(), name="google_login"),
     path("social-auth/", include("social_django.urls", namespace="social")),
     path("accounts/", include("allauth.urls")),
-    path("signup/", views.SignupView.as_view(), name="signup"),
     # API
     path("restEndpoint/", restEndpoint.as_view(), name="restEndpoint"),
     path("api/user_management/", views.UserManagementAPIView.as_view(), name="user_management_api"),

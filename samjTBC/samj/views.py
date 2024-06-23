@@ -3,9 +3,7 @@ import logging
 import re
 
 from allauth.account.forms import UserForm
-from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib import messages
@@ -43,13 +41,13 @@ class LoginView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         logger.info('LoginView POST request')
-        username_or_email = request.POST['authentication']
+        username_or_email = request.POST['login']
         password = request.POST['password']
         user = authenticate(request, username=username_or_email, password=password)
 
         if user is not None:
             login(request, user)
-            logger.info('User authenticated successfully')
+            logger.info(f'User {user} authenticated successfully')
             messages.success(request, 'Login successful.')
             return redirect('home')
         else:
@@ -231,19 +229,7 @@ class GlobalSettingsView(FormView):
 
 class GitHubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
-    callback_url = "127.0.0.1/authentication"
-    client_class = OAuth2Client
-
-
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
-    callback_url = "127.0.0.1/authentication"
-    client_class = OAuth2Client
-
-
-class AppleLogin(SocialLoginView):
-    adapter_class = AppleOAuth2Adapter
-    callback_url = "127.0.0.1/authentication"
+    callback_url = "home"
     client_class = OAuth2Client
 
 

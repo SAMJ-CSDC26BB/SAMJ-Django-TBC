@@ -34,8 +34,10 @@ class CallForwardingRecords(models.Model):
     startDate = models.DateField(null=False, blank=False)
     endDate = models.DateField(null=False, blank=False)
 
+
 class DestinationRecords(models.Model):
-    destination = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
+    destination = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False,
+                                   primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 

@@ -75,9 +75,9 @@ class GitHubAPI:
 
         self.logger.info('Sending GET request to GitHub API')
         response = requests.get(self.url, headers=headers, params=query)
-        if response.status_code == 201:
-            self.logger.info('Github Issues listed successfully:%s', response.text)
+        if response.status_code == 201 or response.status_code == 200:
+            self.logger.info(f'Github Issues listed successfully, {response.status_code}: {response.text}')
         else:
-            self.logger.error('Failed to list github_api issue: %s', response.text)
+            self.logger.error(f'Failed to list github issues. {response.status_code}: {response.text}')
 
-        return response
+        return response.json()  # Extract JSON content from the response

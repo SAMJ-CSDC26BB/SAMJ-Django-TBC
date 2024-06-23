@@ -234,42 +234,37 @@ class GitHubLogin(SocialLoginView):
 
 
 # GitHub Issue Form
+def format_line(name, data):
+    return f"- {name}: {data}" if data else ""
+
+
+def create_issue_body(form):
+    data = {
+        "Name": form.cleaned_data['name'],
+        "E-Mail": form.cleaned_data['email'],
+        "Telephone": form.cleaned_data['telephone'],
+        "URL": form.cleaned_data['url'],
+        "Short Description": form.cleaned_data['short_description'],
+        "Detailed Description": form.cleaned_data['detailed_description'],
+        "Steps to Reproduce": form.cleaned_data['steps_to_reproduce'],
+        "Expected Results": form.cleaned_data['expected_results'],
+        "Actual Results": form.cleaned_data['actual_results'],
+    }
+
+    body_lines = [f"- {key}: {value}" for key, value in data.items() if value]
+    body = "```yaml\n" + "\n".join(body_lines) + "\n```"
+
+    return body
+
+
 class CreateIssueView(FormView):
     template_name = './support/create_support.html'
     form_class = GitHubIssueForm
     success_url = '/support/tickets'  # update this to your desired URL
 
-    def format_line(self, name, data):
-        return f"- {name}: {data}" if data else ""
-
-    def create_issue_body(self, form):
-        url = form.cleaned_data['url']
-        short_description = form.cleaned_data['short_description']
-        detailed_description = form.cleaned_data['detailed_description']
-        steps_to_reproduce = form.cleaned_data['steps_to_reproduce']
-        expected_results = form.cleaned_data['expected_results']
-        actual_results = form.cleaned_data['actual_results']
-        name_line = self.format_line("Name", form.cleaned_data['name'])
-        email_line = self.format_line("E-Mail", form.cleaned_data['email'])
-        telephone_line = self.format_line("Telephone", form.cleaned_data['telephone'])
-
-        body = f"""```yaml
-        {name_line}
-        {email_line}
-        {telephone_line}
-        - URL: {url}
-        - Short Description: {short_description}
-        - Detailed Description: {detailed_description}
-        - Steps to Reproduce: {steps_to_reproduce}
-        - Expected Results: {expected_results}
-        - Actual Results: {actual_results}
-        ```"""
-
-        return body
-
     def form_valid(self, form):
         title = form.cleaned_data['title']
-        body = self.create_issue_body(form)
+        body = create_issue_body(form)
 
         github_api = GitHubAPI()
         github_api.create_github_issue(title, body=body, labels='bug')
@@ -283,6 +278,18 @@ class SupportTicketView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         github_api = GitHubAPI()
-        issues = github_api.list_github_issues()
-        context['issues'] = issues
+        issues = github_api.list_github_issues(labels='bug')
+        parsed_issues = []
+        for issue in issues:
+            parsed_issue = {
+                'url': issue['url'],
+                'title': issue['title'],
+                'user': issue['user']['login'],
+                'labels': [label['name'] for label in issue['labels']],
+                'state': issue['state'],
+                'created_at': issue['created_at'],
+                'body': issue['body'],
+            }
+            parsed_issues.append(parsed_issue)
+        context['issues'] = parsed_issues
         return context

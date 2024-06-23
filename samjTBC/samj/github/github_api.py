@@ -37,6 +37,7 @@ class GitHubAPI:
         return self.gh_token
 
     def create_github_issue(self, title, body=None, labels=None):
+        self.url = f'{self.url}/issues'
         data = {'title': title}
         headers = {
             'Authorization': f'token {self.gh_token}',
@@ -45,6 +46,8 @@ class GitHubAPI:
         if body:
             data['body'] = body
         if labels:
+            if isinstance(labels, str):
+                labels = [labels]  # ensure labels is a list
             data['labels'] = labels
 
         self.logger.info('Sending request to GitHub API')
@@ -57,6 +60,7 @@ class GitHubAPI:
         return response
 
     def list_github_issues(self, labels=None):
+        self.url = f'{self.url}/issues'
         query = {}
         headers = {
             'Authorization': f'token {self.gh_token}',

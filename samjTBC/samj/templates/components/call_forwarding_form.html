@@ -1,0 +1,56 @@
+<div class="modal fade" id="editCreateTBCModal" tabindex="-1" aria-labelledby="editCreateTBCModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCreateTBCModalLabel">Manage Call Forwarding</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="callForwardingForm" class="needs-validation" method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="calledNumber" class="form-label">Called Number</label>
+                        <select class="form-control" id="calledNumber" name="calledNumber" required>
+                            {% for number in called_numbers %}
+                            <option value="{{ number.number }}" {% if call_forwarding_form.calledNumber.value == number.number %}selected{% endif %}>{{ number.number }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="destination" class="form-label">Destination Number</label>
+                        <select class="form-control" id="destination" name="destination" required>
+                            {% for number in destination_numbers %}
+                            <option value="{{ number.number }}" {% if call_forwarding_form.destination.value == number.number %}selected{% endif %}>{{ number.number }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" value="{{ call_forwarding_form.startDate.value }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" value="{{ call_forwarding_form.endDate.value }}" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="callForwardingForm">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to show the modal if there are form errors -->
+<script>
+    $(document).ready(function() {
+        {% if call_forwarding_form.errors %}
+        $('#editCreateTBCModal').modal('show');
+        {% endif %}
+    });
+</script>

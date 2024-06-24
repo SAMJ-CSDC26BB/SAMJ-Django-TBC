@@ -19,14 +19,14 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
-from .forms import GlobalSettingsForm
-from .models import User, GlobalSettings
-
+from .forms import GlobalSettingsForm , CallForwardingForm
+from .models import User, GlobalSettings ,CallForwarding ,CalledNumber, DestinationNumber
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from drf_yasg.utils import swagger_auto_schema
 from .serializer import ExampleSerializer
+
 
 from .businessLogic import getDestination
 import logging

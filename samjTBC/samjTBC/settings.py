@@ -47,7 +47,10 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.apple",
-    "social_django"
+    "social_django",
+    'rest_framework_swagger',
+    'drf_yasg',
+
 ]
 
 MIDDLEWARE = [
@@ -69,6 +72,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "samj/templates"],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -111,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -258,7 +263,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "django_info", "django_warning", "django_error", "django_critical"],
+            "handlers": ["console", "django_info", "django_warning", "django_error", "django_critical", "django_all"],
             "level": "DEBUG",
             "propagate": True,
         },

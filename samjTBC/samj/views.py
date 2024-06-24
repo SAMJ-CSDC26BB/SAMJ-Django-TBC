@@ -17,11 +17,24 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
+from rest_framework import status
 
 from samj.github_api.github_api import GitHubAPI
 from .forms import GitHubIssueForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from drf_yasg.utils import swagger_auto_schema
+from .serializer import ExampleSerializer
+# views.py
+from django.http import JsonResponse
+
+from .businessLogic import getDestination
+import logging
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -303,3 +316,17 @@ class SupportTicketView(TemplateView):
         context['issues'] = parsed_issues
         self.logger.info(f'Fetched {len(parsed_issues)} issues from GitHub')
         return context
+
+
+class ExampleAPIView(APIView):
+    @swagger_auto_schema(
+        operation_summary="Summary of the endpoint",
+        responses={200: ExampleSerializer()},
+    )
+    def get(self, request):
+        data = {'field1': 'value', 'field2': 123}
+        serializer = ExampleSerializer(data=data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

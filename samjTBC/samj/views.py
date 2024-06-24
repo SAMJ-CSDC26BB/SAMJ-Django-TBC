@@ -205,6 +205,27 @@ class UserManagementView(TemplateView):
         context['user_form'] = form
         return self.render_to_response(context)
 
+class TbcView(TemplateView):
+    template_name = "tbc.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['call_forwardings'] = CallForwarding.objects.all()
+        context['call_forwarding_form'] = CallForwardingForm()
+        context['called_numbers'] = CalledNumber.objects.all()
+        context['destination_numbers'] = DestinationNumber.objects.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CallForwardingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tbc')
+        context = self.get_context_data()
+        context['call_forwarding_form'] = form
+        return self.render_to_response(context)
+
+
 
 class GlobalSettingsView(FormView):
     form_class = GlobalSettingsForm

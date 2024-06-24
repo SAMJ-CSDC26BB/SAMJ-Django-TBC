@@ -36,22 +36,28 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(max_length=30)
-    fullname = forms.CharField(max_length=30)
-    number = forms.CharField(max_length=30)
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    email = forms.EmailField(max_length=30, required=False)
+    fullname = forms.CharField(max_length=30, required=False)
+    number = forms.CharField(max_length=30, required=False)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput, required=False)
 
     class Meta:
         model = User
         fields = ("email", "username", "fullname", "number")
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        # Check if password fields are being edited
+        if password1 or password2:
+            # If so, check if both password fields are filled out
+            if not (password1 and password2):
+                raise forms.ValidationError("Both password fields must be set.")
+            elif password1 != password2:
+                raise forms.ValidationError("Passwords don't match")
 
     def save(self, commit=True):
         user = super().save(commit=False)

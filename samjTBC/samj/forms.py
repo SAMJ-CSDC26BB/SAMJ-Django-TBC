@@ -36,7 +36,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(max_length=30)
     fullname = forms.CharField(max_length=30)
     number = forms.CharField(max_length=30)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)

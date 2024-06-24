@@ -184,6 +184,41 @@ class UserManagementAPIView(View):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
+    def patch(self, request, *args, **kwargs):
+        try:
+            logger.info("starting method")
+            data = json.loads(request.body)
+            username = data.get('username')
+            if not username:
+                return JsonResponse({'error': 'Username is required for updating a user'}, status=400)
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
+            # Fields that may be updated
+            updatable_fields = ['fullname', 'password', 'number', 'status', 'role']
+
+            password = data.get('password')
+            # Validate and update password if provided
+            if password:
+                is_valid, message = validate_password(password)
+                if not is_valid:
+                    return JsonResponse({'error': message}, status=400)
+                user.password = password
+
+            # Update other fields
+            for field in updatable_fields:
+                if field in data:
+                    setattr(user, field, data[field])
+
+            user.save()
+            return JsonResponse({'message': 'User updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
     def delete(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)

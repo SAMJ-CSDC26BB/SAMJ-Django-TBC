@@ -252,8 +252,8 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
             destinationNameList.append(item.name)
             destinationNumberList.append(item.number)
         data = {
-            "Destination Number" : destinationNumberList,
-            "Name" : destinationNameList
+            "number" : destinationNumberList,
+            "name" : destinationNameList
         }
         return JsonResponse(data)
 

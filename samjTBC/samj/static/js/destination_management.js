@@ -1,4 +1,5 @@
-import * as Utils from "./utils/utils";
+import * as Utils from './utils/utils.js';
+import {ButtonBuilder, ElementBuilder} from "./builder/builder";
 
 document.addEventListener('DOMContentLoaded', () => {
     const SELECTORS = {
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         destinationTableBody: '.uiDestinationTableBody',
         deleteDestinationModal: '#deleteDestinationModal',
         deleteDestinationButton: '.uiDeleteDestinationButton',
-        destinationsTable: '#destinationsTable'
+        destinationsTable: '#editCreateDestinationModal'
     };
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -53,7 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/destination_management/')
             .then(response => response.json())
             .then(data => {
-                const destinations = data.destination;
+                const destinations = data.number;
+
+                addDestinationToTable(data.number, data.name)
+
+
                 const tbody = document.querySelector(SELECTORS.destinationTableBody);
                 tbody.innerHTML = '';
                 destinations.forEach(destination => {
@@ -180,14 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function addDestinationToTable(destination) {
-        let destinationTable = document.querySelector(SELECTORS.destinationTable);
-        let tableBody = destinationTable.querySelector(SELECTORS.tableBody);
+    function addDestinationToTable(number, name) {
+        let destinationsTable = document.querySelector(SELECTORS.destinationsTable);
+        let tableBody = destinationsTable.querySelector(SELECTORS.tableBody);
 
         // Create Edit button
         let editButton = new ButtonBuilder()
             .class("btn btn-primary btn-sm me-2 edit-destination-btn")
-            .with("data-bs-target", SELECTORS.editCreateDestinationModal)
+            .with("data-bs-target", SELECTORS.destinationsTable)
             .with("data-bs-toggle", "modal")
             .text("Edit");
 
@@ -201,11 +206,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create table row
         let tableRow = new ElementBuilder("tr")
             .attr({
-                'data-number': destination.number,
-                'data-name': destination.name
+                'Destination Number': number,
+                'Name': name
             })
-            .append(new ElementBuilder("td").class("tableDataNumber").text(destination.number))
-            .append(new ElementBuilder("td").class("tableDataName").text(destination.name))
+            .append(new ElementBuilder("td").class("tableDataNumber").text(number))
+            .append(new ElementBuilder("td").class("tableDataName").text(name))
             .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
 
         // Append the constructed row to the table body

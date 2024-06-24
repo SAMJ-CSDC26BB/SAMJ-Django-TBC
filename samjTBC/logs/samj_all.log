@@ -125,3 +125,11 @@
 [2024-06-24 22:59:49][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
 [2024-06-24 22:59:49][INFO] +43664
 [2024-06-24 22:59:49][INFO] testdesti
+[2024-06-24 23:25:50][INFO] get request triggered
+[2024-06-24 23:25:50][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 23:25:50][INFO] +43664
+[2024-06-24 23:25:50][INFO] testdesti
+[2024-06-24 23:29:20][INFO] get request triggered
+[2024-06-24 23:29:20][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 23:29:20][INFO] +43664
+[2024-06-24 23:29:20][INFO] testdesti

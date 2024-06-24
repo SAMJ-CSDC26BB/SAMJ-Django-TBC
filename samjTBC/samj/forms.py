@@ -1,16 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.core.validators import MinValueValidator, MaxValueValidator
 
-from .models import GlobalSettings, User
+from .models import GlobalSettings
+from .models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
-    number = forms.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(100)])  # replace with your actual range
+    number = forms.CharField(max_length=30)
 
     class Meta:
         model = User
@@ -21,6 +20,11 @@ class CustomUserCreationForm(UserCreationForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
+
+        # Create a GlobalSettings object and assign it to the user
+        global_settings = GlobalSettings.objects.create()
+        user.global_settings = global_settings
+
         if commit:
             user.save()
         return user

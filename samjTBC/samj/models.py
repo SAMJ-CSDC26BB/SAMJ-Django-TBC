@@ -1,4 +1,6 @@
 import pytz
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin, Permission, Group
 from django.core.validators import MinLengthValidator
 
 # Create your models here.
@@ -47,8 +49,12 @@ class DestinationNumber(models.Model):
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 
-class User(models.Model):
+class User(AbstractBaseUser, PermissionsMixin):
+    groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
+    user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['username']
+    # USERNAME_FIELD = 'username'
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),
@@ -61,6 +67,7 @@ class User(models.Model):
     ]
 
     username = models.CharField(primary_key=True, max_length=50)
+    email = models.EmailField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     fullname = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     password = models.CharField(max_length=128, validators=[MinLengthValidator(1)], blank=False, null=False)
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)

@@ -38,7 +38,7 @@ class GitHubAPI:
 
     def create_github_issue(self, title, body=None, labels=None):
         self.url = f'{self.url}/issues'
-        data = {'title': title}
+        data = {'title': {title}}
         headers = {
             'Authorization': f'token {self.gh_token}',
             'Accept': 'application/vnd.github_api.v3+json'

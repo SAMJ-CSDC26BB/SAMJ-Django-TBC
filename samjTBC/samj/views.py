@@ -239,20 +239,27 @@ def format_line(name, data):
 
 
 def create_issue_body(form):
-    data = {
+    contact_details = {
         "Name": form.cleaned_data['name'],
         "E-Mail": form.cleaned_data['email'],
-        "Telephone": form.cleaned_data['telephone'],
-        "URL": form.cleaned_data['url'],
-        "Short Description": form.cleaned_data['short_description'],
-        "Detailed Description": form.cleaned_data['detailed_description'],
-        "Steps to Reproduce": form.cleaned_data['steps_to_reproduce'],
-        "Expected Results": form.cleaned_data['expected_results'],
-        "Actual Results": form.cleaned_data['actual_results'],
+        "Telephone": form.cleaned_data['telephone'],  # the telephone number which might be affected
     }
 
-    body_lines = [f"- {key}: {value}" for key, value in data.items() if value]
-    body = "```yaml\n" + "\n".join(body_lines) + "\n```"
+    issue_details = {
+        "URL": form.cleaned_data['url'],  # where the Issue happens
+        "Short Description": form.cleaned_data['short_description'],  # Brief summary of the issue in one sentence
+        "Detailed Description": form.cleaned_data['detailed_description'],
+        # Provide a detailed description of the issue. Include any relevant background information.
+        "Steps to Reproduce": form.cleaned_data['steps_to_reproduce'],  # Steps to reproduce the issue
+        "Expected Results": form.cleaned_data['expected_results'],  # What you expected to happen
+        "Actual Results": form.cleaned_data['actual_results'],  # What actually happened
+    }
+
+    contact_lines = [f"- {key}: {value}" for key, value in contact_details.items() if value]
+    issue_lines = [f"- {key}: {value}" for key, value in issue_details.items() if value]
+
+    body = "Contact Details (optional):\n" + "\n".join(contact_lines) + "\n\nIssue Details:\n" + "\n".join(issue_lines)
+    body = "```yaml\n" + body + "\n```"
 
     return body
 
@@ -263,7 +270,7 @@ class CreateIssueView(FormView):
     success_url = '/support/tickets'  # update this to your desired URL
 
     def form_valid(self, form):
-        title = form.cleaned_data['title']
+        title = f'[SUPPORT][BUG] {form.cleaned_data['title']}'
         body = create_issue_body(form)
 
         github_api = GitHubAPI()

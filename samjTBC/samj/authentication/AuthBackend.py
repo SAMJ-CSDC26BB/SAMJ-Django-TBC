@@ -1,8 +1,10 @@
+import json
 import logging
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -54,3 +56,23 @@ class UserManagementAPIView(APIView):
         logger.info(f"User {user.username} created successfully")
 
         return Response({"message": "User created successfully"})
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            if not username:
+                return JsonResponse({'error': 'Username is required for deleting a user'}, status=400)
+            if request.user.username == username:
+                return JsonResponse({'error': 'You cannot delete the currently logged in user'}, status=400)
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
+            user.delete()
+            return JsonResponse({'message': 'User deleted successfully'}, status=204)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)

@@ -276,7 +276,7 @@ class CreateIssueView(FormView):
     success_url = '/support/tickets'  # update this to your desired URL
 
     def form_valid(self, form):
-        title = f'[SUPPORT][BUG] {form.cleaned_data['title']}'
+        title = f"[SUPPORT][BUG] {form.cleaned_data['title']}"
         body = create_issue_body(form)
 
         github_api = GitHubAPI()

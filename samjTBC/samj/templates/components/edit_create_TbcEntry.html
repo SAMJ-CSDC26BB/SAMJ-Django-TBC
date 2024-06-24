@@ -1,0 +1,37 @@
+<div class="modal fade" id="editCreateTbcEntryModal" tabindex="-1" aria-labelledby="editCreateTbcEntryModalLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCreateTbcEntryModalLabel">Manage TBC Entry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="tbcEntryForm" class="needs-validation" method="post" action="{% url 'tbc' %}" data-mode="edit" novalidate>
+          {% csrf_token %}
+
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+          <div class="mb-3">
+            <label for="calledNumber" class="form-label">Called Number</label>
+            <input type="text" class="form-control" id="calledNumber" name="calledNumber" required>
+          </div>
+          <div class="mb-3">
+            <label for="destination" class="form-label">Destination</label>
+            <input type="text" class="form-control" id="destination" name="destination" required>
+          </div>
+          <div class="mb-3">
+            <label for="startDate" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+          </div>
+          <div class="mb-3">
+            <label for="endDate" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save-tbcEntry-button" id="saveTbcEntryBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

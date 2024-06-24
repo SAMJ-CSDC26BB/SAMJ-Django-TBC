@@ -135,15 +135,15 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = [
+    'samj.authentication.AuthBackend.AuthBackend',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.apple.AppleIdAuth',
 ]
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SITE_ID = 1
+
+AUTH_USER_MODEL = 'samj.User'
 
 # Social  Auth
 LOGIN_URL = 'login'

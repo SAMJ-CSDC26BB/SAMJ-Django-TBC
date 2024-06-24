@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
     user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
     # USERNAME_FIELD = 'username'
     STATUS_CHOICES = [
         ('active', 'Active'),

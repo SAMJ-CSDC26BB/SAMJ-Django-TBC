@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.apple",
     "social_django",
     'rest_framework_swagger',
     'drf_yasg',
@@ -152,16 +150,9 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
-
+SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
 # do not push these
 SOCIAL_AUTH_GITHUB_SECRET = 'e09300b6e16df574923d862cb128ec011763fff9'
-SOCIAL_AUTH_GOOGLE_SECRET = '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'
-SOCIAL_AUTH_APPLE_ID_SECRET = """-----BEGIN PRIVATE KEY-----
-MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQguTQtZNhfqSA2QMbO
-DIE5oGHGjCEh+AWfHCiitP+FbQWgCgYIKoZIzj0DAQehRANCAATTXBErtKRlr68u
-Pwa7PB58neorvr5Nz03+O34aq9Vs8vvfo3jhZxPAj9Ak9Kv1cJbO+GRMQ0AW82Zw
-ZzQ7gm+D
------END PRIVATE KEY-----"""
 
 SOCIALACCOUNT_PROVIDERS = {
     "github_api": {

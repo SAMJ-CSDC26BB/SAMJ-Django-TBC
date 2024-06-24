@@ -27,6 +27,7 @@ class GlobalSettings(models.Model):
     language = models.CharField(max_length=2, choices=LANGUAGES, default='en')
     theme = models.CharField(max_length=5, choices=THEMES, default='light')
     notifications = models.CharField(max_length=3, choices=NOTIFICATIONS, default='on')
+    setting_name = models.CharField(max_length=100, default='Global Settings')
 
 
 class CallForwarding(models.Model):
@@ -81,8 +82,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('admin', 'Admin'),
     ]
 
-    username = models.CharField(primary_key=True, max_length=50)
-    email = models.EmailField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
+    username = models.CharField(primary_key=True, max_length=50, unique=True)
+    email = models.EmailField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False, unique=True)
     fullname = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     password = models.CharField(max_length=128, validators=[MinLengthValidator(1)], blank=False, null=False)
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)

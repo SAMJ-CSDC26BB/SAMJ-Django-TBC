@@ -1,19 +1,9 @@
 from django.urls import path, include
-from . import views
-from .viewClasses.api_v2_tbc import api_v2_tbc
-from django.views.generic import TemplateView
-from .swagger_config import urlpatterns as swagger_urls, schema_view
-from django.urls import path, include
-
 
 from . import views
-from .swagger_config import schema_view
+from samj.swagger.swagger_config import schema_view
 from .viewClasses.api_v2_tbc import api_v2_tbc
 from .views import GitHubLogin
-from .views import ExampleAPIView  # Replace with your actual app name
-
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),

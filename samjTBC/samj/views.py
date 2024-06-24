@@ -11,30 +11,23 @@ from django.contrib.auth import logout as auth_logout, login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+# views.py
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from samj.github_api.github_api import GitHubAPI
 from .forms import GitHubIssueForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
-from drf_yasg.utils import swagger_auto_schema
 from .serializer import ExampleSerializer
-# views.py
-from django.http import JsonResponse
-
-from .businessLogic import getDestination
-import logging
-from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 

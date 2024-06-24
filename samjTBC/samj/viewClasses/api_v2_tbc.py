@@ -20,7 +20,8 @@ class api_v2_tbc(APIView):
             openapi.Parameter(
                 'number',
                 openapi.IN_QUERY,
-                description="get dest. number if current Time matches callforwarding Entry corresponding to callednumber",
+                description="get dest. number if current Time matches callforwarding Entry corresponding to "
+                            "called number",
                 type=openapi.TYPE_STRING,
             ),
         ],

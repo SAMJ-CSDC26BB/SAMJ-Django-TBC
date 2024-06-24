@@ -4,7 +4,6 @@ import logging
 
 from django.contrib.auth import get_user_model
 from social_core.exceptions import AuthAlreadyAssociated
-from social_core.pipeline.partial import partial
 
 from samj.models import GlobalSettings
 
@@ -26,37 +25,35 @@ def social_user(backend, uid, user=None, *args, **kwargs):
     return {'social': social, 'user': user, 'is_new': user is None}
 
 
-@partial
-def create_user(backend, details, response, user=None, *args, **kwargs):
-    print(details)  # Add this line to inspect the details
+def create_user(strategy, details, backend, user=None, *args, **kwargs):
     if user:
         return {'is_new': False}
 
-    email = details.get('email')
-    if email:
-        # Check if a user with this email already exists
-        user = backend.strategy.storage.user.get_user(email=email)
-        if user:
-            return {'is_new': False, 'user': user}
-
-    return {
-        'is_new': True,
-        'user': backend.strategy.create_user(
-            email=email,
-            username=details.get('username'),
-            first_name=details.get('first_name'),
-            last_name=details.get('last_name'),
-            # Include any additional fields here if needed
-        )
+    fields = {
+        'username': details.get('username') or details.get('email'),
+        'email': details.get('email'),
+        # Exclude first_name and last_name if not present in your User model
     }
+
+    if not fields['email']:
+        raise ValueError('The Email field must be set')
+
+    user = strategy.create_user(**fields)
+    return {'is_new': True, 'user': user}
 
 
 def set_global_settings(backend, user, *args, **kwargs):
-    if user.global_settings_id is None:
-        global_settings = GlobalSettings.objects.create()
-        user.global_settings = global_settings
+    """
+    Set global settings for the user.
+    """
+    if not user.pk:
         user.save()
-    logger.info(f"User {user.id} - Global settings ID: {user.global_settings_id}")
+
+    global_settings = GlobalSettings.objects.create()
+    user.global_settings = global_settings
+    user.save()  # Save the user again to commit the global_settings relationship
+
+    logger.info(f"User {user.username} - Global settings ID: {user.global_settings_id}")
     return {'user': user}
 
 

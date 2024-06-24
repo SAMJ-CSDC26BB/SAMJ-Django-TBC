@@ -55,7 +55,7 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, first_name=first_name, last_name=last_name, **extra_fields)
+        user = self.model(username=username, email=email, fullname=f'{first_name} {last_name}', **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

@@ -83,10 +83,12 @@ class SignupView(TemplateView):
         logger.info('SignupView POST request')
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)  # Do not save the model yet
+            user.fullname = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+            user.save()  # Now save the model after setting fullname
             logger.info(f'User {form.cleaned_data["username"]} signed up successfully')
             messages.success(request, 'Signup successful. You can now login.')
-            return redirect('login')
+            return redirect('home')
         else:
             logger.warning(f'Signup of User {form.cleaned_data["username"]} was not successful')
             messages.error(request, 'Signup was not successful. Please try again.')

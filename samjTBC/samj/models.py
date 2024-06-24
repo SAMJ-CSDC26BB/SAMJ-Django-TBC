@@ -56,7 +56,10 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        global_settings = GlobalSettings.objects.create()
+        global_settings.save()  # Save the GlobalSettings object to the database
+        user.global_settings = global_settings
+        user.save(using=self._db)  # Save the user object after assigning the global_settings
         return user
 
 
@@ -85,4 +88,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
-    global_settings = models.OneToOneField(GlobalSettings, on_delete=models.CASCADE)
+    global_settings = models.ForeignKey(GlobalSettings, on_delete=models.CASCADE, null=True, blank=True)
+    is_superuser = models.BooleanField(default=False)
+    last_login = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # This is a new object, so it doesn't have a primary key yet
+            self.global_settings = GlobalSettings.objects.create()
+        super().save(*args, **kwargs)

@@ -1,5 +1,5 @@
 import pytz
-from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin, Permission, Group
 from django.core.validators import MinLengthValidator
 
@@ -49,6 +49,17 @@ class DestinationNumber(models.Model):
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        if not username:
+            raise ValueError('The Username field must be set')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
     user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
@@ -60,6 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('inactive', 'Inactive'),
         ('deleted', 'Deleted'),
     ]
+    objects = CustomUserManager()
 
     ROLE_CHOICES = [
         ('user', 'User'),

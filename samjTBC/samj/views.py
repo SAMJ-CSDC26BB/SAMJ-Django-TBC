@@ -27,6 +27,9 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from .serializer import ExampleSerializer
 
+from django.shortcuts import render
+from .models import DestinationNumber
+from django.contrib.auth.models import User
 
 from .businessLogic import getDestination
 import logging
@@ -225,6 +228,97 @@ class TbcView(TemplateView):
         context['call_forwarding_form'] = form
         return self.render_to_response(context)
 
+
+
+class DestinationManagementView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'destination_management.html')
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class DestinationManagementAPIView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("get request triggered")
+        user = request.user
+        DestinationAll = DestinationNumber.objects.all()
+        # destinations =         CallForwardingAll = CallForwarding.objects.all()
+        logger.info(DestinationAll)
+        destinationNameList = []
+        destinationNumberList = []
+        for item in DestinationAll:
+            logger.info(item.number)
+            logger.info(item.name)
+            destinationNameList.append(item.name)
+            destinationNumberList.append(item.number)
+        data = {
+            "Destination Number" : destinationNumberList,
+            "Name" : destinationNameList
+        }
+        return JsonResponse(data)
+
+    def post(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("post request triggered")
+
+        try:
+            data = json.loads(request.body)
+            destination = DestinationNumber(
+                name=data.get('name'),
+                number=data.get('number'),
+            )
+            destination.save()
+            return JsonResponse({'message': 'Destination created successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def put(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("put request triggered")
+
+        try:
+            data = json.loads(request.body)
+            destination_number = data.get('number')
+            destination_name = data.get('name')
+            if not destination_number:
+                return JsonResponse({'error': 'Number is required for updating a destination'}, status=400)
+            try:
+                destination = DestinationNumber.objects.get(number=destination_number, name=destination_name)
+            except DestinationNumber.DoesNotExist:
+                return JsonResponse({'error': 'Destination not found'}, status=404)
+
+            destination.name = data.get('name', destination.name)
+            destination.number = data.get('number', destination.number)
+            destination.save()
+            return JsonResponse({'message': 'Destination updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def delete(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("delete request triggered")
+
+        try:
+            user = request.user
+            data = json.loads(request.body)
+            destination_id = data.get('id')
+            if not destination_id:
+                return JsonResponse({'error': 'ID is required for deleting a destination'}, status=400)
+            try:
+                destination = DestinationNumber.objects.get(id=destination_id, user=user)
+            except DestinationNumber.DoesNotExist:
+                return JsonResponse({'error': 'Destination not found'}, status=404)
+
+            destination.delete()
+            return JsonResponse({'message': 'Destination deleted successfully'}, status=204)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
 
 
 class GlobalSettingsView(FormView):

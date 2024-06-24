@@ -1,5 +1,6 @@
 import pytz
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 from django.db import models
@@ -38,9 +39,15 @@ class CalledNumber(models.Model):
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
+    def __str__(self):
+        return f"{self.name} ({self.number})"
+
 class DestinationNumber(models.Model):
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.name} ({self.number})"
 
 class User(models.Model):
     STATUS_CHOICES = [

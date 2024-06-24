@@ -1,0 +1,26 @@
+<div class="modal fade" id="editCreateDestinationModal" tabindex="-1" aria-labelledby="editCreateDestinationModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCreateDestinationModalLabel">Manage Destination</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="destinationForm" class="needs-validation" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="destinationName" class="form-label">Destination Name</label>
+                        <input type="text" class="form-control" id="destinationName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="destinationNumber" class="form-label">Destination Number</label>
+                        <input type="text" class="form-control" id="destinationNumber" name="number" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-destination-button" id="saveDestinationBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

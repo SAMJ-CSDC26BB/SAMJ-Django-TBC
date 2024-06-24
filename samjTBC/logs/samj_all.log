@@ -105,3 +105,23 @@
 [2024-06-23 22:44:18][ERROR] No object or multiple objects found
 [2024-06-23 22:44:18][DEBUG] Destination: <QuerySet []>
 [2024-06-23 22:44:18][INFO] dest -> Error
+[2024-06-24 22:36:04][INFO] get request triggered
+[2024-06-24 22:40:48][INFO] get request triggered
+[2024-06-24 22:40:48][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:42:18][INFO] get request triggered
+[2024-06-24 22:42:18][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:47:37][INFO] get request triggered
+[2024-06-24 22:47:37][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:47:37][INFO] +43664
+[2024-06-24 22:48:28][INFO] get request triggered
+[2024-06-24 22:48:28][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:48:28][INFO] +43664
+[2024-06-24 22:48:28][INFO] testdesti
+[2024-06-24 22:58:10][INFO] get request triggered
+[2024-06-24 22:58:10][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:58:10][INFO] +43664
+[2024-06-24 22:58:10][INFO] testdesti
+[2024-06-24 22:59:49][INFO] get request triggered
+[2024-06-24 22:59:49][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-24 22:59:49][INFO] +43664
+[2024-06-24 22:59:49][INFO] testdesti

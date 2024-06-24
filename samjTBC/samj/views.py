@@ -186,7 +186,6 @@ class UserManagementAPIView(View):
 
     def patch(self, request, *args, **kwargs):
         try:
-            logger.info("starting method")
             data = json.loads(request.body)
             username = data.get('username')
             if not username:

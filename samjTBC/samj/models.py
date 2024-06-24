@@ -48,6 +48,7 @@ class DestinationNumber(models.Model):
 
 
 class User(models.Model):
+    USERNAME_FIELD = 'username'
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),

@@ -8,7 +8,6 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 # views.py
@@ -24,7 +23,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from samj.github_api.github_api import GitHubAPI
-from .forms import GitHubIssueForm
+from .forms import GitHubIssueForm, CustomUserCreationForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 from .serializer import ExampleSerializer
@@ -77,19 +76,19 @@ class LogoutView(LoginRequiredMixin, View):
 class SignupView(TemplateView):
     def get(self, request, *args, **kwargs):
         logger.info('SignupView GET request')
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         return render(request, 'authentication/signup/signup.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         logger.info('SignupView POST request')
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            logger.info(f'User {form.username} signed up successfully')
-            messages.success(request, 'Signup successful. You can now authentication.')
+            logger.info(f'User {form.cleaned_data["username"]} signed up successfully')
+            messages.success(request, 'Signup successful. You can now login.')
             return redirect('login')
         else:
-            logger.warning(f'Signup of User {form.username} was not successful')
+            logger.warning(f'Signup of User {form.cleaned_data["username"]} was not successful')
             messages.error(request, 'Signup was not successful. Please try again.')
             return render(request, 'authentication/signup/signup.html', {'form': form})
 

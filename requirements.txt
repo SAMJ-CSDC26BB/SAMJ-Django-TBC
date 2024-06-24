@@ -11,3 +11,5 @@ dj-rest-auth~=6.0.0
 social-auth-app-django~=5.4.1
 django-allauth~=0.63.3
 auth~=0.5.3
+django-rest-swagger
+drf_yasg

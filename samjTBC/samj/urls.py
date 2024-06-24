@@ -1,26 +1,9 @@
 from django.urls import path, include
+
 from . import views
-from .views import GitHubLogin, GoogleLogin
+from samj.swagger.swagger_config import schema_view
 from .viewClasses.api_v2_tbc import api_v2_tbc
-from django.views.generic import TemplateView
-from .swagger_config import urlpatterns as swagger_urls, schema_view
-from django.urls import path, include
-
-from .views import ExampleAPIView  # Replace with your actual app name
-
-from django.urls import path
-
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="SAMJ API",
-        default_version='v1',
-        description="Samjservices:\nTBC: Retrieve Destination Numver based on time",
-    ),
-    public=True,
-)
+from .views import GitHubLogin
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -28,19 +11,21 @@ urlpatterns = [
 
     # Settings
     path("settings", views.GlobalSettingsView.as_view(), name="settings"),
-    path('user-management/', views.UserManagementView.as_view(), name='user_management'),
+    path("user-management/", views.UserManagementView.as_view(), name="user_management"),
 
     # Login, Session
     path("login/", views.LoginView.as_view(), name="login"),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
+    path("signup/", views.SignupView.as_view(), name="signup"),
     path("user", views.UserManagementView.as_view(), name="user"),
-    path('github/', GitHubLogin.as_view(), name='github_login'),
-    path('google/', GoogleLogin.as_view(), name='google_login'),
-    path('social-auth/', include('social_django.urls', namespace='social')),
-    path('accounts/', include('allauth.urls')),
-    path('signup/', views.SignupView.as_view(), name='signup'),
+    path("github_api/", GitHubLogin.as_view(), name="github_login"),
+    path("social-auth/", include("social_django.urls", namespace="social")),
+    path("accounts/", include("allauth.urls")),
     # API
-    path('api/v2/tbc/', api_v2_tbc.as_view(), name='api_v2_tbc'),
-    path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path("api/v2/tbc/", api_v2_tbc.as_view(), name="api_v2_tbc"),
+    path("api/user_management/", views.UserManagementAPIView.as_view(), name="user_management_api"),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    # Support with GitHub REST API
+    path("support/", views.CreateIssueView.as_view(), name="support_via_github"),
+    path("support/tickets", views.SupportTicketView.as_view(), name="support_ticket"),
 ]

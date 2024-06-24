@@ -10,4 +10,4 @@ class LoginViewTest(TestCase):
 
     def test_login_view_template(self):
         response = self.client.get(reverse('login'))
-        self.assertTemplateUsed(response, './login/login.html')
+        self.assertTemplateUsed(response, './authentication/authentication.html')

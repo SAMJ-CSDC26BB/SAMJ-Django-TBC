@@ -59,7 +59,7 @@ class GitHubAPI:
 
         return response
 
-    def list_github_issues(self, labels=None):
+    def list_github_issues(self, labels=None, state='open'):
         self.url = f'{self.url}/issues'
         query = {}
         headers = {
@@ -72,6 +72,8 @@ class GitHubAPI:
             query = {
                 'labels': labels
             }
+        if state:
+            query['state'] = state
 
         self.logger.info('Sending GET request to GitHub API')
         response = requests.get(self.url, headers=headers, params=query)

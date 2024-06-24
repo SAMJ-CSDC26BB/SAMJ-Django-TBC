@@ -274,15 +274,17 @@ class CreateIssueView(FormView):
 
 class SupportTicketView(TemplateView):
     template_name = './support/support_ticket.html'
+    logger = logging.getLogger(__name__)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         github_api = GitHubAPI()
-        issues = github_api.list_github_issues(labels='bug')
+        self.logger.info('Fetching GitHub issues')
+        issues = github_api.list_github_issues(labels='bug', state='all')
         parsed_issues = []
         for issue in issues:
             parsed_issue = {
-                'url': issue['url'],
+                'url': issue['html_url'],
                 'title': issue['title'],
                 'user': issue['user']['login'],
                 'labels': [label['name'] for label in issue['labels']],
@@ -292,4 +294,5 @@ class SupportTicketView(TemplateView):
             }
             parsed_issues.append(parsed_issue)
         context['issues'] = parsed_issues
+        self.logger.info(f'Fetched {len(parsed_issues)} issues from GitHub')
         return context

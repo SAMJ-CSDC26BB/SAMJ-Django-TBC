@@ -3,7 +3,7 @@ from django.urls import path, include
 from samj.swagger.swagger_config import schema_view
 from . import views
 from .viewClasses.api_v2_tbc import api_v2_tbc
-from .views import GitHubLogin
+from .views import GitHubLogin, AccountView
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="index"),
@@ -17,10 +17,10 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
     path("signup/", views.SignupView.as_view(), name="signup"),
+    path('account/', AccountView.as_view(), name='account'),
     path("user", views.UserManagementView.as_view(), name="user"),
     path("login/github/", GitHubLogin.as_view(), name="github_login"),
     path("social-auth/", include("social_django.urls", namespace="social")),
-    path("accounts/", include("allauth.urls")),
     # API
     path("api/v2/tbc/", api_v2_tbc.as_view(), name="api_v2_tbc"),
     path("api/user_management/", views.UserManagementAPIView.as_view(), name="user_management_api"),

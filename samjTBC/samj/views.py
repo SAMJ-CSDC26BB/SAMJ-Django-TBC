@@ -24,7 +24,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from samj.github_api.github_api import GitHubAPI
-from .forms import GitHubIssueForm, CustomUserCreationForm
+from .forms import GitHubIssueForm, CustomUserCreationForm, UpdateUserForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 from .serializer import ExampleSerializer
@@ -125,6 +125,19 @@ class SignupView(TemplateView):
             logger.warning(f'Signup of User {form.cleaned_data["username"]} was not successful')
             messages.error(request, 'Signup was not successful. Please try again.')
             return render(request, 'authentication/signup/signup.html', {'form': form})
+
+
+class AccountView(View):
+    def get(self, request, *args, **kwargs):
+        form = UpdateUserForm(instance=request.user)
+        return render(request, 'authentication/account/account.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UpdateUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        return render(request, 'authentication/account/account.html', {'form': form})
 
 
 def validate_password(password):

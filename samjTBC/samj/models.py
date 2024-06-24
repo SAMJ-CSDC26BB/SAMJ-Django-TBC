@@ -51,17 +51,20 @@ class DestinationNumber(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        if not username:
-            raise ValueError('The Username field must be set')
+    def create_user(self, username, email=None, first_name=None, last_name=None, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model(username=username, email=email, first_name=first_name, last_name=last_name, **extra_fields)
         user.set_password(password)
-        global_settings = GlobalSettings.objects.create()
-        global_settings.save()  # Save the GlobalSettings object to the database
-        user.global_settings = global_settings
-        user.save(using=self._db)  # Save the user object after assigning the global_settings
+        user.save(using=self._db)
         return user
+
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(username, email, password=password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):

@@ -51,27 +51,33 @@ class DestinationNumber(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email=None, first_name=None, last_name=None, password=None, **extra_fields):
+    def create_user(self, email, username, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, fullname=f'{first_name} {last_name}', **extra_fields)
+        user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email=None, password=None, **extra_fields):
+    def create_superuser(self, email, username, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
-        return self.create_user(username, email, password=password, **extra_fields)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, username, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
     user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
+    is_staff = models.BooleanField(default=False)
+    USERNAME_FIELD = 'email' or 'username'
+    REQUIRED_FIELDS = ['username']
     # USERNAME_FIELD = 'username'
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -97,6 +103,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.pk:  # This is a new object, so it doesn't have a primary key yet
+        if not self.pk and not self.global_settings:
             self.global_settings = GlobalSettings.objects.create()
         super().save(*args, **kwargs)

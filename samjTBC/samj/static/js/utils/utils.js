@@ -1,4 +1,4 @@
-import { ToastBuilder } from '../builder/builder.js';
+import {ToastBuilder} from '../builder/builder.js';
 
 const DATA_TABLE_DEFAULT_OPTIONS = {
     sortable: true,
@@ -70,4 +70,9 @@ export function getPropertyFromDataset(node, property) {
     }
 
     return node.dataset[property];
+}
+
+export function getXMLDocFromString(str) {
+    const parser = new DOMParser();
+    return parser.parseFromString(str, "text/xml");
 }

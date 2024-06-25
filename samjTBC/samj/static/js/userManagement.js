@@ -117,7 +117,7 @@ function populateUserTable() {
     fetch('/api/user_management/', {
         method: 'GET',
         headers: {
-            'Accept': 'application/json',
+            'Accept': 'application/xml', // can also use application/json
             'Cache-Control': 'max-age=43200', // 12 hours
         }
     })
@@ -125,10 +125,27 @@ function populateUserTable() {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
+
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/xml")) {
+                return response.text();
+            }
+
             return response.json();
+
         })
         .then(data => {
-            if (!data.users) {
+            // we got xml response
+            if (typeof data === "string") {
+                // Process the XML to extract users
+                return extractUsersFromXML(Utils.getXMLDocFromString(data));
+            }
+
+            // JSON response
+            return data;
+        })
+        .then(data => {
+            if (!data || !data.users) {
                 throw new Error("Error fetching users");
             }
 
@@ -141,6 +158,27 @@ function populateUserTable() {
             console.log("Error loading users", error);
             Utils.showNotificationMessage('Error loading the users', "error");
         });
+}
+
+/**
+ * Extract the users from an xmlDoc and return a JSON with users as key and users array as value.
+ */
+function extractUsersFromXML(xmlDoc) {
+    let users = [];
+    const userElements = xmlDoc.getElementsByTagName("users");
+    for (let i = 0; i < userElements.length; i++) {
+        let user = {
+            username: userElements[i].getElementsByTagName("username")[0].textContent,
+            fullname: userElements[i].getElementsByTagName("fullname")[0].textContent,
+            number: userElements[i].getElementsByTagName("number")[0].textContent,
+            status: userElements[i].getElementsByTagName("status")[0].textContent,
+            role: userElements[i].getElementsByTagName("role")[0].textContent,
+        };
+        users.push(user);
+    }
+
+    // Matching the expected JSON format
+    return { users: users };
 }
 
 function addUsersToTable(users) {

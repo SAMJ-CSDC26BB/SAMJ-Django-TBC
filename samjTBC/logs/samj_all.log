@@ -242,3 +242,14 @@
 [2024-06-25 20:11:06][INFO] [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]
 [2024-06-25 20:11:06][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
 [2024-06-25 22:07:41][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:39:37][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:09][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:21][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:39][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:44][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:47][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:54][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:59:02][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:59:10][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-26 00:00:24][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-26 00:00:30][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}

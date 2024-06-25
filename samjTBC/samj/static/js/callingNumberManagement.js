@@ -55,6 +55,7 @@ function initializeEvents() {
     });
 
     document.querySelectorAll(SELECTORS.createDestinationButton).forEach(button => {
+        console.log("create button")
         button.addEventListener('click', onCreateButtonClick);
     });
 
@@ -64,7 +65,8 @@ function initializeEvents() {
 
 
 function populateDestinationsTable() {
-    fetch('/api/destination_management/', {
+    console.log("populateDestinationsTable");
+    fetch('api/callingNumberManagement/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

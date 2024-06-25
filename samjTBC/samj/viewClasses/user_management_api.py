@@ -1,7 +1,8 @@
 import json
 
+import xmltodict
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -22,7 +23,17 @@ class UserManagementAPIView(View):
             'status_options': status_options,
             'role_options': role_options,
         }
-        return JsonResponse(data)
+
+        accept_type = request.headers.get('Accept', '')
+        # Check if client accepts XML
+        if 'application/xml' in accept_type:
+            print("what the fuck")
+
+            response = xmltodict.unparse({'response': data}, pretty=True)
+            print(response)
+            return HttpResponse(response, content_type='application/xml')
+        else:
+            return JsonResponse(data)
 
     def post(self, request, *args, **kwargs):
         try:

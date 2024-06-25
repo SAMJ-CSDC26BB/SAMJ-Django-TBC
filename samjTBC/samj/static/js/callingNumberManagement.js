@@ -60,7 +60,7 @@ function initializeEvents() {
     });
 
     document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
-    document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
+    //document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
 }
 
 
@@ -70,28 +70,35 @@ function populateDestinationsTable() {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            'Cache-Control': 'max-age=43200', // 12 hours
+            'Cache-Control': 'max-age=1', // 12 hours
         }
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data.destinations) {
-                throw new Error("Error fetching destinations");
-            }
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        console.log("wtf0");
+        return response.json();
+    })
+    .then(data => {
+        //console.log(data.destinations);
+        return data;
+    })
+    .then(data => {
+        if (!data.destinations) {
+            throw new Error("Error fetching destinations");
+        }
+        console.log("wtf1")
+        addDestinationsToTable(data.destinations);
+        Utils.initializeVanillaDataTable('#destinationsTable');
+        initializeEvents();
 
-            addDestinationsToTable(data.destinations);
-            Utils.initializeVanillaDataTable('#destinationsTable');
-            initializeEvents();
-
-        })
-        .catch(error => {
-            Utils.showNotificationMessage('Error loading the Destination', error.message);
-        });
+    })
+    .catch(error => {
+        console.log("wtf2")
+        console.error(error.message)
+        Utils.showNotificationMessage('Error loading the Destination', error.message);
+    });
 }
 
 function addDestinationsToTable(destinations) {
@@ -140,6 +147,39 @@ function addDestinationToTable(destination) {
     tableBody.append(tableRow.element);
 }
 
+function onDeleteButtonClick(event) {
+    console.log("delete button pressed")
+    const row = getTableRowOfEditedDestination(this);
+
+    if (!row) {
+        console.log("no row")
+        return;
+    }
+
+    const number = row.dataset.number;
+    console.log(number)
+    const deleteDestinationModal = document.querySelector(SELECTORS.deleteDestinationModal);
+    if (deleteDestinationModal) {
+        deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText
+            = deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText.replace('{0}', number);
+
+        deleteDestinationModal.querySelector(SELECTORS.deleteDestinationButton).addEventListener('click', (e) => {deleteDestination(number, row)});
+    }
+}
+
+function onSaveButtonClick(event) {
+    console.log("save Button clicked");
+    const form = getDestinationManagementForm();
+    if (!form || !form.dataset.mode) {
+        return;
+    }
+
+    if (form.dataset.mode === DATA.createActionMode) {
+        createDestination(form);
+    } else {
+        editDestination(form);
+    }
+}
 
 function onCreateButtonClick(event) {
     console.log("create clicked");
@@ -183,9 +223,6 @@ function onEditButtonClick(event) {
 
     setUserManagementModalTitle(DATA.editUserModalTitle);
 }
-
-
-
 
 function createDestination(destinationData) {
     fetch('/api/callingNumberManagement/', {

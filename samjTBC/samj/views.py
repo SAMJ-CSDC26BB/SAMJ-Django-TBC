@@ -103,12 +103,17 @@ class DestinationManagementView(TemplateView):
 @method_decorator(csrf_exempt, name='dispatch')
 class DestinationManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        destinations = DestinationNumber.objects.all().values('number', 'name')
-        destinations_list = list(destinations)
-        destinations_list_wrapped = {'destinations' : destinations_list}
         logger = logging.getLogger("samj")
+        logger.error("Backend wtf")
+        query = DestinationNumber.objects.all().values('number', 'name')
+        logger.info(query)
+        destinationList = []
+        for item in query:
+            destinationList.append(item)
+        destinations_list_wrapped = {'destinations': destinationList}
         logger.info(destinations_list_wrapped)
-        return JsonResponse(destinations_list_wrapped)
+        
+        return JsonResponse(destinations_list_wrapped) 
 
     def post(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")

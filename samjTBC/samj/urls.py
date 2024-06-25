@@ -2,6 +2,8 @@ from django.urls import path, include
 from . import views
 from .views import GitHubLogin, GoogleLogin
 from .viewClasses.api_v2_tbc import api_v2_tbc
+from .viewClasses.usermanagement_api import UserManagementAPIView
+from .viewClasses.usermanagement import UserManagementView
 from django.views.generic import TemplateView
 from .swagger_config import urlpatterns as swagger_urls, schema_view
 from django.urls import path, include
@@ -28,12 +30,12 @@ urlpatterns = [
 
     # Settings
     path("settings", views.GlobalSettingsView.as_view(), name="settings"),
-    path('user-management/', views.UserManagementView.as_view(), name='user_management'),
+    path('user-management/', UserManagementView.as_view(), name='user_management'),
 
     # Login, Session
     path("login/", views.LoginView.as_view(), name="login"),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    path("user", views.UserManagementView.as_view(), name="user"),
+    path("user", UserManagementView.as_view(), name="user"),
     path("tbc/", views.TbcView.as_view(), name="tbc"),
     path('api/destination_management/', views.DestinationManagementAPIView.as_view(), name='destination_management_api'),
     path('destination_management/', views.DestinationManagementView.as_view(), name='destination_management'),
@@ -44,7 +46,7 @@ urlpatterns = [
     path('signup/', views.SignupView.as_view(), name='signup'),
     # API
     path('api/v2/tbc/', api_v2_tbc.as_view(), name='api_v2_tbc'),
-    path('api/user_management/', views.UserManagementAPIView.as_view(), name='user_management_api'),
+    path('api/user_management/', UserManagementAPIView.as_view(), name='user_management_api'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
 ]

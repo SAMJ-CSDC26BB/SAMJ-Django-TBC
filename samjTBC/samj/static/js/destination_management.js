@@ -140,7 +140,6 @@ function addDestinationToTable(destination) {
 
 
 function onCreateButtonClick(event) {
-    console.log("create clicked");
     let destinationForm = getDestinationManagementForm();
     if (!destinationForm) {
         return;
@@ -153,6 +152,20 @@ function onCreateButtonClick(event) {
     setFormActionMode(DATA.createActionMode, destinationForm);
     setDestinationManagementModalTitle(DATA.createDestinationModalTitle);
 }
+
+function onSaveButtonClick(event) {
+    const form = getDestinationManagementForm();
+    if (!form || !form.dataset.mode) {
+        return;
+    }
+
+    if (form.dataset.mode === DATA.createActionMode) {
+        createDestination(form);
+    } else {
+        editDestination(form);
+    }
+}
+
 
 function onEditButtonClick(event) {
 
@@ -179,10 +192,22 @@ function onEditButtonClick(event) {
     userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
     userForm.querySelector(SELECTORS.passwordInput).value = '';
 
-    setUserManagementModalTitle(DATA.editUserModalTitle);
+    setDestinationManagementModalTitle(DATA.editUserModalTitle);
 }
 
+function editDestination(destinationForm = getDestinationManagementForm()) {
+    if (!destinationForm) {
+        return;
+    }
 
+    if (!destinationForm.checkValidity()) {
+        destinationForm.classList.add(DATA.bootstrapFormValidated);
+        return;
+    }
+
+    const updatedDestination = getDestinationDataFromForm(destinationForm);
+    updateDestination(updatedDestination);
+}
 
 
 function createDestination(destinationData) {
@@ -210,7 +235,7 @@ function updateDestination(destinationData) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken'),
+            'X-CSRFToken': getCsrfTokenFromForm(),
         },
         body: JSON.stringify(destinationData),
     })
@@ -230,7 +255,7 @@ function deleteDestination(destinationData) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken'),
+            'X-CSRFToken': getCsrfTokenFromForm(),
         },
         body: JSON.stringify({id: destinationData.id}),
     })
@@ -245,6 +270,13 @@ function deleteDestination(destinationData) {
         });
 }
 
+
+function getDestinationDataFromForm(form = getDestinationManagementForm()){
+    return{
+        name : form.querySelector(SELECTORS.destinationNameInput).value,
+        number : form.querySelector(SELECTORS.destinationNumberInput).value
+    };
+}
 
 function fillForm(destination) {
     const form = document.querySelector(SELECTORS.destinationForm);

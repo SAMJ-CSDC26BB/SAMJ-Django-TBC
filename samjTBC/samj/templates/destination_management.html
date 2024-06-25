@@ -30,11 +30,13 @@
     </div>
 </div>
 
+
+{% include './components/edit_create_destination.html' %}
+{% include './components/delete_destination_modal.html' %}
+
+
 {% endblock %}
 
 {% block script %}
 <script type="module" src="{% static 'js/destination_management.js' %}"></script>
 {% endblock %}
-
-{% include './components/edit_create_destination.html' %}
-{% include './components/delete_destination_modal.html' %}

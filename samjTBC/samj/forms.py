@@ -11,22 +11,15 @@ class CustomUserCreationForm(UserCreationForm):
     last_name = forms.CharField(max_length=30)
     number = forms.CharField(max_length=30)
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
         fields = ("email", "username", "first_name", "last_name", "email", "number", "password1", "password2")
 
     def save(self, commit=True):
-        user = super(CustomUserCreationForm, self).save(commit=False)
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        user.email = self.cleaned_data['email']
-
-        # Create a GlobalSettings object and assign it to the user
-        global_settings = GlobalSettings.objects.create()
-        user.global_settings = global_settings
-
+        user = super().save(commit=False)  # Do not save the model yet
         if commit:
             user.save()
+            GlobalSettings.objects.create(user=user)  # Create and link the GlobalSettings to the user
         return user
 
     def __init__(self, *args, **kwargs):

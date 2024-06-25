@@ -1,33 +1,10 @@
 import pytz
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin, Permission, Group
+from django.contrib.auth.models import PermissionsMixin, Permission, Group, AbstractUser
 from django.core.validators import MinLengthValidator
 
 # Create your models here.
 from django.db import models
-
-
-class GlobalSettings(models.Model):
-    TIMEZONES = tuple(zip(pytz.all_timezones, pytz.all_timezones))
-    LANGUAGES = [
-        ('en', 'English'),
-        ('de', 'German'),
-        # Add more languages here
-    ]
-    THEMES = [
-        ('light', 'Light'),
-        ('dark', 'Dark'),
-    ]
-    NOTIFICATIONS = [
-        ('on', 'On'),
-        ('off', 'Off'),
-    ]
-
-    timezone = models.CharField(max_length=50, choices=TIMEZONES, default='UTC')
-    language = models.CharField(max_length=2, choices=LANGUAGES, default='en')
-    theme = models.CharField(max_length=5, choices=THEMES, default='light')
-    notifications = models.CharField(max_length=3, choices=NOTIFICATIONS, default='on')
-    setting_name = models.CharField(max_length=100, default='Global Settings')
 
 
 class CallForwarding(models.Model):
@@ -51,16 +28,16 @@ class DestinationNumber(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -69,22 +46,19 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(email, username, password, **extra_fields)
+        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
-    user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
-    is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email' or 'username'
     REQUIRED_FIELDS = ['username']
-    # USERNAME_FIELD = 'username'
+    objects = CustomUserManager()
+
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),
         ('deleted', 'Deleted'),
     ]
-    objects = CustomUserManager()
 
     ROLE_CHOICES = [
         ('user', 'User'),
@@ -98,11 +72,40 @@ class User(AbstractBaseUser, PermissionsMixin):
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
-    global_settings = models.ForeignKey(GlobalSettings, on_delete=models.CASCADE, null=True, blank=True)
+    global_settings = models.OneToOneField('GlobalSettings', on_delete=models.SET_NULL, null=True, blank=True,
+                                           related_name='user_global_settings')
     is_superuser = models.BooleanField(default=False)
     last_login = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
+    user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
 
     def save(self, *args, **kwargs):
-        if not self.pk and not self.global_settings:
+        if not self.pk and not self.global_settings_id:
             self.global_settings = GlobalSettings.objects.create()
         super().save(*args, **kwargs)
+
+
+class GlobalSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_global_settings')
+    TIMEZONES = tuple(zip(pytz.all_timezones, pytz.all_timezones))
+    LANGUAGES = [
+        ('en', 'English'),
+        ('de', 'German'),
+        # Add more languages here
+    ]
+    THEMES = [
+        ('light', 'Light'),
+        ('dark', 'Dark'),
+    ]
+    NOTIFICATIONS = [
+        ('on', 'On'),
+        ('off', 'Off'),
+    ]
+
+    timezone = models.CharField(max_length=50, choices=TIMEZONES, default='UTC')
+    language = models.CharField(max_length=2, choices=LANGUAGES, default='en')
+    theme = models.CharField(max_length=5, choices=THEMES, default='light')
+    notifications = models.CharField(max_length=3, choices=NOTIFICATIONS, default='on')
+    setting_name = models.CharField(max_length=100, default='Global Settings')

@@ -306,18 +306,16 @@ class UserManagementView(LoginRequiredMixin, TemplateView):
 
 class GlobalSettingsView(FormView):
     def get(self, request, *args, **kwargs):
-        logger.info('GlobalSettingsView GET request')
-        form = GlobalSettingsForm(instance=request.user.global_settings)
+        global_settings, created = GlobalSettings.objects.get_or_create(user=request.user)
+        form = GlobalSettingsForm(instance=global_settings)
         return render(request, 'global_settings/global_settings.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        logger.info('GlobalSettingsView POST request')
-        form = GlobalSettingsForm(request.POST, instance=request.user.global_settings)
+        global_settings, created = GlobalSettings.objects.get_or_create(user=request.user)
+        form = GlobalSettingsForm(request.POST, instance=global_settings)
         if form.is_valid():
             form.save()
-            logger.info('GlobalSettingsView POST request - form is valid, changes saved')
-            return redirect('home')
-        logger.warning('GlobalSettingsView POST request - form is not valid')
+            return redirect('settings')  # Replace with your desired redirect URL
         return render(request, 'global_settings/global_settings.html', {'form': form})
 
 

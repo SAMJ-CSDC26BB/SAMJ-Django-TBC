@@ -242,39 +242,26 @@
 [2024-06-25 20:11:06][INFO] [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]
 [2024-06-25 20:11:06][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
 [2024-06-25 22:07:41][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 22:43:18][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:01:01][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:08:40][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:10:07][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:19:17][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:22:46][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:27:43][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:27:46][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:28:05][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:31:00][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:31:14][INFO] post request triggered
-[2024-06-25 23:31:40][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:31:46][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:32:03][INFO] post request triggered
-[2024-06-25 23:41:13][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:41:19][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:41:25][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:41:30][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:41:49][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:42:20][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:42:33][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-25 23:42:46][INFO] post request triggered
-[2024-06-26 00:01:09][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-26 00:02:13][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
-[2024-06-26 00:02:22][INFO] post request triggered
-[2024-06-26 00:03:04][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:08:48][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:16:27][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:17:05][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:17:08][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:17:11][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:19:14][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:22:34][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}]}
-[2024-06-26 00:29:49][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}, {'number': '45633', 'name': 'yinya'}]}
-[2024-06-26 00:40:54][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}, {'number': '45633', 'name': 'yinya'}]}
-[2024-06-26 00:49:21][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}, {'number': '45', 'name': 'ya'}, {'number': '45633', 'name': 'yinya'}]}
+[2024-06-25 23:39:37][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:09][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:21][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:39][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:44][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:47][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:58:54][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:59:02][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 23:59:10][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-26 00:00:24][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-26 00:00:30][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-26 00:26:07][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}]}
+[2024-06-26 00:26:53][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}]}
+[2024-06-26 00:30:26][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}]}
+[2024-06-26 00:30:30][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}, {'number': '+43123', 'name': 'Test'}]}
+[2024-06-26 00:31:27][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}, {'number': '+43123', 'name': 'Test'}]}
+[2024-06-26 00:35:04][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}, {'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}]}
+[2024-06-26 00:35:45][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}]}
+[2024-06-26 00:43:17][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}]}
+[2024-06-26 00:44:42][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}]}
+[2024-06-26 00:44:59][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}, {'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}]}
+[2024-06-26 00:47:25][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 00:48:54][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}

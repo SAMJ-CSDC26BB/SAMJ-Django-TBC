@@ -29,9 +29,7 @@ const SELECTORS = {
     csrfToken: "[name=csrfmiddlewaretoken]",
     modalCloseButton: '.btn-close',
     modalTitle: '.modal-title',
-    tableRow: 'tr',
     modalBodyMessage: '.modal-body-message'
-
 };
 
 const DATA = {
@@ -57,17 +55,18 @@ function initializeEvents() {
     });
 
     document.querySelectorAll(SELECTORS.createDestinationButton).forEach(button => {
+        console.log("create button")
         button.addEventListener('click', onCreateButtonClick);
     });
 
-    console.log("init events")
-
+    document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
     document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
 }
 
 
 function populateDestinationsTable() {
-    fetch('/api/destination_management/', {
+    console.log("populateDestinationsTable");
+    fetch('/api/callingNumberManagement/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -143,6 +142,7 @@ function addDestinationToTable(destination) {
 
 
 function onCreateButtonClick(event) {
+    console.log("create clicked");
     let destinationForm = getDestinationManagementForm();
     if (!destinationForm) {
         return;
@@ -156,130 +156,63 @@ function onCreateButtonClick(event) {
     setDestinationManagementModalTitle(DATA.createDestinationModalTitle);
 }
 
-function onSaveButtonClick(event) {
-    console.log("save Button clicked");
-    const form = getDestinationManagementForm();
-    if (!form || !form.dataset.mode) {
-        return;
-    }
-
-    if (form.dataset.mode === DATA.createActionMode) {
-        createDestination(form);
-    } else {
-        editDestination(form);
-    }
-}
-
-
 function onEditButtonClick(event) {
 
-    let row = getTableRowOfEditedDestination(this),
-        destinationForm = getDestinationManagementForm();
+    let row = getTableRowOfEditedUser(this),
+        userForm = getUserManagementForm();
 
-    if (!destinationForm || !row) {
+    if (!userForm || !row) {
         return;
     }
 
-    Utils.resetForm(destinationForm);
-    Utils.toggleRequiredInputsInForm(destinationForm, false);
+    Utils.resetForm(userForm);
+    Utils.toggleRequiredInputsInForm(userForm, false);
 
-    let destinationNumberInput = destinationForm.querySelector(SELECTORS.destinationNumberInput);
-    destinationNumberInput.value = row.dataset.number;
-    destinationNumberInput.disabled = true;
+    let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
+    userNameInput.value = row.dataset.username;
+    userNameInput.disabled = true;
 
-    setFormActionMode(DATA.editActionMode, destinationForm);
-    destinationForm.querySelector(SELECTORS.destinationNumberInput).value = row.dataset.number;
-    destinationForm.querySelector(SELECTORS.destinationNameInput).value = row.dataset.name;
+    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
 
+    setFormActionMode(DATA.editActionMode, userForm);
+    userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
+    userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
+    userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
+    userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
+    userForm.querySelector(SELECTORS.passwordInput).value = '';
 
-    setDestinationManagementModalTitle(DATA.editDestinationModalTitle);
+    setUserManagementModalTitle(DATA.editUserModalTitle);
 }
 
-function onDeleteButtonClick(event) {
-    console.log("delete button pressed")
-    const row = getTableRowOfEditedDestination(this);
 
-    if (!row) {
-        console.log("no row")
-        return;
-    }
 
-    const number = row.dataset.number;
-    console.log(number)
-    const deleteDestinationModal = document.querySelector(SELECTORS.deleteDestinationModal);
-    if (deleteDestinationModal) {
-        deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText
-            = deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText.replace('{0}', number);
 
-        deleteDestinationModal.querySelector(SELECTORS.deleteDestinationButton).addEventListener('click', (e) => {deleteDestination(number, row)});
-    }
-}
-
-function editDestination(destinationForm = getDestinationManagementForm()) {
-    if (!destinationForm) {
-        return;
-    }
-
-    if (!destinationForm.checkValidity()) {
-        destinationForm.classList.add(DATA.bootstrapFormValidated);
-        return;
-    }
-
-    const updatedDestination = getDestinationDataFromForm(destinationForm);
-    updateDestination(updatedDestination);
-}
-
-function createDestination(destinationForm = getDestinationManagementForm()) {
-    if (!destinationForm || !destinationForm.checkValidity()) {
-        destinationForm.classList.add(DATA.bootstrapFormValidated);
-        return;
-    }
-
-    const newDestination = getDestinationDataFromForm(destinationForm);
-    createNewDestination(newDestination);
-}
-
-function createNewDestination(newDestination) {
-    fetch('/api/destination_management/', {
+function createDestination(destinationData) {
+    fetch('/api/callingNumberManagement/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCsrfTokenFromForm()
         },
-        body: JSON.stringify(newDestination),
+        body: JSON.stringify(destinationData),
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-
-            Utils.closeModal(SELECTORS.editCreateDestinationModal);
-            Utils.showNotificationMessage(`${newDestination.name} created successfully`);
-            addDestinationToTable(newDestination);
-            initializeEvents();
-
-            let tableBottom = document.querySelector(SELECTORS.dataTableBottom);
-            // work-around for bottom of the table, it is overlapping with the last inserted row in the table
-            if (tableBottom) {
-                tableBottom.style='margin-top:50px';
+            if (data.error) {
+                alert(data.error);
+            } else {
+                fetchDestinations();
+                closeModal();
             }
-
-        })
-        .catch(error => {
-            console.error('Error updating user:', error);
         });
 }
 
 function updateDestination(destinationData) {
-    fetch('/api/destination_management/', {
+    fetch('/api/callingNumberManagement/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCsrfTokenFromForm(),
+            'X-CSRFToken': getCookie('csrftoken'),
         },
         body: JSON.stringify(destinationData),
     })
@@ -299,7 +232,7 @@ function deleteDestination(destinationData) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCsrfTokenFromForm(),
+            'X-CSRFToken': getCookie('csrftoken'),
         },
         body: JSON.stringify({id: destinationData.id}),
     })
@@ -314,13 +247,6 @@ function deleteDestination(destinationData) {
         });
 }
 
-
-function getDestinationDataFromForm(form = getDestinationManagementForm()){
-    return{
-        name : form.querySelector(SELECTORS.destinationNameInput).value,
-        number : form.querySelector(SELECTORS.destinationNumberInput).value
-    };
-}
 
 function fillForm(destination) {
     const form = document.querySelector(SELECTORS.destinationForm);
@@ -367,8 +293,4 @@ function clearDestinationForm() {
     const form = getDestinationManagementForm();
     form.reset();
     form.classList.remove(DATA.bootstrapFormValidated);
-}
-
-function getTableRowOfEditedDestination(context) {
-    return context.closest(SELECTORS.tableRow);
 }

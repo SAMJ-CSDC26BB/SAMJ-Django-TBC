@@ -241,3 +241,4 @@
 [2024-06-25 20:11:06][INFO] <QuerySet [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]>
 [2024-06-25 20:11:06][INFO] [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]
 [2024-06-25 20:11:06][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}
+[2024-06-25 22:07:41][INFO] {'destinations': [{'number': 'testnumber', 'name': '+43664245793'}, {'number': '+43664245222', 'name': 'test2'}, {'number': '+43664245793', 'name': 'test1'}]}

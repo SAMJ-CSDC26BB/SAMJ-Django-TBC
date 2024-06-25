@@ -151,7 +151,7 @@ function onCreateButtonClick(event) {
     Utils.resetForm(destinationForm);
     Utils.toggleRequiredInputsInForm(destinationForm, true);
     setFormActionMode(DATA.createActionMode, destinationForm);
-    setDestinationManagementModalTitle(DATA.createUserModalTitle);
+    setDestinationManagementModalTitle(DATA.createDestinationModalTitle);
 }
 
 function onEditButtonClick(event) {

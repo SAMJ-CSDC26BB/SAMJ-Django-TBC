@@ -177,6 +177,7 @@ function onEditButtonClick(event) {
         destinationForm = getDestinationManagementForm();
 
     if (!destinationForm || !row) {
+        console.log("no row edit")
         return;
     }
 
@@ -196,11 +197,12 @@ function onEditButtonClick(event) {
 }
 
 function onDeleteButtonClick(event) {
-    console.log("delete button pressed")
+    console.log("delete button pressed");
+    console.log(this);
     const row = getTableRowOfEditedDestination(this);
 
     if (!row) {
-        console.log("no row")
+        console.log("no row");
         return;
     }
 
@@ -283,16 +285,25 @@ function updateDestination(destinationData) {
         },
         body: JSON.stringify(destinationData),
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                fetchDestinations();
-                closeModal();
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
             }
+            return response.json();
+        })
+        .then(data => {
+
+            Utils.closeModal(SELECTORS.editCreateDestinationModal);
+            Utils.showNotificationMessage(`${destinationData.number} updated successfully`);
+            updateUserInTable(updatedUser);
+
+        })
+        .catch(error => {
+            console.error('Error updating user:', error);
+            Utils.showNotificationMessage(`Error updating ${destinationData.number}`, "error");
         });
 }
+
 
 function deleteDestination(destinationData) {
     fetch('/api/destination_management/', {
@@ -371,4 +382,22 @@ function clearDestinationForm() {
 
 function getTableRowOfEditedDestination(context) {
     return context.closest(SELECTORS.tableRow);
+}
+
+function updateDestinationInTable(destinationData) {
+    let destinationTable = document.querySelector(SELECTORS.destinationsTable);
+    let updatedDestinationTableRow = destinationTable.querySelector(`[data-number='${userData.username}']`);
+    if (!updatedUserTableRow) {
+        return;
+    }
+
+    updatedUserTableRow.dataset.fullname = userData.fullname;
+    updatedUserTableRow.dataset.number = userData.number;
+    updatedUserTableRow.dataset.status = userData.status;
+    updatedUserTableRow.dataset.role = userData.role;
+
+    updatedUserTableRow.querySelector(SELECTORS.tableDataFullname).innerText = userData.fullname;
+    updatedUserTableRow.querySelector(SELECTORS.tableDataNumber).innerText = userData.number;
+    updatedUserTableRow.querySelector(SELECTORS.tableDataStatus).innerText = userData.status;
+    updatedUserTableRow.querySelector(SELECTORS.tableDataRole).innerText = userData.role;
 }

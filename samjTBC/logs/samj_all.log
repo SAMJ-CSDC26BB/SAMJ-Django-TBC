@@ -265,3 +265,17 @@
 [2024-06-26 00:44:59][INFO] {'destinations': [{'number': 'Markus', 'name': '+4367763106443'}, {'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}]}
 [2024-06-26 00:47:25][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
 [2024-06-26 00:48:54][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 00:58:32][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 00:58:53][INFO] post request triggered
+[2024-06-26 00:59:02][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123465', 'name': 'ying'}]}
+[2024-06-26 00:59:37][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 01:00:09][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 01:00:18][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 01:31:04][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123465', 'name': 'ying'}]}
+[2024-06-26 01:31:44][INFO] put request triggered
+[2024-06-26 01:31:48][INFO] put request triggered
+[2024-06-26 01:32:34][INFO] put request triggered
+[2024-06-26 01:34:20][INFO] put request triggered
+[2024-06-26 01:48:16][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123465', 'name': 'ying'}]}
+[2024-06-26 01:48:25][INFO] put request triggered
+[2024-06-26 01:49:00][INFO] put request triggered

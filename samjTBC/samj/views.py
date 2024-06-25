@@ -80,7 +80,6 @@ class SignupView(TemplateView):
         else:
             return render(request, 'login/signup.html', {'form': form})
 
-
 def validate_password(password):
     if len(password) < 8:
         return False, "Password must be at least 8 characters long."
@@ -94,19 +93,12 @@ def validate_password(password):
         return False, "Password must contain at least one special character."
     return True, ""
 
-
-
-
 class TbcView(TemplateView):
     template_name = "tbc.html"
-
-
-
 
 class DestinationManagementView(TemplateView):
     def get(self, request, *args, **kwargs):
         return render(request, 'destination_management.html')
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class DestinationManagementAPIView(LoginRequiredMixin, View):
@@ -181,7 +173,6 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
-
 class GlobalSettingsView(FormView):
     form_class = GlobalSettingsForm
     template_name = 'global_settings/global_settings.html'
@@ -190,28 +181,23 @@ class GlobalSettingsView(FormView):
         form.save()
         return redirect('home')
 
-
 class GitHubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
     callback_url = "127.0.0.1/login"
     client_class = OAuth2Client
-
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = "127.0.0.1/login"
     client_class = OAuth2Client
 
-
 class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
     callback_url = "127.0.0.1/login"
     client_class = OAuth2Client
 
-
 # views.py
 from django.http import JsonResponse
-
 
 class ExampleAPIView(APIView):
     @swagger_auto_schema(

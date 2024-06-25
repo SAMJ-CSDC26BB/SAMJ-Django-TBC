@@ -1,0 +1,29 @@
+<div class="modal fade" id="editCreateCallingNumberModal" tabindex="-1" aria-labelledby="editCreateCallingNumberModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCreateCallingNumberModalLabel">Manage Calling Number</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="CallingNumberForm" class="needs-validation" method="post" novalidate>
+                    {% csrf_token %}
+
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <div class="mb-3">
+                        <label for="CallingNumberName" class="form-label">CallingNumber Name</label>
+                        <input type="text" class="form-control" id="CallingNumberName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="CallingNumberNumber" class="form-label">CallingNumber Number</label>
+                        <input type="text" class="form-control" id="CallingNumberNumber" name="number" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-CallingNumber-button" id="saveCallingNumberBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

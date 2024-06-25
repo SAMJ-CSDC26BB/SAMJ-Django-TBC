@@ -3,7 +3,7 @@ import {ButtonBuilder, ElementBuilder} from './builder/builder.js';
 
 const SELECTORS = {
     // Buttons
-    createDestinationButton: '.create-destination-btn',
+    createDestinationButton: '#create-destination-btn',
     saveDestinationButton: '#saveDestinationBtn',
     deleteDestinationButton: '.uiDeleteDestinationButton',
     editDestinationButton: '.edit-destination-btn', // Generated edit button for destinations
@@ -46,20 +46,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initializeEvents() {
-    document.querySelectorAll(SELECTORS.editUserButton).forEach(button => {
+    document.querySelectorAll(SELECTORS.editDestinationButton).forEach(button => {
         button.addEventListener('click', onEditButtonClick);
     });
 
-    document.querySelectorAll(SELECTORS.deleteUserButton).forEach(button => {
+    document.querySelectorAll(SELECTORS.deleteDestinationButton).forEach(button => {
         button.addEventListener('click', onDeleteButtonClick);
     });
 
-    document.querySelectorAll(SELECTORS.createUserButton).forEach(button => {
+    document.querySelectorAll(SELECTORS.createDestinationButton).forEach(button => {
         button.addEventListener('click', onCreateButtonClick);
     });
 
-    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
-    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
+    document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
+    document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
 }
 
 
@@ -101,16 +101,12 @@ function addDestinationsToTable(destinations) {
     if (!destinationsTable) {
         throw new Error("Error fetching destinations, no user table found");
     }
-    console.log(destinations);
     destinations.forEach(destination => {
-        console.log(destination.number);
         addDestinationToTable(destination);
     });
 }
 
 function addDestinationToTable(destination) {
-    console.log("addDestinationToTable");
-    console.log(destination);
     let destinationsTable = document.querySelector(SELECTORS.destinationsTable);
     let tableBody = destinationsTable.querySelector(SELECTORS.destinationTableBody);
 
@@ -144,18 +140,49 @@ function addDestinationToTable(destination) {
 
 
 function onCreateButtonClick(event) {
+    console.log("create clicked");
     let destinationForm = getDestinationManagementForm();
     if (!destinationForm) {
         return;
     }
 
-    destinationForm.querySelector(SELECTORS.usernameInput).disabled = false;
+    destinationForm.querySelector(SELECTORS.destinationNameInput).disabled = false;
 
     Utils.resetForm(destinationForm);
     Utils.toggleRequiredInputsInForm(destinationForm, true);
     setFormActionMode(DATA.createActionMode, destinationForm);
-    setUserManagementModalTitle(DATA.createUserModalTitle);
+    setDestinationManagementModalTitle(DATA.createUserModalTitle);
 }
+
+function onEditButtonClick(event) {
+
+    let row = getTableRowOfEditedUser(this),
+        userForm = getUserManagementForm();
+
+    if (!userForm || !row) {
+        return;
+    }
+
+    Utils.resetForm(userForm);
+    Utils.toggleRequiredInputsInForm(userForm, false);
+
+    let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
+    userNameInput.value = row.dataset.username;
+    userNameInput.disabled = true;
+
+    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
+
+    setFormActionMode(DATA.editActionMode, userForm);
+    userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
+    userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
+    userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
+    userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
+    userForm.querySelector(SELECTORS.passwordInput).value = '';
+
+    setUserManagementModalTitle(DATA.editUserModalTitle);
+}
+
+
 
 
 function createDestination(destinationData) {

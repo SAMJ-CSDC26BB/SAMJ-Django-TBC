@@ -261,25 +261,8 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         destinations = DestinationNumber.objects.all().values('number', 'name')
         destinations_list = list(destinations)
-
-        logger = logging.getLogger("samj")
-        logger.info("get request triggered")
-
-
-        data = {
-            "destinations": [
-                {
-                    "number": "1234567890",
-                    "name": "Destination One"
-                },
-                {
-                    "number": "0987654321",
-                    "name": "Destination Two"
-                }
-            ]
-        }
-        logger.info(data)
-        return JsonResponse(data)
+        destinations_list_wrapped = {'destinations' : destinations_list}
+        return JsonResponse(destinations_list_wrapped)
 
     def post(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")

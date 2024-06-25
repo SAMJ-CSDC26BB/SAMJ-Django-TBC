@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+from xml.etree.ElementTree import Element, tostring
 
 from allauth.account.forms import UserForm
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -13,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 # views.py
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -95,16 +96,30 @@ class GitHubLogin(SocialLoginView):
     client_class = OAuth2Client
 
 
+def xml_or_json_http_response(message, request, success=True):
+    if 'application/xml' in request.headers.get('Accept', ''):
+        # Create XML response
+        root = Element('root')
+        success_el = Element('success')
+        success_el.text = str(success)
+        message_el = Element('message')
+        message_el.text = message
+        root.append(success_el)
+        root.append(message_el)
+        xml_string = tostring(root, encoding='utf8').decode('utf8')
+        return HttpResponse(xml_string, content_type='application/xml', status=200 if success else 400)
+    else:
+        return JsonResponse({'message': message, 'success': success}, status=200 if success else 400)
+
+
 class LogoutView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        logger.info('LogoutView GET request')
+    def post(self, request, *args, **kwargs):
+        logger.info('LogoutView POST request')
         auth_logout(request)
-        if request.user.is_authenticated:
-            logger.error('Logout failed.')
-            return JsonResponse({'success': False, 'message': 'Logout was not successful. Please try again.'})
-        else:
-            logger.info('User logged out successfully')
-            return JsonResponse({'success': True, 'message': 'Logout was successful.'})
+        success = not request.user.is_authenticated
+        message = 'Logout was successful.' if success else 'Logout was not successful. Please try again.'
+        response = xml_or_json_http_response(message, request, success)
+        return response
 
 
 class SignupView(TemplateView):
@@ -132,7 +147,10 @@ class SignupView(TemplateView):
 class AccountView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = UpdateUserForm(instance=request.user)
-        return render(request, 'authentication/account/account.html', {'form': form})
+        success = form.is_valid()
+        message = 'Form is valid.' if success else 'Form is not valid.'
+        response = xml_or_json_http_response(message, request, success)
+        return response
 
     def post(self, request, *args, **kwargs):
         form = UpdateUserForm(request.POST, instance=request.user)

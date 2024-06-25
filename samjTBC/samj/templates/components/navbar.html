@@ -37,7 +37,12 @@
                 <div class="row">
                     <div class="col">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-light btn-sm auth-button">Logout</a>
+                        <form id="logoutForm" action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                        </form>
+                        <button id="logout-btn" class="btn btn-light btn-sm auth-button"
+                                onclick="document.getElementById('logoutForm').submit()">Logout
+                        </button>
                         {% endif %}
                     </div>
                 </div>

@@ -8,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -304,20 +305,19 @@ class UserManagementView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class GlobalSettingsView(FormView):
+@method_decorator(login_required, name='dispatch')
+class GlobalSettingsView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
-        logger.info('GlobalSettingsView GET request')
-        form = GlobalSettingsForm(instance=request.user.global_settings)
+        global_settings, created = GlobalSettings.objects.get_or_create(user=request.user)
+        form = GlobalSettingsForm(instance=global_settings)
         return render(request, 'global_settings/global_settings.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        logger.info('GlobalSettingsView POST request')
-        form = GlobalSettingsForm(request.POST, instance=request.user.global_settings)
+        global_settings, created = GlobalSettings.objects.get_or_create(user=request.user)
+        form = GlobalSettingsForm(request.POST, instance=global_settings)
         if form.is_valid():
             form.save()
-            logger.info('GlobalSettingsView POST request - form is valid, changes saved')
-            return redirect('home')
-        logger.warning('GlobalSettingsView POST request - form is not valid')
+            return redirect('settings')
         return render(request, 'global_settings/global_settings.html', {'form': form})
 
 

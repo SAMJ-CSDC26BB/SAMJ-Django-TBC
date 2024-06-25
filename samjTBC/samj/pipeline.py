@@ -25,36 +25,33 @@ def social_user(backend, uid, user=None, *args, **kwargs):
     return {'social': social, 'user': user, 'is_new': user is None}
 
 
-def create_user(strategy, details, backend, user=None, *args, **kwargs):
+def create_user(strategy, details, user=None, *args, **kwargs):
     if user:
         return {'is_new': False}
 
-    fields = {
-        'username': details.get('username') or details.get('email'),
-        'email': details.get('email'),
-        # Exclude first_name and last_name if not present in your User model
-    }
-
+    fields = {'username': details.get('username'), 'email': details.get('email')}
     if not fields['email']:
         raise ValueError('The Email field must be set')
 
     user = strategy.create_user(**fields)
+    user.save()  # Ensure user is saved and id is assigned
     return {'is_new': True, 'user': user}
 
 
-def set_global_settings(backend, user, *args, **kwargs):
-    """
-    Set global settings for the user.
-    """
-    if not user.pk:
-        user.save()
+def set_global_settings(strategy, details, user=None, *args, **kwargs):
+    if user:
+        # Ensure the user is saved to the database before accessing its ID
+        if not user.pk:
+            user.save()
 
-    global_settings = GlobalSettings.objects.create()
-    user.global_settings = global_settings
-    user.save()  # Save the user again to commit the global_settings relationship
-
-    logger.info(f"User {user.username} - Global settings ID: {user.global_settings_id}")
-    return {'user': user}
+        try:
+            global_settings = GlobalSettings.objects.get(user=user)
+            logger.info(f"User {user.pk} already has global settings, skipping creation")
+        except GlobalSettings.DoesNotExist:
+            global_settings = GlobalSettings.objects.create(user=user)
+            logger.info(f"User {user.pk} is new, created global settings")
+    else:
+        logger.error("No user found in the pipeline")
 
 
 def associate_by_email(backend, details, user=None, *args, **kwargs):

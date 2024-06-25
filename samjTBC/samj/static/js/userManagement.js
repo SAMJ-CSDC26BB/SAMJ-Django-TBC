@@ -39,6 +39,8 @@ const DATA = {
     'displayNoneClassName'    : 'd-none'
 };
 
+let inEditUserInitialData = {};
+
 document.addEventListener('DOMContentLoaded', function () {
     populateUserTable();
 });
@@ -78,6 +80,15 @@ function onEditButtonClick(event) {
     userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
 
     setFormActionMode(DATA.editActionMode, userForm);
+
+    inEditUserInitialData = {
+        username: row.dataset.username,
+        fullname: row.dataset.fullname,
+        number: row.dataset.number,
+        status: row.dataset.status,
+        role: row.dataset.role
+    };
+
     userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
     userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
     userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
@@ -217,12 +228,12 @@ function editUser(userForm = getUserManagementForm()) {
     }
 
     const updatedUser = getUserDataFromForm(userForm);
-    updateUser(updatedUser);
+    updateUser(updatedUser, isShouldUsePUTRequest(updatedUser));
 }
 
-function updateUser(updatedUser) {
+function updateUser(updatedUser, fullUpdate=true) {
     fetch('/api/user_management/', {
-        method: 'PUT',
+        method: fullUpdate ? 'PUT' : 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCsrfTokenFromForm()
@@ -236,16 +247,18 @@ function updateUser(updatedUser) {
             return response.json();
         })
         .then(data => {
-
-            Utils.closeModal(SELECTORS.editCreateUserModal);
-            Utils.showNotificationMessage(`${updatedUser.username} updated successfully`);
-            updateUserInTable(updatedUser);
-
+            afterUpdateUserCallback(updatedUser);
         })
         .catch(error => {
             console.error('Error updating user:', error);
             Utils.showNotificationMessage(`Error updating ${updatedUser.username}`, "error");
         });
+}
+
+function afterUpdateUserCallback(updatedUser) {
+    Utils.closeModal(SELECTORS.editCreateUserModal);
+    Utils.showNotificationMessage(`${updatedUser.username} updated successfully`);
+    updateUserInTable(updatedUser);
 }
 
 function onDeleteButtonClick(event) {
@@ -369,6 +382,13 @@ function getUserDataFromForm(form = getUserManagementForm()) {
         status: form.querySelector(SELECTORS.statusInput).value,
         role: form.querySelector(SELECTORS.roleInput).value
     };
+}
+
+function isShouldUsePUTRequest(updateUserJSON) {
+    return updateUserJSON.fullname !== inEditUserInitialData.fullname
+        && updateUserJSON.number !== inEditUserInitialData.number
+        && updateUserJSON.status !== inEditUserInitialData.status
+        && updateUserJSON.role !== inEditUserInitialData.role;
 }
 
 function getCsrfTokenFromForm(form = getUserManagementForm()) {

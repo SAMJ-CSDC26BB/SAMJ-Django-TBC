@@ -30,22 +30,22 @@ class GlobalSettings(models.Model):
 
 class CallForwarding(models.Model):
     id = models.AutoField(primary_key=True)
+    calledNumber = models.ForeignKey("CalledNumber", on_delete=models.CASCADE, to_field='number')
+    destination = models.ForeignKey("DestinationNumber", on_delete=models.CASCADE, to_field='number')
+    startDate = models.DateField(null=False, blank=False)
+    endDate = models.DateField(null=False, blank=False)
 
-class DestinationNumberManager(models.Manager):
-    pass  # You can add custom methods here if needed
 
-class DestinationNumber(models.Model):
-    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
+class CalledNumber(models.Model):
+    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False,
+                              primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
-    objects = DestinationNumberManager()
 
-    def __str__(self):
-        return self.name  # You can customize how the model instance is displayed
-
-
-
-
+class DestinationNumber(models.Model):
+    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False,
+                              primary_key=True)
+    name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 class User(models.Model):
     STATUS_CHOICES = [

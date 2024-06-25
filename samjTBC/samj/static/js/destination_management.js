@@ -84,11 +84,11 @@ function populateDestinationsTable() {
 
             addDestinationsToTable(data.destinations);
             Utils.initializeVanillaDataTable('#destinationsTable');
-            initializeEvents()
+            initializeEvents();
 
         })
         .catch(error => {
-            Utils.showNotificationMessage('Error loading the Destination', "error");
+            Utils.showNotificationMessage('Error loading the Destination', error.message);
         });
 }
 

@@ -66,7 +66,7 @@ function initializeEvents() {
 
 function populateDestinationsTable() {
     console.log("populateDestinationsTable");
-    fetch('api/callingNumberManagement/', {
+    fetch('/api/callingNumberManagement/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -86,11 +86,11 @@ function populateDestinationsTable() {
 
             addDestinationsToTable(data.destinations);
             Utils.initializeVanillaDataTable('#destinationsTable');
-            initializeEvents()
+            initializeEvents();
 
         })
         .catch(error => {
-            Utils.showNotificationMessage('Error loading the Destination', "error");
+            Utils.showNotificationMessage('Error loading the Destination', error.message);
         });
 }
 
@@ -188,7 +188,7 @@ function onEditButtonClick(event) {
 
 
 function createDestination(destinationData) {
-    fetch('/api/destination_management/', {
+    fetch('/api/callingNumberManagement/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ function createDestination(destinationData) {
 }
 
 function updateDestination(destinationData) {
-    fetch('/api/destination_management/', {
+    fetch('/api/callingNumberManagement/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

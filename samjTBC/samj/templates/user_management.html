@@ -4,14 +4,14 @@
 {% block title %}SAMJ Index Page{% endblock %}
 
 {% block style %}
-
+<link rel="stylesheet" href="{% static 'css/usermanagement.css' %}">
 {% endblock %}
 
 {% block body %}
     <div class="container px-4 py-5" id="custom-cards">
         <h2 class="mb-4">User Table</h2>
         <div class="dataTable-container table-responsive">
-            <table id="userTable" class="table table-striped table-bordered">
+            <table id="userTable" class="table table-striped table-bordered" data-current-user-role="{{ user.role }}">
                 <thead>
                 <tr>
                     <th>Username</th>
@@ -19,7 +19,9 @@
                     <th>Number</th>
                     <th>Status</th>
                     <th>Role</th>
+                    {% if user.role == "admin" %}
                     <th>Actions</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody class="uiUserTableBody">

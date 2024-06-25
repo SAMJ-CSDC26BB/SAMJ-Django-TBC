@@ -63,3 +63,11 @@ export function closeModal(modalSelector) {
         modalInstance.hide();
     }
 }
+
+export function getPropertyFromDataset(node, property) {
+    if (!node) {
+        return "";
+    }
+
+    return node.dataset[property];
+}

@@ -4,12 +4,12 @@
 {% block title %}SAMJ Login{% endblock %}
 
 {% block body %}
-<h1>Global Settings</h1>
+<h1 class="mt-5 mb-5">Global Settings</h1>
 
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
         {% if field.help_text %}
@@ -20,7 +20,7 @@
         {% endfor %}
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
 </form>
 {% endblock %}
 

@@ -12,7 +12,7 @@
         {% block style %}
         {% endblock %}
     </head>
-    <body class="d-flex flex-column h-100">
+    <body class="d-flex flex-column h-100" data-current-user-role="{{ user.role }}" data-current-username="{{ user.username }}">
         <header>
             {% block header %}
             {% include './components/navbar.html' %}

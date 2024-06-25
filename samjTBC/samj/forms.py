@@ -70,7 +70,7 @@ class UpdateUserForm(forms.ModelForm):
 class GlobalSettingsForm(forms.ModelForm):
     class Meta:
         model = GlobalSettings
-        fields = '__all__'
+        fields = ['timezone', 'language', 'theme', 'notifications']  # Only include the fields you want to show
 
     def save(self, commit=True):
         instance = super().save(commit=False)

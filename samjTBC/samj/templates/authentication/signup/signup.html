@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>SAMJ | Sign Up</h1>
+<h1 class="mt-5">SAMJ | Sign Up</h1>
 <p>
     Already have an account? Then please <a href="{% url 'login' %}">sign in</a>.
 </p>
@@ -19,7 +19,7 @@
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit" class="btn btn-primary ">Sign Up</button>
+    <button type="submit" class="btn btn-primary mb-5">Sign Up</button>
     {% if messages %}
     <div class="messages">
         {% for message in messages %}

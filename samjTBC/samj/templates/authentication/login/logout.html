@@ -1,7 +1,31 @@
 {% extends "layout.html" %}
 {% load static %}
 {% if user.is_authenticated %}
-    <a href="{% url 'socialauth_disconnect' 'github' %}" class="btn btn-primary">Logout</a>
+<a href="{% url 'socialauth_disconnect' 'github' %}" class="btn btn-primary">Logout</a>
 {% else %}
-    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+<a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 {% endif %}
+
+<!-- Toast Container -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="toast-container" style="position: absolute; top: 0; right: 0;">
+        <!-- Django messages as Bootstrap toasts -->
+        {% messages as django_messages %}
+        {% for message in django_messages %}
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endmessages %}
+    </div>
+</div>
+
+{% block script %}
+<script type="module" src="{% static 'js/login.js' %}"></script>
+{% endblock %}

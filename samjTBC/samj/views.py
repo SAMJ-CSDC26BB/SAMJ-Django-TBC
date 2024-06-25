@@ -42,6 +42,7 @@ class LoginView(TemplateView):
         logger.info('LoginView GET request')
         if request.user.is_authenticated:
             logger.info('User is authenticated, redirecting to home')
+            messages.info(request, f'{request.user} you are already logged in.')
             return redirect('home')
         else:
             return render(request, "./authentication/login/login.html")
@@ -100,10 +101,10 @@ class LogoutView(LoginRequiredMixin, View):
         auth_logout(request)
         if request.user.is_authenticated:
             logger.error('Logout failed.')
+            return JsonResponse({'success': False, 'message': 'Logout was not successful. Please try again.'})
         else:
             logger.info('User logged out successfully')
-            messages.error(request, 'Logout was not successful. Please try again.')
-        return redirect('login')
+            return JsonResponse({'success': True, 'message': 'Logout was successful.'})
 
 
 class SignupView(TemplateView):
@@ -128,7 +129,7 @@ class SignupView(TemplateView):
             return render(request, 'authentication/signup/signup.html', {'form': form})
 
 
-class AccountView(View):
+class AccountView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = UpdateUserForm(instance=request.user)
         return render(request, 'authentication/account/account.html', {'form': form})
@@ -156,7 +157,7 @@ def validate_password(password):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class UserManagementAPIView(View):
+class UserManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         users = User.objects.all().values('username', 'fullname', 'status', 'role', 'number')
         user_list = list(users)

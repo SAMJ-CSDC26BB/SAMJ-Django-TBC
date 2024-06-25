@@ -43,63 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     populateUserTable();
 });
 
-function initializeEvents() {
-    document.querySelectorAll(SELECTORS.editUserButton).forEach(button => {
-        button.addEventListener('click', onEditButtonClick);
-    });
-
-    document.querySelectorAll(SELECTORS.deleteUserButton).forEach(button => {
-        button.addEventListener('click', onDeleteButtonClick);
-    });
-
-    document.querySelectorAll(SELECTORS.createUserButton).forEach(button => {
-        button.addEventListener('click', onCreateButtonClick);
-    });
-
-    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
-    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
-}
-
-function onEditButtonClick(event) {
-    let row = getTableRowOfEditedUser(this),
-        userForm = getUserManagementForm();
-
-    if (!userForm || !row) {
-        return;
-    }
-
-    Utils.resetForm(userForm);
-    Utils.toggleRequiredInputsInForm(userForm, false);
-
-    let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
-    userNameInput.value = row.dataset.username;
-    userNameInput.disabled = true;
-
-    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
-
-    setFormActionMode(DATA.editActionMode, userForm);
-    userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
-    userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
-    userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
-    userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
-    userForm.querySelector(SELECTORS.passwordInput).value = '';
-
-    setUserManagementModalTitle(DATA.editUserModalTitle);
-}
-
-function onCreateButtonClick(event) {
-    let userForm = getUserManagementForm();
-    if (!userForm) {
-        return;
-    }
-
-    userForm.querySelector(SELECTORS.usernameInput).disabled = false;
-
-    Utils.resetForm(userForm);
-    Utils.toggleRequiredInputsInForm(userForm, true);
-    setFormActionMode(DATA.createActionMode, userForm);
-    setUserManagementModalTitle(DATA.createUserModalTitle);
-}
 
 function populateUserTable() {
     fetch('/api/user_management/', {
@@ -144,6 +87,99 @@ function addUsersToTable(users) {
         addUserToTable(user);
     });
 }
+
+function addUserToTable(user) {
+    let userTable = document.querySelector(SELECTORS.userTable);
+    let tableBody = userTable.querySelector(SELECTORS.tableBody);
+
+    let editButton = new ButtonBuilder()
+        .class("btn btn-primary btn-sm me-2 edit-user-btn")
+        .with("data-bs-target", SELECTORS.editCreateUserModal)
+        .with("data-bs-toggle", "modal")
+        .text("Edit");
+    let deleteButton = new ButtonBuilder("button")
+        .class("btn btn-danger btn-sm delete-user-btn")
+        .with("data-bs-toggle", "modal")
+        .with("data-bs-target", SELECTORS.deleteUserModal)
+        .text("Delete");
+
+    let tableRow = new ElementBuilder("tr")
+        .attr({
+            'data-username': user.username,
+            'data-fullname': user.fullname,
+            'data-number': user.number,
+            'data-status': user.status,
+            'data-role': user.role
+        })
+        .append(new ElementBuilder("td").class("tableDataUsername").text(user.username))
+        .append(new ElementBuilder("td").class("tableDataFullname").text(user.fullname))
+        .append(new ElementBuilder("td").class("tableDataNumber").text(user.number))
+        .append(new ElementBuilder("td").class("tableDataStatus").text(user.status))
+        .append(new ElementBuilder("td").class("tableDataRole").text(user.role))
+        .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
+
+    tableBody.append(tableRow.element);
+}
+
+function initializeEvents() {
+    document.querySelectorAll(SELECTORS.editUserButton).forEach(button => {
+        button.addEventListener('click', onEditButtonClick);
+    });
+
+    document.querySelectorAll(SELECTORS.deleteUserButton).forEach(button => {
+        button.addEventListener('click', onDeleteButtonClick);
+    });
+
+    document.querySelectorAll(SELECTORS.createUserButton).forEach(button => {
+        button.addEventListener('click', onCreateButtonClick);
+    });
+
+    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
+    document.querySelector(SELECTORS.saveUserButton).addEventListener('click', onSaveButtonClick);
+}
+
+function onEditButtonClick(event) {
+    console.log(SELECTORS.editUserButton);
+    let row = getTableRowOfEditedUser(this),
+        userForm = getUserManagementForm();
+
+    if (!userForm || !row) {
+        return;
+    }
+
+    Utils.resetForm(userForm);
+    Utils.toggleRequiredInputsInForm(userForm, false);
+
+    let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
+    userNameInput.value = row.dataset.username;
+    userNameInput.disabled = true;
+
+    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
+
+    setFormActionMode(DATA.editActionMode, userForm);
+    userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
+    userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
+    userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
+    userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
+    userForm.querySelector(SELECTORS.passwordInput).value = '';
+
+    setUserManagementModalTitle(DATA.editUserModalTitle);
+}
+
+function onCreateButtonClick(event) {
+    let userForm = getUserManagementForm();
+    if (!userForm) {
+        return;
+    }
+
+    userForm.querySelector(SELECTORS.usernameInput).disabled = false;
+
+    Utils.resetForm(userForm);
+    Utils.toggleRequiredInputsInForm(userForm, true);
+    setFormActionMode(DATA.createActionMode, userForm);
+    setUserManagementModalTitle(DATA.createUserModalTitle);
+}
+
 
 function onSaveButtonClick(event) {
     const form = getUserManagementForm();
@@ -295,38 +331,6 @@ function deleteUser(username, row) {
         });
 }
 
-function addUserToTable(user) {
-    let userTable = document.querySelector(SELECTORS.userTable);
-    let tableBody = userTable.querySelector(SELECTORS.tableBody);
-
-    let editButton = new ButtonBuilder()
-        .class("btn btn-primary btn-sm me-2 edit-user-btn")
-        .with("data-bs-target", SELECTORS.editCreateUserModal)
-        .with("data-bs-toggle", "modal")
-        .text("Edit");
-    let deleteButton = new ButtonBuilder("button")
-        .class("btn btn-danger btn-sm delete-user-btn")
-        .with("data-bs-toggle", "modal")
-        .with("data-bs-target", SELECTORS.deleteUserModal)
-        .text("Delete");
-
-    let tableRow = new ElementBuilder("tr")
-        .attr({
-            'data-username': user.username,
-            'data-fullname': user.fullname,
-            'data-number': user.number,
-            'data-status': user.status,
-            'data-role': user.role
-        })
-        .append(new ElementBuilder("td").class("tableDataUsername").text(user.username))
-        .append(new ElementBuilder("td").class("tableDataFullname").text(user.fullname))
-        .append(new ElementBuilder("td").class("tableDataNumber").text(user.number))
-        .append(new ElementBuilder("td").class("tableDataStatus").text(user.status))
-        .append(new ElementBuilder("td").class("tableDataRole").text(user.role))
-        .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
-
-    tableBody.append(tableRow.element);
-}
 
 function updateUserInTable(userData) {
     let userTable = document.querySelector(SELECTORS.userTable);

@@ -133,3 +133,102 @@
 [2024-06-24 23:29:20][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
 [2024-06-24 23:29:20][INFO] +43664
 [2024-06-24 23:29:20][INFO] testdesti
+[2024-06-25 11:45:11][INFO] get request triggered
+[2024-06-25 11:45:11][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 11:45:11][INFO] +43664
+[2024-06-25 11:45:11][INFO] testdesti
+[2024-06-25 13:50:25][INFO] get request triggered
+[2024-06-25 13:50:25][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 13:50:25][INFO] +43664
+[2024-06-25 13:50:25][INFO] testdesti
+[2024-06-25 15:06:23][INFO] get request triggered
+[2024-06-25 15:06:23][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 15:06:23][INFO] +43664
+[2024-06-25 15:06:23][INFO] testdesti
+[2024-06-25 15:18:16][INFO] get request triggered
+[2024-06-25 15:18:16][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 15:18:16][INFO] +43664
+[2024-06-25 15:18:16][INFO] testdesti
+[2024-06-25 15:29:09][INFO] get request triggered
+[2024-06-25 15:29:09][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 15:29:09][INFO] +43664
+[2024-06-25 15:29:09][INFO] testdesti
+[2024-06-25 15:29:19][INFO] get request triggered
+[2024-06-25 15:29:19][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 15:29:19][INFO] +43664
+[2024-06-25 15:29:19][INFO] testdesti
+[2024-06-25 15:33:04][INFO] get request triggered
+[2024-06-25 15:33:04][INFO] <QuerySet [<DestinationNumber: testdesti (+43664)>]>
+[2024-06-25 15:33:04][INFO] +43664
+[2024-06-25 15:33:04][INFO] testdesti
+[2024-06-25 16:41:59][INFO] get request triggered
+[2024-06-25 16:42:04][INFO] get request triggered
+[2024-06-25 16:42:13][INFO] get request triggered
+[2024-06-25 16:43:09][INFO] get request triggered
+[2024-06-25 16:56:26][INFO] get request triggered
+[2024-06-25 16:56:45][INFO] get request triggered
+[2024-06-25 16:56:50][INFO] get request triggered
+[2024-06-25 16:57:09][INFO] get request triggered
+[2024-06-25 16:57:18][INFO] get request triggered
+[2024-06-25 16:58:36][INFO] get request triggered
+[2024-06-25 16:58:36][INFO] {'number': [{'number': 'testnumber', 'name': '+43664245793'}], 'name': [{'number': 'testnumber', 'name': '+43664245793'}]}
+[2024-06-25 16:59:12][INFO] get request triggered
+[2024-06-25 16:59:12][INFO] {'number': [{'number': 'testnumber', 'name': '+43664245793'}], 'name': [{'number': 'testnumber', 'name': '+43664245793'}]}
+[2024-06-25 16:59:25][INFO] get request triggered
+[2024-06-25 16:59:25][INFO] {'number': [{'number': 'testnumber', 'name': '+43664245793'}], 'name': [{'number': 'testnumber', 'name': '+43664245793'}]}
+[2024-06-25 17:25:27][INFO] get request triggered
+[2024-06-25 17:25:27][INFO] {'number': [{'number': 'testnumber', 'name': '+43664245793'}], 'name': [{'number': 'testnumber', 'name': '+43664245793'}]}
+[2024-06-25 17:26:16][INFO] get request triggered
+[2024-06-25 17:26:16][INFO] {'number': [{'number': 'testnumber', 'name': '+43664245793'}], 'name': [{'number': 'testnumber', 'name': '+43664245793'}]}
+[2024-06-25 17:28:11][INFO] get request triggered
+[2024-06-25 17:29:10][INFO] get request triggered
+[2024-06-25 17:38:54][INFO] get request triggered
+[2024-06-25 17:38:54][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:40:11][INFO] get request triggered
+[2024-06-25 17:40:11][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:42:39][INFO] get request triggered
+[2024-06-25 17:42:39][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:43:47][INFO] get request triggered
+[2024-06-25 17:43:47][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:44:01][INFO] get request triggered
+[2024-06-25 17:44:01][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:44:01][INFO] get request triggered
+[2024-06-25 17:44:01][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:44:01][INFO] get request triggered
+[2024-06-25 17:44:01][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:44:43][INFO] get request triggered
+[2024-06-25 17:44:43][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 17:45:09][INFO] get request triggered
+[2024-06-25 17:45:09][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 18:36:51][INFO] get request triggered
+[2024-06-25 18:36:51][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 18:52:18][INFO] get request triggered
+[2024-06-25 18:52:18][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 18:52:58][INFO] get request triggered
+[2024-06-25 18:52:58][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:00:49][INFO] get request triggered
+[2024-06-25 19:00:49][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:01:28][INFO] get request triggered
+[2024-06-25 19:01:28][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:02:34][INFO] get request triggered
+[2024-06-25 19:02:34][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:08:03][INFO] get request triggered
+[2024-06-25 19:08:03][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:11:57][INFO] get request triggered
+[2024-06-25 19:11:57][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:26:54][INFO] get request triggered
+[2024-06-25 19:26:54][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:30:41][INFO] get request triggered
+[2024-06-25 19:30:41][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:32:10][INFO] get request triggered
+[2024-06-25 19:32:10][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:33:59][INFO] get request triggered
+[2024-06-25 19:33:59][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:37:44][INFO] get request triggered
+[2024-06-25 19:37:44][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:37:58][INFO] get request triggered
+[2024-06-25 19:37:58][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:41:55][INFO] get request triggered
+[2024-06-25 19:41:55][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}
+[2024-06-25 19:42:05][INFO] get request triggered
+[2024-06-25 19:42:05][INFO] {'destinations': [{'number': '1234567890', 'name': 'Destination One'}, {'number': '0987654321', 'name': 'Destination Two'}]}

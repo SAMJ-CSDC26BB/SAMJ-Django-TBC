@@ -19,8 +19,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
-from .forms import GlobalSettingsForm , CallForwardingForm
-from .models import User, GlobalSettings ,CallForwarding ,CalledNumber, DestinationNumber
+from .forms import GlobalSettingsForm
+from .models import User, GlobalSettings, DestinationNumber
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -28,12 +28,14 @@ from drf_yasg.utils import swagger_auto_schema
 from .serializer import ExampleSerializer
 
 from django.shortcuts import render
-from .models import DestinationNumber
 from django.contrib.auth.models import User
+
+
 
 from .businessLogic import getDestination
 import logging
 from django.http import HttpResponse
+
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -101,9 +103,9 @@ class UserManagementAPIView(View):
         status_options = [choice for choice in User.STATUS_CHOICES if choice[0] != 'deleted']
         role_options = User.ROLE_CHOICES
         data = {
-            'users': user_list,
-            'status_options': status_options,
-            'role_options': role_options,
+        'users': user_list,
+        'status_options': status_options,
+        'role_options': role_options,
         }
         return JsonResponse(data)
 
@@ -169,6 +171,40 @@ class UserManagementAPIView(View):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
+    def patch(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            if not username:
+                return JsonResponse({'error': 'Username is required for updating a user'}, status=400)
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
+            # Fields that may be updated
+            updatable_fields = ['fullname', 'password', 'number', 'status', 'role']
+
+            password = data.get('password')
+            # Validate and update password if provided
+            if password:
+                is_valid, message = validate_password(password)
+                if not is_valid:
+                    return JsonResponse({'error': message}, status=400)
+                user.password = password
+
+            # Update other fields
+            for field in updatable_fields:
+                if field in data:
+                    setattr(user, field, data[field])
+
+            user.save()
+            return JsonResponse({'message': 'User updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
     def delete(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
@@ -188,7 +224,7 @@ class UserManagementAPIView(View):
             return JsonResponse({'error': str(e)}, status=400)
 
 
-class UserManagementView(TemplateView):
+class UserManagementView(LoginRequiredMixin, TemplateView):
     template_name = "user_management.html"
 
     def get_context_data(self, **kwargs):
@@ -208,25 +244,10 @@ class UserManagementView(TemplateView):
         context['user_form'] = form
         return self.render_to_response(context)
 
+
 class TbcView(TemplateView):
     template_name = "tbc.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['call_forwardings'] = CallForwarding.objects.all()
-        context['call_forwarding_form'] = CallForwardingForm()
-        context['called_numbers'] = CalledNumber.objects.all()
-        context['destination_numbers'] = DestinationNumber.objects.all()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = CallForwardingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('tbc')
-        context = self.get_context_data()
-        context['call_forwarding_form'] = form
-        return self.render_to_response(context)
 
 
 
@@ -238,23 +259,26 @@ class DestinationManagementView(TemplateView):
 @method_decorator(csrf_exempt, name='dispatch')
 class DestinationManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        destinations = DestinationNumber.objects.all().values('number', 'name')
+        destinations_list = list(destinations)
+
         logger = logging.getLogger("samj")
         logger.info("get request triggered")
-        user = request.user
-        DestinationAll = DestinationNumber.objects.all()
-        # destinations =         CallForwardingAll = CallForwarding.objects.all()
-        logger.info(DestinationAll)
-        destinationNameList = []
-        destinationNumberList = []
-        for item in DestinationAll:
-            logger.info(item.number)
-            logger.info(item.name)
-            destinationNameList.append(item.name)
-            destinationNumberList.append(item.number)
+
+
         data = {
-            "number" : destinationNumberList,
-            "name" : destinationNameList
+            "destinations": [
+                {
+                    "number": "1234567890",
+                    "name": "Destination One"
+                },
+                {
+                    "number": "0987654321",
+                    "name": "Destination Two"
+                }
+            ]
         }
+        logger.info(data)
         return JsonResponse(data)
 
     def post(self, request, *args, **kwargs):

@@ -30,24 +30,22 @@ class GlobalSettings(models.Model):
 
 class CallForwarding(models.Model):
     id = models.AutoField(primary_key=True)
-    calledNumber = models.ForeignKey("CalledNumber", on_delete=models.CASCADE, to_field='number')
-    destination = models.ForeignKey("DestinationNumber", on_delete=models.CASCADE, to_field='number')
-    startDate = models.DateField(null=False, blank=False)
-    endDate = models.DateField(null=False, blank=False)
 
-class CalledNumber(models.Model):
-    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
-    name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
-
-    def __str__(self):
-        return f"{self.name} ({self.number})"
+class DestinationNumberManager(models.Manager):
+    pass  # You can add custom methods here if needed
 
 class DestinationNumber(models.Model):
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False, primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
+    objects = DestinationNumberManager()
+
     def __str__(self):
-        return f"{self.name} ({self.number})"
+        return self.name  # You can customize how the model instance is displayed
+
+
+
+
 
 class User(models.Model):
     STATUS_CHOICES = [
@@ -68,3 +66,4 @@ class User(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
     global_settings = models.OneToOneField(GlobalSettings, on_delete=models.CASCADE)
+

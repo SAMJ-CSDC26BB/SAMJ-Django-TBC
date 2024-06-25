@@ -7,7 +7,3 @@ class GlobalSettingsForm(forms.ModelForm):
         model = GlobalSettings
         fields = ['timezone', 'language', 'theme', 'notifications']
 
-class CallForwardingForm(forms.ModelForm):
-    class Meta:
-        model = CallForwarding
-        fields = ['calledNumber', 'destination', 'startDate', 'endDate']

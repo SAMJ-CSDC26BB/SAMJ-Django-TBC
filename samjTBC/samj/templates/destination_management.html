@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block title %}SAMJ Index Page{% endblock %}
+{% block title %}Destination Management{% endblock %}
 
 {% block style %}
-
+<!-- Include any additional stylesheets if needed -->
 {% endblock %}
 
 {% block body %}
@@ -15,11 +15,12 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Destination Number</th>
+                <th>Number</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody class="uiDestinationTableBody">
+            <!-- Table rows will be dynamically added here -->
             </tbody>
         </table>
     </div>
@@ -29,10 +30,11 @@
     </div>
 </div>
 
+{% endblock %}
+
 {% block script %}
-<script type="module" src="../static/js/destination_management.js"></script>
+<script type="module" src="{% static 'js/destination_management.js' %}"></script>
 {% endblock %}
 
 {% include './components/edit_create_destination.html' %}
 {% include './components/delete_destination_modal.html' %}
-{% endblock %}

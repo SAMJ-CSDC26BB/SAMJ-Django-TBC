@@ -8,9 +8,9 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db import transaction
 # views.py
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -24,7 +24,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from samj.github_api.github_api import GitHubAPI
-from .forms import GitHubIssueForm
+from .forms import GitHubIssueForm, CustomUserCreationForm, UpdateUserForm
 from .forms import GlobalSettingsForm
 from .models import User, GlobalSettings
 from .serializer import ExampleSerializer
@@ -62,6 +62,37 @@ class LoginView(TemplateView):
             return render(request, "./authentication/login/login.html")
 
 
+class CustomGitHubOAuth2Adapter(GitHubOAuth2Adapter):
+    def complete_login(self, request, app, token, **kwargs):
+        extra_data = super().complete_login(request, app, token, **kwargs)
+
+        # Extract user info from extra_data
+        user_info = extra_data.user
+        username = user_info.get('login')
+        email = user_info.get('email')
+        name = user_info.get('name')
+
+        # Create a new GlobalSettings instance and a new User instance in a transaction
+        with transaction.atomic():
+            global_settings = GlobalSettings.objects.create()
+
+            user = User(
+                username=username,
+                fullname=name,
+                email=email,
+                global_settings=global_settings  # Associate the GlobalSettings instance with the user
+            )
+            user.save()
+
+        return extra_data
+
+
+class GitHubLogin(SocialLoginView):
+    adapter_class = CustomGitHubOAuth2Adapter
+    callback_url = "home"
+    client_class = OAuth2Client
+
+
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         logger.info('LogoutView GET request')
@@ -77,21 +108,36 @@ class LogoutView(LoginRequiredMixin, View):
 class SignupView(TemplateView):
     def get(self, request, *args, **kwargs):
         logger.info('SignupView GET request')
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         return render(request, 'authentication/signup/signup.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         logger.info('SignupView POST request')
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            logger.info(f'User {form.username} signed up successfully')
-            messages.success(request, 'Signup successful. You can now authentication.')
-            return redirect('login')
+            user = form.save(commit=False)  # Do not save the model yet
+            user.fullname = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+            user.save()  # Now save the model after setting fullname
+            logger.info(f'User {form.cleaned_data["username"]} signed up successfully')
+            messages.success(request, 'Signup successful. You can now login.')
+            return redirect('home')
         else:
-            logger.warning(f'Signup of User {form.username} was not successful')
+            logger.warning(f'Signup of User {form.cleaned_data["username"]} was not successful')
             messages.error(request, 'Signup was not successful. Please try again.')
             return render(request, 'authentication/signup/signup.html', {'form': form})
+
+
+class AccountView(View):
+    def get(self, request, *args, **kwargs):
+        form = UpdateUserForm(instance=request.user)
+        return render(request, 'authentication/account/account.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UpdateUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        return render(request, 'authentication/account/account.html', {'form': form})
 
 
 def validate_password(password):
@@ -259,18 +305,20 @@ class UserManagementView(LoginRequiredMixin, TemplateView):
 
 
 class GlobalSettingsView(FormView):
-    form_class = GlobalSettingsForm
-    template_name = 'global_settings/global_settings.html'
+    def get(self, request, *args, **kwargs):
+        logger.info('GlobalSettingsView GET request')
+        form = GlobalSettingsForm(instance=request.user.global_settings)
+        return render(request, 'global_settings/global_settings.html', {'form': form})
 
-    def form_valid(self, form):
-        form.save()
-        return redirect('home')
-
-
-class GitHubLogin(SocialLoginView):
-    adapter_class = GitHubOAuth2Adapter
-    callback_url = "home"
-    client_class = OAuth2Client
+    def post(self, request, *args, **kwargs):
+        logger.info('GlobalSettingsView POST request')
+        form = GlobalSettingsForm(request.POST, instance=request.user.global_settings)
+        if form.is_valid():
+            form.save()
+            logger.info('GlobalSettingsView POST request - form is valid, changes saved')
+            return redirect('home')
+        logger.warning('GlobalSettingsView POST request - form is not valid')
+        return render(request, 'global_settings/global_settings.html', {'form': form})
 
 
 # GitHub Issue Form

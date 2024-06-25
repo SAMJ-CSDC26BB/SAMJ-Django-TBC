@@ -1,4 +1,6 @@
 import pytz
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin, Permission, Group
 from django.core.validators import MinLengthValidator
 
 # Create your models here.
@@ -25,6 +27,7 @@ class GlobalSettings(models.Model):
     language = models.CharField(max_length=2, choices=LANGUAGES, default='en')
     theme = models.CharField(max_length=5, choices=THEMES, default='light')
     notifications = models.CharField(max_length=3, choices=NOTIFICATIONS, default='on')
+    setting_name = models.CharField(max_length=100, default='Global Settings')
 
 
 class CallForwarding(models.Model):
@@ -47,22 +50,53 @@ class DestinationNumber(models.Model):
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
 
 
-class User(models.Model):
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email=None, first_name=None, last_name=None, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, fullname=f'{first_name} {last_name}', **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(username, email, password=password, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    groups = models.ManyToManyField(Group, related_name="%(app_label)s_%(class)s_related")
+    user_permissions = models.ManyToManyField(Permission, related_name="%(app_label)s_%(class)s_related")
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
+    # USERNAME_FIELD = 'username'
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),
         ('deleted', 'Deleted'),
     ]
+    objects = CustomUserManager()
 
     ROLE_CHOICES = [
         ('user', 'User'),
         ('admin', 'Admin'),
     ]
 
-    username = models.CharField(primary_key=True, max_length=50)
+    username = models.CharField(primary_key=True, max_length=50, unique=True)
+    email = models.EmailField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False, unique=True)
     fullname = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     password = models.CharField(max_length=128, validators=[MinLengthValidator(1)], blank=False, null=False)
     number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], blank=False, null=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
-    global_settings = models.OneToOneField(GlobalSettings, on_delete=models.CASCADE)
+    global_settings = models.ForeignKey(GlobalSettings, on_delete=models.CASCADE, null=True, blank=True)
+    is_superuser = models.BooleanField(default=False)
+    last_login = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # This is a new object, so it doesn't have a primary key yet
+            self.global_settings = GlobalSettings.objects.create()
+        super().save(*args, **kwargs)

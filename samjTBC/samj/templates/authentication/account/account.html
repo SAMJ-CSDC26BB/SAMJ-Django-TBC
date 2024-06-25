@@ -3,23 +3,17 @@
 {% block title %}SAMJ Account{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1>Welcome, {{ user.username }}</h1>
-    <p>Email: {{ user.email }}</p>
+<h1> Update User Account </h1>
 
-    <!-- User button with dropdown menu -->
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i>
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="{% url 'account' %}">My Account</a>
-            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-        </div>
-    </div>
-</div>
+
+{% block content %}
+<form method="post" action="{% url 'account' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}
 {% endblock %}
 
 {% block script %}
-<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 {% endblock %}

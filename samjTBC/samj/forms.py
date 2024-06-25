@@ -70,7 +70,13 @@ class UpdateUserForm(forms.ModelForm):
 class GlobalSettingsForm(forms.ModelForm):
     class Meta:
         model = GlobalSettings
-        fields = ['timezone', 'language', 'theme', 'notifications']
+        fields = '__all__'
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+        return instance
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -38,12 +38,20 @@ def create_user(strategy, details, user=None, *args, **kwargs):
     return {'is_new': True, 'user': user}
 
 
-def set_global_settings(backend, user, response, *args, **kwargs):
-    if not hasattr(user, 'user_global_settings'):
-        GlobalSettings.objects.create(user=user)
-        logger.info(f"User {user.id} is new, created global settings")
+def set_global_settings(strategy, details, user=None, *args, **kwargs):
+    if user:
+        # Ensure the user is saved to the database before accessing its ID
+        if not user.pk:
+            user.save()
+
+        try:
+            global_settings = GlobalSettings.objects.get(user=user)
+            logger.info(f"User {user.pk} already has global settings, skipping creation")
+        except GlobalSettings.DoesNotExist:
+            global_settings = GlobalSettings.objects.create(user=user)
+            logger.info(f"User {user.pk} is new, created global settings")
     else:
-        logger.info(f"User {user.id} already has global settings, skipping creation")
+        logger.error("No user found in the pipeline")
 
 
 def associate_by_email(backend, details, user=None, *args, **kwargs):

@@ -8,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -304,7 +305,8 @@ class UserManagementView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class GlobalSettingsView(FormView):
+@method_decorator(login_required, name='dispatch')
+class GlobalSettingsView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         global_settings, created = GlobalSettings.objects.get_or_create(user=request.user)
         form = GlobalSettingsForm(instance=global_settings)
@@ -315,7 +317,7 @@ class GlobalSettingsView(FormView):
         form = GlobalSettingsForm(request.POST, instance=global_settings)
         if form.is_valid():
             form.save()
-            return redirect('settings')  # Replace with your desired redirect URL
+            return redirect('settings')
         return render(request, 'global_settings/global_settings.html', {'form': form})
 
 

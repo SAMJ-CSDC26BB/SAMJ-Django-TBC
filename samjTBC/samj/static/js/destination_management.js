@@ -71,26 +71,33 @@ function populateDestinationsTable() {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            'Cache-Control': 'max-age=43200', // 12 hours
+            'Cache-Control': 'max-age=1', // 12 hours
         }
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
+            console.log("wtf0");
             return response.json();
+        })
+        .then(data => {
+            //console.log(data.destinations);
+            return data;
         })
         .then(data => {
             if (!data.destinations) {
                 throw new Error("Error fetching destinations");
             }
-
+            console.log("wtf1")
             addDestinationsToTable(data.destinations);
             Utils.initializeVanillaDataTable('#destinationsTable');
             initializeEvents();
 
         })
         .catch(error => {
+            console.log("wtf2")
+            console.error(error.message)
             Utils.showNotificationMessage('Error loading the Destination', error.message);
         });
 }

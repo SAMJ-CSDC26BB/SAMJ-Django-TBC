@@ -29,7 +29,9 @@ const SELECTORS = {
     csrfToken: "[name=csrfmiddlewaretoken]",
     modalCloseButton: '.btn-close',
     modalTitle: '.modal-title',
+    tableRow: 'tr',
     modalBodyMessage: '.modal-body-message'
+
 };
 
 const DATA = {
@@ -58,7 +60,8 @@ function initializeEvents() {
         button.addEventListener('click', onCreateButtonClick);
     });
 
-    document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
+    console.log("init events")
+
     document.querySelector(SELECTORS.saveDestinationButton).addEventListener('click', onSaveButtonClick);
 }
 
@@ -154,6 +157,7 @@ function onCreateButtonClick(event) {
 }
 
 function onSaveButtonClick(event) {
+    console.log("save Button clicked");
     const form = getDestinationManagementForm();
     if (!form || !form.dataset.mode) {
         return;
@@ -169,30 +173,46 @@ function onSaveButtonClick(event) {
 
 function onEditButtonClick(event) {
 
-    let row = getTableRowOfEditedUser(this),
-        userForm = getUserManagementForm();
+    let row = getTableRowOfEditedDestination(this),
+        destinationForm = getDestinationManagementForm();
 
-    if (!userForm || !row) {
+    if (!destinationForm || !row) {
         return;
     }
 
-    Utils.resetForm(userForm);
-    Utils.toggleRequiredInputsInForm(userForm, false);
+    Utils.resetForm(destinationForm);
+    Utils.toggleRequiredInputsInForm(destinationForm, false);
 
-    let userNameInput = userForm.querySelector(SELECTORS.usernameInput);
-    userNameInput.value = row.dataset.username;
-    userNameInput.disabled = true;
+    let destinationNumberInput = destinationForm.querySelector(SELECTORS.destinationNumberInput);
+    destinationNumberInput.value = row.dataset.number;
+    destinationNumberInput.disabled = true;
 
-    userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
+    setFormActionMode(DATA.editActionMode, destinationForm);
+    destinationForm.querySelector(SELECTORS.destinationNumberInput).value = row.dataset.number;
+    destinationForm.querySelector(SELECTORS.destinationNameInput).value = row.dataset.name;
 
-    setFormActionMode(DATA.editActionMode, userForm);
-    userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
-    userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
-    userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
-    userForm.querySelector(SELECTORS.roleInput).value = row.dataset.role;
-    userForm.querySelector(SELECTORS.passwordInput).value = '';
 
-    setDestinationManagementModalTitle(DATA.editUserModalTitle);
+    setDestinationManagementModalTitle(DATA.editDestinationModalTitle);
+}
+
+function onDeleteButtonClick(event) {
+    console.log("delete button pressed")
+    const row = getTableRowOfEditedDestination(this);
+
+    if (!row) {
+        console.log("no row")
+        return;
+    }
+
+    const number = row.dataset.number;
+    console.log(number)
+    const deleteDestinationModal = document.querySelector(SELECTORS.deleteDestinationModal);
+    if (deleteDestinationModal) {
+        deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText
+            = deleteDestinationModal.querySelector(SELECTORS.modalBodyMessage).innerText.replace('{0}', number);
+
+        deleteDestinationModal.querySelector(SELECTORS.deleteDestinationButton).addEventListener('click', (e) => {deleteDestination(number, row)});
+    }
 }
 
 function editDestination(destinationForm = getDestinationManagementForm()) {
@@ -209,24 +229,48 @@ function editDestination(destinationForm = getDestinationManagementForm()) {
     updateDestination(updatedDestination);
 }
 
+function createDestination(destinationForm = getDestinationManagementForm()) {
+    if (!destinationForm || !destinationForm.checkValidity()) {
+        destinationForm.classList.add(DATA.bootstrapFormValidated);
+        return;
+    }
 
-function createDestination(destinationData) {
+    const newDestination = getDestinationDataFromForm(destinationForm);
+    createNewDestination(newDestination);
+}
+
+function createNewDestination(newDestination) {
     fetch('/api/destination_management/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCsrfTokenFromForm()
         },
-        body: JSON.stringify(destinationData),
+        body: JSON.stringify(newDestination),
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                fetchDestinations();
-                closeModal();
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
             }
+
+            return response.json();
+        })
+        .then(data => {
+
+            Utils.closeModal(SELECTORS.editCreateDestinationModal);
+            Utils.showNotificationMessage(`${newDestination.name} created successfully`);
+            addDestinationToTable(newDestination);
+            initializeEvents();
+
+            let tableBottom = document.querySelector(SELECTORS.dataTableBottom);
+            // work-around for bottom of the table, it is overlapping with the last inserted row in the table
+            if (tableBottom) {
+                tableBottom.style='margin-top:50px';
+            }
+
+        })
+        .catch(error => {
+            console.error('Error updating user:', error);
         });
 }
 
@@ -323,4 +367,8 @@ function clearDestinationForm() {
     const form = getDestinationManagementForm();
     form.reset();
     form.classList.remove(DATA.bootstrapFormValidated);
+}
+
+function getTableRowOfEditedDestination(context) {
+    return context.closest(SELECTORS.tableRow);
 }

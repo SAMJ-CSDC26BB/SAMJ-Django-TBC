@@ -27,7 +27,8 @@ const SELECTORS = {
     'tableDataRole'             : ".tableDataRole",
     'userForm'                  : '#userForm',
     'dataTableBottom'           : '.dataTable-bottom',
-    'passwordInputHelperText'   : '.passwordInputHelperText'
+    'passwordInputHelperText'   : '.passwordInputHelperText',
+    'bodySelector'              : 'body'
 };
 
 const DATA = {
@@ -152,7 +153,7 @@ function addUsersToTable(users) {
         throw new Error("Error fetching users, no user table found");
     }
     users.forEach(user => {
-        addUserToTable(user);
+        addUserRowToTable(user);
     });
 }
 
@@ -199,7 +200,7 @@ function createNewUser(newUser) {
 
             Utils.closeModal(SELECTORS.editCreateUserModal);
             Utils.showNotificationMessage(`${newUser.username} created successfully`);
-            addUserToTable(newUser);
+            addUserRowToTable(newUser);
             initializeEvents();
 
             let tableBottom = document.querySelector(SELECTORS.dataTableBottom);
@@ -308,20 +309,9 @@ function deleteUser(username, row) {
         });
 }
 
-function addUserToTable(user) {
+function addUserRowToTable(user) {
     let userTable = document.querySelector(SELECTORS.userTable);
     let tableBody = userTable.querySelector(SELECTORS.tableBody);
-
-    let editButton = new ButtonBuilder()
-        .class("btn btn-primary btn-sm me-2 edit-user-btn")
-        .with("data-bs-target", SELECTORS.editCreateUserModal)
-        .with("data-bs-toggle", "modal")
-        .text("Edit");
-    let deleteButton = new ButtonBuilder("button")
-        .class("btn btn-danger btn-sm delete-user-btn")
-        .with("data-bs-toggle", "modal")
-        .with("data-bs-target", SELECTORS.deleteUserModal)
-        .text("Delete");
 
     let tableRow = new ElementBuilder("tr")
         .attr({
@@ -335,8 +325,31 @@ function addUserToTable(user) {
         .append(new ElementBuilder("td").class("tableDataFullname").text(user.fullname))
         .append(new ElementBuilder("td").class("tableDataNumber").text(user.number))
         .append(new ElementBuilder("td").class("tableDataStatus").text(user.status))
-        .append(new ElementBuilder("td").class("tableDataRole").text(user.role))
-        .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
+        .append(new ElementBuilder("td").class("tableDataRole").text(user.role));
+
+    if (isUserAdmin()) {
+        let td = new ElementBuilder("td").class("tableDataActions");
+        let editButton = new ButtonBuilder()
+            .class("btn btn-primary btn-sm me-2 edit-user-btn")
+            .with("data-bs-target", SELECTORS.editCreateUserModal)
+            .with("data-bs-toggle", "modal")
+            .text("Edit");
+
+        td.append(editButton);
+
+        // user should not be able to delete its own user
+        if (!isUserLoggedInUser(user)) {
+            let deleteButton = new ButtonBuilder("button")
+                .class("btn btn-danger btn-sm delete-user-btn")
+                .with("data-bs-toggle", "modal")
+                .with("data-bs-target", SELECTORS.deleteUserModal)
+                .text("Delete");
+
+            td.append(deleteButton);
+        }
+
+        tableRow.append(td);
+    }
 
     tableBody.append(tableRow.element);
 }
@@ -401,4 +414,14 @@ function getCsrfTokenFromForm(form = getUserManagementForm()) {
 
 function getTableRowOfEditedUser(context) {
     return context.closest(SELECTORS.tableRow);
+}
+
+function isUserAdmin() {
+    let body = document.querySelector(SELECTORS.bodySelector);
+    return Utils.getPropertyFromDataset(body, "currentUserRole");
+}
+
+function isUserLoggedInUser(user) {
+    let body = document.querySelector(SELECTORS.bodySelector);
+    return Utils.getPropertyFromDataset(body, "currentUsername") === user.username;
 }

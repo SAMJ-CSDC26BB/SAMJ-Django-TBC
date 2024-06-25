@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block body %}
-<h1>Create Support Ticket</h1>
+<h1 class="mt-5 mb-5">Create Support Ticket</h1>
 <form method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Create Support Ticket</button>
+    <button type="submit" class="btn btn-primary mb-5">Create Support Ticket</button>
 </form>
 {% endblock %}
 

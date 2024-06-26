@@ -27,10 +27,7 @@ class UserManagementAPIView(View):
         accept_type = request.headers.get('Accept', '')
         # Check if client accepts XML
         if 'application/xml' in accept_type:
-            print("what the fuck")
-
             response = xmltodict.unparse({'response': data}, pretty=True)
-            print(response)
             return HttpResponse(response, content_type='application/xml')
         else:
             return JsonResponse(data)
@@ -86,7 +83,7 @@ class UserManagementAPIView(View):
 
             user.fullname = data.get('fullname', user.fullname)
             if password:
-                user.password = password
+                user.set_password(password)
             user.number = data.get('number', user.number)
             user.status = data.get('status', user.status)
             user.role = data.get('role', user.role)
@@ -109,7 +106,7 @@ class UserManagementAPIView(View):
                 return JsonResponse({'error': 'User not found'}, status=404)
 
             # Fields that may be updated
-            updatable_fields = ['fullname', 'password', 'number', 'status', 'role']
+            updatable_fields = ['fullname', 'number', 'status', 'role']
 
             password = data.get('password')
             # Validate and update password if provided
@@ -117,11 +114,12 @@ class UserManagementAPIView(View):
                 is_valid, message = validate_password(password)
                 if not is_valid:
                     return JsonResponse({'error': message}, status=400)
-                user.password = password
+                user.set_password(password)
 
             # Update other fields
             for field in updatable_fields:
                 if field in data:
+                    print("updating field" + str(field))
                     setattr(user, field, data[field])
 
             user.save()

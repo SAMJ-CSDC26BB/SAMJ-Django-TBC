@@ -266,8 +266,19 @@ function editUser(userForm = getUserManagementForm()) {
         return;
     }
 
-    const updatedUser = getUserDataFromForm(userForm);
-    updateUser(updatedUser, isShouldUsePUTRequest(updatedUser));
+    let updatedUser = getUserDataFromForm(userForm);
+    let usePUTRequest = isShouldUsePUTRequest(updatedUser);
+
+    if (isShouldUsePUTRequest) {
+        updatedUser = getUpdateFieldsForPatchRequest(updatedUser);
+    }
+
+    if (Utils.isEmptyObject(updatedUser)) {
+        Utils.showNotificationMessage("No user to update", "warning");
+        return;
+    }
+
+    updateUser(updatedUser, usePUTRequest);
 }
 
 function updateUser(updatedUser, fullUpdate=true) {
@@ -440,6 +451,28 @@ function isShouldUsePUTRequest(updateUserJSON) {
         && updateUserJSON.number !== inEditUserInitialData.number
         && updateUserJSON.status !== inEditUserInitialData.status
         && updateUserJSON.role !== inEditUserInitialData.role;
+}
+
+function getUpdateFieldsForPatchRequest(updateUserJSON) {
+    let user = {};
+
+    user.username = updateUserJSON.username;
+    if (updateUserJSON.fullname !== inEditUserInitialData.fullname) {
+        user.fullname = updateUserJSON.fullname;
+    }
+    if (updateUserJSON.number !== inEditUserInitialData.number) {
+        user.number = updateUserJSON.number;
+    }
+    if (updateUserJSON.status !== inEditUserInitialData.status) {
+        user.status = updateUserJSON.status;
+    }
+    if (updateUserJSON.role !== inEditUserInitialData.role) {
+        user.role = updateUserJSON.role;
+    }
+    if (updateUserJSON.password && updateUserJSON.password.length) {
+        user.password = updateUserJSON.password;
+    }
+    return user;
 }
 
 function getCsrfTokenFromForm(form = getUserManagementForm()) {

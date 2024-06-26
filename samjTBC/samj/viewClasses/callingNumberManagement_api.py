@@ -3,15 +3,12 @@ import logging
 from django.http import JsonResponse
 from django.views import View
 
-from ..models import CalledNumber, GlobalSettings, User
-from ..views import validate_password
+from ..models import CalledNumber
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class callingNumberManagementAPIView(LoginRequiredMixin, View):

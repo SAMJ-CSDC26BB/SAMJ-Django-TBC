@@ -260,7 +260,6 @@ class DestinationManagementView(TemplateView):
 class DestinationManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")
-        logger.error("Backend wtf")
         query = DestinationNumber.objects.all().values('number', 'name')
         logger.info(query)
         destinationList = []

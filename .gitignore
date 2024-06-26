@@ -2,6 +2,7 @@
 *.py[cod]
 *.idea
 /env
+/myenv
 __pycache__/
 *.pyc
 *.pyo

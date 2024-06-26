@@ -1,3 +1,4 @@
+import json
 import logging
 
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -7,22 +8,23 @@ from django.contrib import messages
 from django.contrib.auth import logout as auth_logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.db import transaction
+from django.http import JsonResponse
 # views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from samj.github_api.github_api import GitHubAPI
-from .forms import GitHubIssueForm, CustomUserCreationForm, UpdateUserForm
-from .forms import GlobalSettingsForm
-from .models import User, GlobalSettings
+
+from .forms import GitHubIssueForm, CustomUserCreationForm, UpdateUserForm, GlobalSettingsForm
+from .models import User, GlobalSettings, CallForwarding, DestinationNumber, CalledNumber
 from .serializer import ExampleSerializer
 
 logger = logging.getLogger(__name__)
@@ -134,6 +136,128 @@ class AccountView(View):
             form.save()
             return redirect('home')
         return render(request, 'authentication/account/account.html', {'form': form})
+
+
+class TbcView(TemplateView):
+    template_name = "tbc.html"
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CallForwardingManagementAPIView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        query = CallForwarding.objects.all().values(
+            'calledNumber__number',
+            'destination__number',
+            'startDate',
+            'endDate'
+        )
+        call_forwarding_list = []
+        for item in query:
+            call_forwarding_list.append(item)
+        call_forwarding_list_wrapped = {'call_forwardings': call_forwarding_list}
+
+        return JsonResponse(call_forwarding_list_wrapped)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            logger = logging.getLogger('samj')
+            logger.info("XXXXXX")
+            logger.info("put triggered")
+            data = json.loads(request.body)
+            logger.info(data)
+            called_number = data.get('called_number')
+            destination_number = data.get('destination_number')
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+
+            called_number_instance = CalledNumber.objects.get(number=called_number)
+            destination_instance = DestinationNumber.objects.get(number=destination_number)
+
+            call_forwarding = CallForwarding.objects.create(
+                calledNumber=called_number_instance,
+                destination=destination_instance,
+                startDate=start_date,
+                endDate=end_date,
+            )
+
+            return JsonResponse({'message': 'Call Forwarding created successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except CalledNumber.DoesNotExist:
+            return JsonResponse({'error': f'Called Number with number {called_number} does not exist'}, status=404)
+        except DestinationNumber.DoesNotExist:
+            return JsonResponse({'error': f'Destination Number with number {destination_number} does not exist'},
+                                status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def put(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+
+        try:
+            data = json.loads(request.body)
+            logger.info(data)
+            called_number = data.get('called_number')
+            destination_number = data.get('destination_number')
+            if not called_number or not destination_number:
+                return JsonResponse(
+                    {'error': 'Called number and destination number are required for updating a call forwarding entry'},
+                    status=400)
+            try:
+                call_forwarding = CallForwarding.objects.get(
+                    calledNumber=CalledNumber.objects.get(number=called_number),
+                    destination=DestinationNumber.objects.get(number=destination_number)
+                )
+                logger.info(call_forwarding)
+            except Exception as e:
+                return JsonResponse({'error': 'Call Forwarding entry not found'}, status=404)
+
+            call_forwarding.startDate = data.get('start_date', call_forwarding.startDate)
+            call_forwarding.endDate = data.get('end_date', call_forwarding.endDate)
+            call_forwarding.save()
+            return JsonResponse({'message': 'Call Forwarding updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def delete(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("delete request triggered")
+
+        try:
+            data = json.loads(request.body)
+            call_forwarding_id = data.get('id')
+            if not call_forwarding_id:
+                return JsonResponse({'error': 'ID is required for deleting a call forwarding entry'}, status=400)
+            try:
+                call_forwarding = CallForwarding.objects.get(id=call_forwarding_id)
+            except CallForwarding.DoesNotExist:
+                return JsonResponse({'error': 'Call Forwarding entry not found'}, status=404)
+
+            call_forwarding.delete()
+            return JsonResponse({'message': 'Call Forwarding deleted successfully'}, status=204)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def edit_create_tbc_entry(request):
+        logger = logging.getLogger('samj')
+        logger.info("XXXXXXXXX")
+
+        called_numbers = CalledNumber.objects.all()
+        destinations = DestinationNumber.objects.all()
+
+        context = {
+            'calledNumbers': called_numbers,
+            'destinations': destinations,
+        }
+
+        logger.info("XXXXXXXXX")
+        logger.info(context)
+        return render(request, 'edit_create_TbcEntry.html', context)
 
 
 @method_decorator(login_required, name='dispatch')

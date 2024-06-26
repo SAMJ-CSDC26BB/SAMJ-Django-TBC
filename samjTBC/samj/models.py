@@ -1,8 +1,8 @@
 import pytz
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin, Permission, Group, AbstractUser
+from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
-
 # Create your models here.
 from django.db import models
 
@@ -54,7 +54,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email' or 'username'
     REQUIRED_FIELDS = ['username']
     objects = CustomUserManager()
-
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),

@@ -1,7 +1,33 @@
 import * as Utils from './utils/utils.js';
 import { ButtonBuilder, ElementBuilder } from './builder/builder.js';
+import {resetForm} from "./utils/utils.js";
+
+
 
 const SELECTORS = {
+    // Buttons for Destination Management
+    createDestinationButton: '#create-destination-btn',
+    saveDestinationButton: '#saveDestinationBtn',
+    deleteDestinationButton: '.uiDeleteDestinationButton',
+    editDestinationButton: '.edit-destination-btn', // Generated edit button for destinations
+    deleteDestinationRowButton: '.delete-destination-btn', // Generated delete button for destinations
+
+    // Modals for Destination Management
+    editCreateDestinationModal: '#editCreateDestinationModal',
+    deleteDestinationModal: '#deleteDestinationModal',
+
+    // Forms for Destination Management
+    destinationForm: '#destinationForm',
+
+    // Form Inputs for Destination Management
+    destinationNameInput: '#destinationName',
+    destinationNumberInput: '#destinationNumber',
+
+    // Tables and Table Body for Destination Management
+    destinationsTable: '#destinationsTable',
+    destinationTableBody: '.uiDestinationTableBody',
+
+    // Common Selectors (already existing from previous set)
     editTbcEntryButton: '.edit-tbcEntry-btn',
     deleteTbcEntryButton: '.delete-tbcEntry-btn',
     deleteTbcEntryBtnInModal: '.uiDeleteTbcEntryButton',
@@ -18,8 +44,10 @@ const SELECTORS = {
     editCreateTbcEntryModalTitle: '.modal-title',
     deleteTbcEntryModal: '#deleteTbcEntryModal',
     csrfToken: "[name=csrfmiddlewaretoken]",
-    dataTableBottom: '.dataTable-bottom'
+    dataTableBottom: '.dataTable-bottom',
+    callForwardingTable: '#tbcTable'
 };
+
 
 const DATA = {
     editActionMode: 'edit',
@@ -31,7 +59,7 @@ const DATA = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    populateTbcTable();
+    populateCallForwardingTable();
 });
 
 function initializeEvents() {
@@ -47,46 +75,144 @@ function initializeEvents() {
         button.addEventListener('click', onCreateTbcEntryButtonClick);
     });
 
-}
-document.querySelectorAll(SELECTORS.saveTbcEntryButton).forEach(button => {
-    button.addEventListener('click', onSaveTbcEntryButtonClick)
+    document.querySelectorAll(SELECTORS.saveTbcEntryButton).forEach(button => {
+        button.addEventListener('click', onSaveTbcEntryButtonClick)
     });
+
+}
+
+
+function populateCallForwardingTable() {
+    fetch('/api/call_forwarding_management/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Cache-Control': 'max-age=1', // 12 hours
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+
+        .then(data => {
+            if (!data.call_forwardings) {
+                throw new Error("Error fetching call forwardings");
+            }
+            addCallForwardingsToTable(data.call_forwardings);
+            Utils.initializeVanillaDataTable(SELECTORS.callForwardingTable);
+            initializeEvents();
+
+        })
+        .catch(error => {
+            console.error(error.message)
+            Utils.showNotificationMessage('Error loading the Call Forwarding', error.message);
+        });
+}
+
+function addCallForwardingsToTable(callForwardings) {
+    if (!callForwardings) {
+        return;
+    }
+
+    let callForwardingTable = document.querySelector(SELECTORS.callForwardingTable);
+    if (!callForwardingTable) {
+        throw new Error("Error fetching call forwardings, no callForwardingTable table found");
+    }
+    callForwardings.forEach(callForwarding => {
+        addCallForwardingToTable(callForwarding);
+    });
+}
+
+function addCallForwardingToTable(callForwarding) {
+    let callForwardingTable = document.querySelector(SELECTORS.callForwardingTable);
+    let tableBody = callForwardingTable.querySelector(SELECTORS.dataTableBody);
+
+    // Create Edit button
+    let editButton = new ButtonBuilder()
+        .class("btn btn-primary btn-sm me-2 edit-tbcEntry-btn")
+        .with("data-bs-target", SELECTORS.editCreateTbcEntryModal)
+        .with("data-bs-toggle", "modal")
+        .text("Edit");
+
+    // Create Delete button
+    let deleteButton = new ButtonBuilder("button")
+        .class("btn btn-danger btn-sm delete-tbcEntry-btn")
+        .with("data-bs-toggle", "modal")
+        .with("data-bs-target", SELECTORS.deleteTbcEntryModal)
+        .text("Delete");
+
+    // Create table row
+    let tableRow = new ElementBuilder("tr")
+        .attr({
+            'data-called-number': callForwarding.calledNumber__number,
+            'data-destination-number': callForwarding.destination__number,
+            'data-start-date': callForwarding.startDate,
+            'data-end-date': callForwarding.endDate
+        })
+        .append(new ElementBuilder("td").class("tableDataCalledNumber").text(callForwarding.calledNumber__number))
+        .append(new ElementBuilder("td").class("tableDataDestinationNumber").text(callForwarding.destination__number))
+        .append(new ElementBuilder("td").class("tableDataStartDate").text(callForwarding.startDate))
+        .append(new ElementBuilder("td").class("tableDataEndDate").text(callForwarding.endDate))
+        .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
+
+    // Append the constructed row to the table body
+    tableBody.append(tableRow.element);
+}
+
+
+
+
 
 
 function onEditTbcEntryButtonClick(event) {
-    let row = getTableRowOfEditedTbcEntry(this);
+    let button = event.currentTarget;
+    let row = button.closest('tr');
     if (!row) {
+        console.error("No table row found for the clicked edit button.");
         return;
     }
 
-    let tbcForm = getTbcForm();
+    let tbcForm = document.getElementById('tbcEntryForm');
     if (!tbcForm) {
+        console.error("No form found with ID 'tbcEntryForm'.");
         return;
     }
 
-    Utils.resetForm(tbcForm);
+    // Reset the form and disable required inputs for editing
+    tbcForm.reset();
     Utils.toggleRequiredInputsInForm(tbcForm, false);
 
-    tbcForm.querySelector(SELECTORS.calledNumberInput).value = row.dataset.calledNumber;
-    tbcForm.querySelector(SELECTORS.destinationInput).value = row.dataset.destination;
-    tbcForm.querySelector(SELECTORS.startDateInput).value = row.dataset.startDate;
-    tbcForm.querySelector(SELECTORS.endDateInput).value = row.dataset.endDate;
+    // Set the form values based on the table row data
+    tbcForm.querySelector(SELECTORS.calledNumberInput).value = row.querySelector('.tableDataCalledNumber').textContent.trim();
+    tbcForm.querySelector(SELECTORS.destinationInput).value = row.querySelector('.tableDataDestinationNumber').textContent.trim();
+    tbcForm.querySelector(SELECTORS.startDateInput).value = row.querySelector('.tableDataStartDate').textContent.trim();
+    tbcForm.querySelector(SELECTORS.endDateInput).value = row.querySelector('.tableDataEndDate').textContent.trim();
 
+    // Update the form action mode and modal title
     setFormActionMode(DATA.editActionMode, tbcForm);
     setTbcEntryModalTitle(DATA.editTbcEntryModalTitle);
 }
 
 function onCreateTbcEntryButtonClick(event) {
-    let tbcForm = getTbcForm();
+    let tbcForm = document.getElementById('tbcEntryForm');
     if (!tbcForm) {
+        console.error("No form found with ID 'tbcEntryForm'.");
         return;
     }
 
-    Utils.resetForm(tbcForm);
+    // Reset the form and enable required inputs for creating a new entry
+    tbcForm.reset();
     Utils.toggleRequiredInputsInForm(tbcForm, true);
+
+    // Update the form action mode and modal title
     setFormActionMode(DATA.createActionMode, tbcForm);
     setTbcEntryModalTitle(DATA.createTbcEntryModalTitle);
 }
+
+
 
 function onSaveTbcEntryButtonClick(event) {
     console.log("save button clicked")
@@ -231,37 +357,7 @@ function deleteTbcEntry(row) {
         });
 }
 
-function addTbcEntryToTable(entry) {
-    let tbcTable = document.querySelector(SELECTORS.tbcTable);
-    let tableBody = tbcTable.querySelector(SELECTORS.dataTableBody);
 
-    let tableRow = new ElementBuilder('tr')
-        .attr({
-            'data-id': entry.id,
-            'data-called-number': entry.calledNumber,
-            'data-destination': entry.destination,
-            'data-start-date': entry.startDate,
-            'data-end-date': entry.endDate
-        })
-        .append(new ElementBuilder('td').text(entry.calledNumber))
-        .append(new ElementBuilder('td').text(entry.destination))
-        .append(new ElementBuilder('td').text(entry.startDate))
-        .append(new ElementBuilder('td').text(entry.endDate))
-        .append(new ElementBuilder('td')
-            .append(new ButtonBuilder('button')
-                .class('btn btn-primary btn-sm me-2 edit-tbcEntry-btn')
-                .with('data-bs-target', SELECTORS.editCreateTbcEntryModal)
-                .with('data-bs-toggle', 'modal')
-                .text('Edit'))
-            .append(new ButtonBuilder('button')
-                .class('btn btn-danger btn-sm delete-tbcEntry-btn')
-                .with('data-bs-toggle', 'modal')
-                .with('data-bs-target', SELECTORS.deleteTbcEntryModal)
-                .text('Delete'))
-        );
-
-    tableBody.appendChild(tableRow.element);
-}
 
 function updateTbcEntryInTable(updatedEntry) {
     let tbcTable = document.querySelector(SELECTORS.tbcTable);
@@ -315,51 +411,10 @@ function getCsrfTokenFromForm(form = getTbcForm()) {
 }
 
 function getTableRowOfEditedTbcEntry(context) {
-    return context.closest('tr');
+    return context.closest(SELECTORS.tableRow);
 }
 
-function populateTbcTable() {
-    fetch('/api/tbc_management/', {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Cache-Control': 'max-age=43200' // 12 hours
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data.entries) {
-                throw new Error("Error fetching TBC entries");
-            }
 
-            addTbcEntriesToTable(data.entries);
-            Utils.initializeVanillaDataTable(SELECTORS.tbcTable);
-            initializeEvents();
 
-        })
-        .catch(error => {
-            console.error("Error loading TBC entries", error);
-            Utils.showNotificationMessage('Error loading TBC entries', "error");
-        });
-}
 
-function addTbcEntriesToTable(entries) {
-    if (!entries) {
-        return;
-    }
-
-    let tbcTable = document.querySelector(SELECTORS.tbcTable);
-    let tableBody = tbcTable.querySelector(SELECTORS.dataTableBody);
-
-    entries.forEach(entry => {
-        addTbcEntryToTable(entry);
-    });
-}
-
-export { populateTbcTable };
 

@@ -3,11 +3,12 @@ from . import views
 from .views import GitHubLogin, GoogleLogin
 
 from .viewClasses.api_v2_tbc import api_v2_tbc
-from .viewClasses.usermanagement_api import UserManagementAPIView
-from .viewClasses.usermanagement import UserManagementView
-
+from .viewClasses import callingNumberManagement
+from .views import UserManagementView
+from .views import UserManagementAPIView
 from .viewClasses.callingNumberManagement_api import callingNumberManagementAPIView
 from .viewClasses.callingNumberManagement import callingNumberManagement
+from .views import CallForwardingManagementAPIView
 
 from django.views.generic import TemplateView
 from .swagger_config import urlpatterns as swagger_urls, schema_view
@@ -58,5 +59,7 @@ urlpatterns = [
     path('api/destination_management/', views.DestinationManagementAPIView.as_view(), name='destination_management_api'),
     path('api/callingNumberManagement/', callingNumberManagementAPIView.as_view(), name='callingNumberManagement_api'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/call_forwarding_management/', CallForwardingManagementAPIView.as_view(), name='call_forwarding_management'),
+    path('edit_create_tbc_entry/', CallForwardingManagementAPIView.as_view(), name='edit_create_tbc_entry'),
 
 ]

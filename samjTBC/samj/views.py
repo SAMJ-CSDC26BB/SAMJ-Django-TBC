@@ -20,7 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
 from .forms import GlobalSettingsForm
-from .models import User, GlobalSettings, DestinationNumber
+from .models import User, GlobalSettings, DestinationNumber, CallForwarding, CalledNumber
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -95,6 +95,105 @@ def validate_password(password):
 
 class TbcView(TemplateView):
     template_name = "tbc.html"
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CallForwardingManagementAPIView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        query = CallForwarding.objects.all().values(
+            'calledNumber__number',
+            'destination__number',
+            'startDate',
+            'endDate'
+        )
+        logger.info(query)
+        call_forwarding_list = []
+        for item in query:
+            call_forwarding_list.append(item)
+        call_forwarding_list_wrapped = {'call_forwardings': call_forwarding_list}
+        logger.info(call_forwarding_list_wrapped)
+
+        return JsonResponse(call_forwarding_list_wrapped)
+
+    def post(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("post request triggered")
+
+        try:
+            data = json.loads(request.body)
+            call_forwarding = CallForwarding(
+                calledNumber=CalledNumber.objects.get(number=data.get('called_number')),
+                destination=DestinationNumber.objects.get(number=data.get('destination_number')),
+                startDate=data.get('start_date'),
+                endDate=data.get('end_date'),
+            )
+            call_forwarding.save()
+            return JsonResponse({'message': 'Call Forwarding created successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def put(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("put request triggered")
+
+        try:
+            data = json.loads(request.body)
+            logger.info(data)
+            called_number = data.get('called_number')
+            destination_number = data.get('destination_number')
+            if not called_number or not destination_number:
+                return JsonResponse({'error': 'Called number and destination number are required for updating a call forwarding entry'}, status=400)
+            try:
+                call_forwarding = CallForwarding.objects.get(
+                    calledNumber=CalledNumber.objects.get(number=called_number),
+                    destination=DestinationNumber.objects.get(number=destination_number)
+                )
+                logger.info(call_forwarding)
+            except Exception as e:
+                return JsonResponse({'error': 'Call Forwarding entry not found'}, status=404)
+
+            call_forwarding.startDate = data.get('start_date', call_forwarding.startDate)
+            call_forwarding.endDate = data.get('end_date', call_forwarding.endDate)
+            call_forwarding.save()
+            return JsonResponse({'message': 'Call Forwarding updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def delete(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("delete request triggered")
+
+        try:
+            data = json.loads(request.body)
+            call_forwarding_id = data.get('id')
+            if not call_forwarding_id:
+                return JsonResponse({'error': 'ID is required for deleting a call forwarding entry'}, status=400)
+            try:
+                call_forwarding = CallForwarding.objects.get(id=call_forwarding_id)
+            except CallForwarding.DoesNotExist:
+                return JsonResponse({'error': 'Call Forwarding entry not found'}, status=404)
+
+            call_forwarding.delete()
+            return JsonResponse({'message': 'Call Forwarding deleted successfully'}, status=204)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def edit_create_tbc_entry(request):
+        called_numbers = CalledNumber.objects.all()
+        destinations = DestinationNumber.objects.all()
+
+        context = {
+        'calledNumbers': called_numbers,
+        'destinations': destinations,
+        }
+
+        return render(request, 'edit_create_TbcEntry.html', context)
 
 class UserManagementView(LoginRequiredMixin, TemplateView):
     template_name = "user_management.html"

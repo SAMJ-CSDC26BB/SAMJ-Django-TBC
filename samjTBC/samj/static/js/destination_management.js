@@ -299,7 +299,9 @@ function updateDestination(destinationData) {
         })
         .then(data =>{
             console.log(destinationData);
-        updateDestinationInTable(destinationData);
+            Utils.closeModal(SELECTORS.editCreateDestinationModal);
+            Utils.showNotificationMessage(`${destinationData.number} updated successfully`);
+            updateDestinationInTable(destinationData);
         })
 
 

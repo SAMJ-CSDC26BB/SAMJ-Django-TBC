@@ -10,18 +10,32 @@
           {% csrf_token %}
 
           <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
           <div class="mb-3">
             <label for="calledNumber" class="form-label">Called Number</label>
-            <input type="text" class="form-control" id="calledNumber" name="calledNumber" required>
+            <select class="form-select" id="calledNumber" name="calledNumber" required>
+              <option value="">Select called number...</option>
+              {% for number in calledNumbers %}
+              <option value="{{ number.id }}">{{ number.number }}</option>
+              {% endfor %}
+            </select>
           </div>
+
           <div class="mb-3">
             <label for="destination" class="form-label">Destination</label>
-            <input type="text" class="form-control" id="destination" name="destination" required>
+            <select class="form-select" id="destination" name="destination" required>
+              <option value="">Select destination...</option>
+              {% for dest in destinations %}
+              <option value="{{ dest.id }}">{{ dest.number }}</option>
+              {% endfor %}
+            </select>
           </div>
+
           <div class="mb-3">
             <label for="startDate" class="form-label">Start Date</label>
             <input type="date" class="form-control" id="startDate" name="startDate" required>
           </div>
+
           <div class="mb-3">
             <label for="endDate" class="form-label">End Date</label>
             <input type="date" class="form-control" id="endDate" name="endDate" required>
@@ -30,7 +44,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-tbcEntry-button" id="saveDestinationBtn">Save</button>
+        <button type="button" class="btn btn-primary save-tbcEntry-button" id="saveTbcEntryBtn">Save</button>
       </div>
     </div>
   </div>

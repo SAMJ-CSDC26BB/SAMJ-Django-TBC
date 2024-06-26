@@ -2,12 +2,9 @@ from django.urls import path, include
 
 from samj.swagger.swagger_config import schema_view
 from . import views
-from .views import GitHubLogin, GoogleLogin
+from .views import GitHubLogin
 
 from .viewClasses.api_v2_tbc import api_v2_tbc
-from .viewClasses import callingNumberManagement
-from .views import UserManagementView
-from .views import UserManagementAPIView
 from .viewClasses.callingNumberManagement_api import callingNumberManagementAPIView
 from .viewClasses.callingNumberManagement import callingNumberManagement
 from .views import CallForwardingManagementAPIView

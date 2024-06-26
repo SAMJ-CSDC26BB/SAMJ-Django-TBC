@@ -21,8 +21,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from samj.github_api.github_api import GitHubAPI
 
+from samj.github_api.github_api import GitHubAPI
 from .forms import GitHubIssueForm, CustomUserCreationForm, UpdateUserForm, GlobalSettingsForm
 from .models import User, GlobalSettings, CallForwarding, DestinationNumber, CalledNumber
 from .serializer import ExampleSerializer
@@ -258,6 +258,83 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
         logger.info("XXXXXXXXX")
         logger.info(context)
         return render(request, 'edit_create_TbcEntry.html', context)
+
+
+class DestinationManagementView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'destination_management.html')
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class DestinationManagementAPIView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        query = DestinationNumber.objects.all().values('number', 'name')
+        destinationList = []
+        for item in query:
+            destinationList.append(item)
+        destinations_list_wrapped = {'destinations': destinationList}
+        logger.info(destinations_list_wrapped)
+
+        return JsonResponse(destinations_list_wrapped)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            destination = DestinationNumber(
+                name=data.get('name'),
+                number=data.get('number'),
+            )
+            destination.save()
+            return JsonResponse({'message': 'Destination created successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+
+            destination_number = data.get('number')
+            destination_name = data.get('name')
+            if not destination_number:
+                return JsonResponse({'error': 'Number is required for updating a destination'}, status=400)
+            try:
+                destination = DestinationNumber.objects.get(number=destination_number)
+            except Exception as e:
+                return JsonResponse({'error': 'Destination not found'}, status=404)
+
+            destination.name = data.get('name', destination.name)
+            destination.number = data.get('number', destination.number)
+            destination.save()
+            return JsonResponse({'message': 'Destination updated successfully'}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    def delete(self, request, *args, **kwargs):
+        logger = logging.getLogger("samj")
+        logger.info("delete request triggered")
+
+        try:
+            user = request.user
+            data = json.loads(request.body)
+            destination_id = data.get('id')
+            if not destination_id:
+                return JsonResponse({'error': 'ID is required for deleting a destination'}, status=400)
+            try:
+                destination = DestinationNumber.objects.get(id=destination_id, user=user)
+            except DestinationNumber.DoesNotExist:
+                return JsonResponse({'error': 'Destination not found'}, status=404)
+
+            destination.delete()
+            return JsonResponse({'message': 'Destination deleted successfully'}, status=204)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
 
 
 @method_decorator(login_required, name='dispatch')

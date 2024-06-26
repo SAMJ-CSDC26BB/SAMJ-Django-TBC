@@ -49,7 +49,7 @@ class UserManagementAPIView(View):
                 username=data.get('username'),
                 fullname=data.get('fullname'),
                 password=password,
-                email=" ",
+                email="test@gmail.com",
                 number=data.get('number'),
                 status=data.get('status', 'active'),
                 role=data.get('role', 'user')

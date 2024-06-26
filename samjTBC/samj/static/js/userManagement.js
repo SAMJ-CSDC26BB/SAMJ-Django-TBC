@@ -215,7 +215,20 @@ function createUser(userForm = getUserManagementForm()) {
     }
 
     const newUser = getUserDataFromForm(userForm);
+    if (isUsernameTaken(newUser)) {
+        Utils.showNotificationMessage("Username taken", "error");
+        return;
+    }
+
     createNewUser(newUser);
+}
+
+function isUsernameTaken(newUser) {
+    let table = document.querySelector("#userTable");
+    let username = table.querySelector("[data-username=" + newUser.username + "]");
+    if (username) {
+        return true;
+    }
 }
 
 function createNewUser(newUser) {

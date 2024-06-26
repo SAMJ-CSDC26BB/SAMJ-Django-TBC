@@ -627,3 +627,13 @@
 [2024-06-26 13:03:54][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
 [2024-06-26 13:24:02][INFO] {'destinations': [{'number': '+43123', 'name': 'Test123'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123456', 'name': 'newdest'}]}
 [2024-06-26 13:24:08][INFO] {'destinations': [{'number': '+43123', 'name': 'Test123'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123456', 'name': 'newdest'}]}
+[2024-06-26 14:25:21][INFO] XXXXXX
+[2024-06-26 14:25:21][INFO] Post triggered
+[2024-06-26 14:40:55][INFO] XXXXXX
+[2024-06-26 14:40:55][INFO] put triggered
+[2024-06-26 14:46:11][INFO] XXXXXX
+[2024-06-26 14:46:11][INFO] put triggered
+[2024-06-26 14:46:11][INFO] {'calledNumber': '+4367763106443', 'destination': '+43123', 'startDate': '2024-06-18', 'endDate': '2024-06-27'}
+[2024-06-26 14:49:33][INFO] XXXXXX
+[2024-06-26 14:49:33][INFO] put triggered
+[2024-06-26 14:49:33][INFO] {'calledNumber': '+4367763106443', 'destination': '+43123', 'startDate': '2024-06-18', 'endDate': '2024-06-27'}

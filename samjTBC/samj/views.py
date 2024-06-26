@@ -114,22 +114,37 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
         return JsonResponse(call_forwarding_list_wrapped)
 
     def post(self, request, *args, **kwargs):
-        logger = logging.getLogger("samj")
-
         try:
+            logger = logging.getLogger('samj')
+            logger.info("XXXXXX")
+            logger.info("put triggered")
             data = json.loads(request.body)
-            call_forwarding = CallForwarding(
-                calledNumber=CalledNumber.objects.get(number=data.get('called_number')),
-                destination=DestinationNumber.objects.get(number=data.get('destination_number')),
-                startDate=data.get('start_date'),
-                endDate=data.get('end_date'),
+            logger.info(data)
+            called_number = data.get('called_number')
+            destination_number = data.get('destination_number')
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+
+            called_number_instance = CalledNumber.objects.get(number=called_number)
+            destination_instance = DestinationNumber.objects.get(number=destination_number)
+
+            call_forwarding = CallForwarding.objects.create(
+                calledNumber=called_number_instance,
+                destination=destination_instance,
+                startDate=start_date,
+                endDate=end_date,
             )
-            call_forwarding.save()
+
             return JsonResponse({'message': 'Call Forwarding created successfully'}, status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except CalledNumber.DoesNotExist:
+            return JsonResponse({'error': f'Called Number with number {called_number} does not exist'}, status=404)
+        except DestinationNumber.DoesNotExist:
+            return JsonResponse({'error': f'Destination Number with number {destination_number} does not exist'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
 
     def put(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")

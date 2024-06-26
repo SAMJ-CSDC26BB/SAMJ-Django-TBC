@@ -241,7 +241,7 @@ function createTbcEntry(tbcForm = getTbcForm()) {
 }
 
 function createNewTbcEntry(newTbcEntry) {
-    fetch('/api/tbc_management/', {
+    fetch('/api/call_forwarding_management/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -259,7 +259,7 @@ function createNewTbcEntry(newTbcEntry) {
         .then(data => {
             Utils.closeModal(SELECTORS.editCreateTbcEntryModal);
             Utils.showNotificationMessage(`TBC Entry created successfully`);
-            addTbcEntryToTable(newTbcEntry);
+            addCallForwardingToTable(newTbcEntry);
             initializeEvents();
 
             let tableBottom = document.querySelector(SELECTORS.dataTableBottom);
@@ -289,7 +289,7 @@ function editTbcEntry(tbcForm = getTbcForm()) {
 }
 
 function updateTbcEntry(updatedTbcEntry) {
-    fetch('/api/tbc_management/', {
+    fetch('/api/call_forwarding_management/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -330,7 +330,7 @@ function onDeleteTbcEntryButtonClick(event) {
 }
 
 function deleteTbcEntry(row) {
-    fetch('/api/tbc_management/', {
+    fetch('/api/call_forwarding_management/', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

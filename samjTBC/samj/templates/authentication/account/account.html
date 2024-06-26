@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}SAMJ Account{% endblock %}
+
+{% block body %}
+<h1 class="mt-5 mb-5"> Update User Account </h1>
+
+
+{% block content %}
+<form method="post" action="{% url 'account' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}

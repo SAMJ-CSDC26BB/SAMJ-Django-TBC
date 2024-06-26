@@ -1,0 +1,52 @@
+<nav class="navbar navbar-dark bg-dark" aria-label="SAMJ Navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">SAMJ</a>
+        {% if user.is_authenticated %}
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#samjNavbar"
+                aria-controls="samjNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% endif %}
+
+        <div class="navbar-collapse collapse" id="samjNavbar">
+            <ul class="navbar-nav me-auto mb-2">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="../user">User Management</a>
+                </li>
+                {% endif %}
+                <!--<li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>-->
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown"
+                       aria-expanded="false">User Actions</a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                        <li><a class="dropdown-item" href="{% url 'account' %}">Account</a></li>
+                        <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <div class="row">
+                        <div class="col">
+                            {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-light btn-sm auth-button">Logout</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

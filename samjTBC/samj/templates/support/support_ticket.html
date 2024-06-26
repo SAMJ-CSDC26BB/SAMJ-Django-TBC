@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% load i18n %}
+{% load static %}
+{% block head %}
+{% block title %} SAMJ | Support Ticket {% endblock %}
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+
+
+    {% block content %}
+    <h1 class="mb-4">Support Tickets</h1>
+    <p>If you are familiar with Github and have an account, then you can create the issue here: </p>
+    <!-- Filters -->
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <select id="stateFilter" class="form-select">
+                <option value="open" selected>Open</option>
+                <option value="closed">Closed</option>
+                <option value="all">All</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" id="creationDate" class="form-control" placeholder="Creation Date">
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="keywordSearch" class="form-control" placeholder="Search Keywords">
+        </div>
+    </div>
+
+    <!-- Ticket Container -->
+    <div class="row" id="ticketContainer">
+        {% for issue in issues %}
+        <div class="col-md-6 mb-4 ticket" data-state="{{ issue.state }}" data-created="{{ issue.created_at }}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ issue.url }}" class="text-decoration-none">{{ issue.title }}</a>
+                    </h5>
+                    <p class="card-text"><strong>State:</strong> {{ issue.state }}</p>
+                    <p class="card-text"><strong>Created at:</strong> {{ issue.created_at }}</p>
+                    <pre class="card-text bg-light p-3 rounded">{{ issue.body }}</pre>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script type="module" src="../../static/js/support/support_tickets.js"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% load static %}
+{% if user.is_authenticated %}
+    <a href="{% url 'socialauth_disconnect' 'github' %}" class="btn btn-primary">Logout</a>
+{% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+{% endif %}

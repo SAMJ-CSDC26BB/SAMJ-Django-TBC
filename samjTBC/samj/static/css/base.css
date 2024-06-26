@@ -1,0 +1,6 @@
+html, body {
+    height: 100%;
+}
+.toast {
+    z-index: 1090;
+}

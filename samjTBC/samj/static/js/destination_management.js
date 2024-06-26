@@ -81,7 +81,6 @@ function populateDestinationsTable() {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
-            //console.log("wtf0");
             return response.json();
         })
 
@@ -89,14 +88,12 @@ function populateDestinationsTable() {
             if (!data.destinations) {
                 throw new Error("Error fetching destinations");
             }
-            //console.log("wtf1")
             addDestinationsToTable(data.destinations);
             Utils.initializeVanillaDataTable('#destinationsTable');
             initializeEvents();
 
         })
         .catch(error => {
-            //console.log("wtf2")
             console.error(error.message)
             Utils.showNotificationMessage('Error loading the Destination', error.message);
         });

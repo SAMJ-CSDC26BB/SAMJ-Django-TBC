@@ -14,3 +14,4 @@ auth~=0.5.3
 django-rest-swagger
 drf_yasg
 setuptools
+xmltodict

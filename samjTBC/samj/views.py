@@ -293,13 +293,18 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
 
         try:
             data = json.loads(request.body)
+            logger.info(data)
             destination_number = data.get('number')
             destination_name = data.get('name')
             if not destination_number:
+                logger.info("if not destination number")
                 return JsonResponse({'error': 'Number is required for updating a destination'}, status=400)
             try:
-                destination = DestinationNumber.objects.get(number=destination_number, name=destination_name)
-            except DestinationNumber.DoesNotExist:
+                logger.info("wft try")
+                logger.info(destination_number)
+                destination = DestinationNumber.objects.get(number=destination_number)
+                logger.info(destination)
+            except Exception as e:
                 return JsonResponse({'error': 'Destination not found'}, status=404)
 
             destination.name = data.get('name', destination.name)
@@ -307,8 +312,10 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
             destination.save()
             return JsonResponse({'message': 'Destination updated successfully'}, status=200)
         except json.JSONDecodeError:
+            logger.info("wtf1")
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
         except Exception as e:
+            logger.info("wtf2")
             return JsonResponse({'error': str(e)}, status=400)
 
     def delete(self, request, *args, **kwargs):

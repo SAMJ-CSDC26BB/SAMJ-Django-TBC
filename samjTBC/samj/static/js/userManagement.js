@@ -21,7 +21,6 @@ const SELECTORS = {
     'editCreateUserModalTitle'  : '.modal-title',
     'deleteUserModal'           : '#deleteUserModal',
     'csrfToken'                 : "[name=csrfmiddlewaretoken]",
-    'tableDataFullname'         : ".tableDataFullname",
     'tableDataNumber'           : ".tableDataNumber",
     'tableDataStatus'           : ".tableDataStatus",
     'tableDataRole'             : ".tableDataRole",

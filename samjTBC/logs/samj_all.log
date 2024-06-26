@@ -279,3 +279,241 @@
 [2024-06-26 01:48:16][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123465', 'name': 'ying'}]}
 [2024-06-26 01:48:25][INFO] put request triggered
 [2024-06-26 01:49:00][INFO] put request triggered
+[2024-06-26 01:58:30][ERROR] Backend wtf
+[2024-06-26 01:58:30][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:58:30][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 01:58:35][ERROR] Backend wtf
+[2024-06-26 01:58:35][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:58:35][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 01:58:39][ERROR] Backend wtf
+[2024-06-26 01:58:39][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:58:39][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 01:59:01][ERROR] Backend wtf
+[2024-06-26 01:59:01][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:59:01][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 01:59:09][ERROR] Backend wtf
+[2024-06-26 01:59:09][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:59:09][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 01:59:40][ERROR] Backend wtf
+[2024-06-26 01:59:40][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 01:59:40][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:06][ERROR] Backend wtf
+[2024-06-26 02:00:06][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:06][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:11][ERROR] Backend wtf
+[2024-06-26 02:00:11][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:11][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:37][ERROR] Backend wtf
+[2024-06-26 02:00:37][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:37][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:44][ERROR] Backend wtf
+[2024-06-26 02:00:44][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:44][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:49][ERROR] Backend wtf
+[2024-06-26 02:00:49][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:49][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:00:57][ERROR] Backend wtf
+[2024-06-26 02:00:57][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:00:57][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:01:16][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 02:01:59][ERROR] Backend wtf
+[2024-06-26 02:01:59][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:01:59][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:06:16][ERROR] Backend wtf
+[2024-06-26 02:06:16][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:06:16][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:06:26][INFO] put request triggered
+[2024-06-26 02:07:19][INFO] put request triggered
+[2024-06-26 02:09:52][INFO] {'destinations': [{'number': '+4367763106443', 'name': 'Markus'}, {'number': '+4369918822211', 'name': 'Joni'}, {'number': '+431234', 'name': 'Test2'}, {'number': '+436676786', 'name': 'Test5'}, {'number': '+43444444', 'name': 'test7'}]}
+[2024-06-26 02:10:17][ERROR] Backend wtf
+[2024-06-26 02:10:17][INFO] <QuerySet [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:10:17][INFO] {'destinations': [{'number': '+43123', 'name': 'Test'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:10:28][INFO] put request triggered
+[2024-06-26 02:10:28][INFO] {'name': 'Testyyyyy', 'number': '+43123'}
+[2024-06-26 02:14:44][INFO] put request triggered
+[2024-06-26 02:14:44][INFO] {'name': 'Testyyyyy', 'number': '+43123'}
+[2024-06-26 02:14:44][INFO] wft try
+[2024-06-26 02:14:44][INFO] wtf except
+[2024-06-26 02:18:18][INFO] put request triggered
+[2024-06-26 02:18:18][INFO] {'name': 'Testyyyyy', 'number': '+43123'}
+[2024-06-26 02:18:18][INFO] wft try
+[2024-06-26 02:18:18][INFO] wtf except
+[2024-06-26 02:18:46][INFO] put request triggered
+[2024-06-26 02:18:46][INFO] {'name': 'Testyyyyy', 'number': '+43123'}
+[2024-06-26 02:18:46][INFO] wft try
+[2024-06-26 02:18:46][INFO] wtf except
+[2024-06-26 02:21:31][INFO] put request triggered
+[2024-06-26 02:21:31][INFO] {'name': 'Testyyyyy', 'number': '+43123'}
+[2024-06-26 02:21:31][INFO] wft try
+[2024-06-26 02:21:31][INFO] wtf except
+[2024-06-26 02:22:32][INFO] put request triggered
+[2024-06-26 02:22:32][INFO] {'name': '', 'number': '+43123'}
+[2024-06-26 02:22:32][INFO] wft try
+[2024-06-26 02:22:32][INFO] wtf except
+[2024-06-26 02:23:06][INFO] put request triggered
+[2024-06-26 02:23:06][INFO] {'name': '', 'number': '+43123'}
+[2024-06-26 02:23:06][INFO] wft try
+[2024-06-26 02:23:06][INFO] +43123
+[2024-06-26 02:23:06][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:24:15][INFO] put request triggered
+[2024-06-26 02:24:15][INFO] {'name': 'Test3', 'number': '+439876'}
+[2024-06-26 02:24:15][INFO] wft try
+[2024-06-26 02:24:15][INFO] +439876
+[2024-06-26 02:24:15][INFO] DestinationNumber object (+439876)
+[2024-06-26 02:24:31][INFO] put request triggered
+[2024-06-26 02:24:31][INFO] {'name': 'Test3333', 'number': 'Test3'}
+[2024-06-26 02:24:31][INFO] wft try
+[2024-06-26 02:24:31][INFO] Test3
+[2024-06-26 02:24:31][INFO] wtf except
+[2024-06-26 02:24:46][INFO] put request triggered
+[2024-06-26 02:24:46][INFO] {'name': '', 'number': 'Test3'}
+[2024-06-26 02:24:46][INFO] wft try
+[2024-06-26 02:24:46][INFO] Test3
+[2024-06-26 02:24:46][INFO] wtf except
+[2024-06-26 02:25:11][INFO] put request triggered
+[2024-06-26 02:25:11][INFO] {'name': 'Test3444', 'number': 'Test3'}
+[2024-06-26 02:25:11][INFO] wft try
+[2024-06-26 02:25:11][INFO] Test3
+[2024-06-26 02:25:11][INFO] wtf except
+[2024-06-26 02:25:32][INFO] put request triggered
+[2024-06-26 02:25:32][INFO] {'name': 'Test34445', 'number': 'Test3'}
+[2024-06-26 02:25:32][INFO] wft try
+[2024-06-26 02:25:32][INFO] Test3
+[2024-06-26 02:25:32][INFO] wtf except
+[2024-06-26 02:25:38][INFO] put request triggered
+[2024-06-26 02:25:38][INFO] {'name': 'Test34445', 'number': 'Test3'}
+[2024-06-26 02:25:38][INFO] wft try
+[2024-06-26 02:25:38][INFO] Test3
+[2024-06-26 02:25:38][INFO] wtf except
+[2024-06-26 02:25:53][ERROR] Backend wtf
+[2024-06-26 02:25:53][INFO] <QuerySet [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:25:53][INFO] {'destinations': [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:26:05][ERROR] Backend wtf
+[2024-06-26 02:26:05][INFO] <QuerySet [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:26:05][INFO] {'destinations': [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:26:11][INFO] put request triggered
+[2024-06-26 02:26:11][INFO] {'name': '', 'number': '+439876'}
+[2024-06-26 02:26:11][INFO] wft try
+[2024-06-26 02:26:11][INFO] +439876
+[2024-06-26 02:26:11][INFO] DestinationNumber object (+439876)
+[2024-06-26 02:26:16][ERROR] Backend wtf
+[2024-06-26 02:26:16][INFO] <QuerySet [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': ''}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:26:16][INFO] {'destinations': [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': ''}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:26:24][INFO] put request triggered
+[2024-06-26 02:26:24][INFO] {'name': 'fegdr', 'number': '+439876'}
+[2024-06-26 02:26:24][INFO] wft try
+[2024-06-26 02:26:24][INFO] +439876
+[2024-06-26 02:26:24][INFO] DestinationNumber object (+439876)
+[2024-06-26 02:26:27][ERROR] Backend wtf
+[2024-06-26 02:26:27][INFO] <QuerySet [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'fegdr'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:26:27][INFO] {'destinations': [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'fegdr'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:29:19][INFO] put request triggered
+[2024-06-26 02:29:19][INFO] {'name': 'aaa', 'number': '+439876'}
+[2024-06-26 02:29:19][INFO] wft try
+[2024-06-26 02:29:19][INFO] +439876
+[2024-06-26 02:29:19][INFO] DestinationNumber object (+439876)
+[2024-06-26 02:29:23][ERROR] Backend wtf
+[2024-06-26 02:29:23][INFO] <QuerySet [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:29:23][INFO] {'destinations': [{'number': '+43123', 'name': ''}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:29:34][INFO] put request triggered
+[2024-06-26 02:29:34][INFO] {'name': 'bbbb', 'number': '+43123'}
+[2024-06-26 02:29:34][INFO] wft try
+[2024-06-26 02:29:34][INFO] +43123
+[2024-06-26 02:29:34][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:31:08][ERROR] Backend wtf
+[2024-06-26 02:31:08][INFO] <QuerySet [{'number': '+43123', 'name': 'bbbb'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:31:08][INFO] {'destinations': [{'number': '+43123', 'name': 'bbbb'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:31:28][INFO] put request triggered
+[2024-06-26 02:31:28][INFO] {'name': 'CCCC', 'number': '+43123'}
+[2024-06-26 02:31:28][INFO] wft try
+[2024-06-26 02:31:28][INFO] +43123
+[2024-06-26 02:31:28][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:37:30][ERROR] Backend wtf
+[2024-06-26 02:37:30][INFO] <QuerySet [{'number': '+43123', 'name': 'CCCC'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:37:30][INFO] {'destinations': [{'number': '+43123', 'name': 'CCCC'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:37:36][INFO] put request triggered
+[2024-06-26 02:37:36][INFO] {'name': 'DDD', 'number': '+43123'}
+[2024-06-26 02:37:36][INFO] wft try
+[2024-06-26 02:37:36][INFO] +43123
+[2024-06-26 02:37:36][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:37:36][ERROR] Backend wtf
+[2024-06-26 02:37:36][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:37:36][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:37:42][ERROR] Backend wtf
+[2024-06-26 02:37:42][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:37:42][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'aaa'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:37:50][INFO] put request triggered
+[2024-06-26 02:37:50][INFO] {'name': 'BBB', 'number': '+439876'}
+[2024-06-26 02:37:50][INFO] wft try
+[2024-06-26 02:37:50][INFO] +439876
+[2024-06-26 02:37:50][INFO] DestinationNumber object (+439876)
+[2024-06-26 02:37:50][ERROR] Backend wtf
+[2024-06-26 02:37:50][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:37:50][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:38:00][ERROR] Backend wtf
+[2024-06-26 02:38:00][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:38:00][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:49:58][ERROR] Backend wtf
+[2024-06-26 02:49:58][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]>
+[2024-06-26 02:49:58][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}]}
+[2024-06-26 02:50:06][INFO] put request triggered
+[2024-06-26 02:50:06][INFO] {'name': 'joni', 'number': '+4367763106443'}
+[2024-06-26 02:50:06][INFO] wft try
+[2024-06-26 02:50:06][INFO] +4367763106443
+[2024-06-26 02:50:06][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:07][INFO] put request triggered
+[2024-06-26 02:50:07][INFO] {'name': 'joni', 'number': '+4367763106443'}
+[2024-06-26 02:50:07][INFO] wft try
+[2024-06-26 02:50:07][INFO] +4367763106443
+[2024-06-26 02:50:07][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:20][INFO] put request triggered
+[2024-06-26 02:50:20][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:20][INFO] wft try
+[2024-06-26 02:50:20][INFO] +4367763106443
+[2024-06-26 02:50:20][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:20][INFO] put request triggered
+[2024-06-26 02:50:20][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:20][INFO] wft try
+[2024-06-26 02:50:20][INFO] +4367763106443
+[2024-06-26 02:50:20][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:20][INFO] put request triggered
+[2024-06-26 02:50:20][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:20][INFO] wft try
+[2024-06-26 02:50:20][INFO] +4367763106443
+[2024-06-26 02:50:20][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:20][INFO] put request triggered
+[2024-06-26 02:50:20][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:20][INFO] wft try
+[2024-06-26 02:50:20][INFO] +4367763106443
+[2024-06-26 02:50:20][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:21][INFO] put request triggered
+[2024-06-26 02:50:21][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:21][INFO] wft try
+[2024-06-26 02:50:21][INFO] +4367763106443
+[2024-06-26 02:50:21][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:50:21][INFO] put request triggered
+[2024-06-26 02:50:21][INFO] {'name': 'jan', 'number': '+4367763106443'}
+[2024-06-26 02:50:21][INFO] wft try
+[2024-06-26 02:50:21][INFO] +4367763106443
+[2024-06-26 02:50:21][INFO] DestinationNumber object (+4367763106443)
+[2024-06-26 02:54:03][ERROR] Backend wtf
+[2024-06-26 02:54:03][INFO] <QuerySet [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'jan'}]>
+[2024-06-26 02:54:03][INFO] {'destinations': [{'number': '+43123', 'name': 'DDD'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'jan'}]}
+[2024-06-26 02:54:10][INFO] put request triggered
+[2024-06-26 02:54:10][INFO] {'name': 'KKK', 'number': '+43123'}
+[2024-06-26 02:54:10][INFO] wft try
+[2024-06-26 02:54:10][INFO] +43123
+[2024-06-26 02:54:10][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:55:24][ERROR] Backend wtf
+[2024-06-26 02:55:24][INFO] <QuerySet [{'number': '+43123', 'name': 'KKK'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'jan'}]>
+[2024-06-26 02:55:24][INFO] {'destinations': [{'number': '+43123', 'name': 'KKK'}, {'number': '+439876', 'name': 'BBB'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'jan'}]}
+[2024-06-26 02:55:31][INFO] put request triggered
+[2024-06-26 02:55:31][INFO] {'name': 'yyyy', 'number': '+43123'}
+[2024-06-26 02:55:31][INFO] wft try
+[2024-06-26 02:55:31][INFO] +43123
+[2024-06-26 02:55:31][INFO] DestinationNumber object (+43123)
+[2024-06-26 02:55:55][INFO] put request triggered
+[2024-06-26 02:55:55][INFO] {'name': 'ÖÖÖ', 'number': '+439876'}
+[2024-06-26 02:55:55][INFO] wft try
+[2024-06-26 02:55:55][INFO] +439876
+[2024-06-26 02:55:55][INFO] DestinationNumber object (+439876)

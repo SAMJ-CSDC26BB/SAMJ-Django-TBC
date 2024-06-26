@@ -489,7 +489,11 @@ function getTableRowOfEditedUser(context) {
 
 function isUserAdmin() {
     let body = document.querySelector(SELECTORS.bodySelector);
-    return Utils.getPropertyFromDataset(body, "currentUserRole");
+    let role = Utils.getPropertyFromDataset(body, "currentUserRole");
+    if (!role) {
+        return false;
+    }
+    return role === "admin";
 }
 
 function isUserLoggedInUser(user) {

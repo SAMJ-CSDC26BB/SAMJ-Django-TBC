@@ -43,9 +43,10 @@ class CalledNumber(models.Model):
 
 
 class DestinationNumber(models.Model):
-    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False,
-                              primary_key=True)
+    number = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False,primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1)], null=False, blank=False)
+
+
 
 class User(models.Model):
     STATUS_CHOICES = [

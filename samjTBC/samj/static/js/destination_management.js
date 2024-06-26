@@ -30,7 +30,10 @@ const SELECTORS = {
     modalCloseButton: '.btn-close',
     modalTitle: '.modal-title',
     tableRow: 'tr',
-    modalBodyMessage: '.modal-body-message'
+    modalBodyMessage: '.modal-body-message',
+
+    tableDataNumber: '.tableDataNumber',
+    tableDataName: '.tableDataName'
 
 };
 
@@ -78,25 +81,22 @@ function populateDestinationsTable() {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
-            console.log("wtf0");
+            //console.log("wtf0");
             return response.json();
         })
-        .then(data => {
-            //console.log(data.destinations);
-            return data;
-        })
+
         .then(data => {
             if (!data.destinations) {
                 throw new Error("Error fetching destinations");
             }
-            console.log("wtf1")
+            //console.log("wtf1")
             addDestinationsToTable(data.destinations);
             Utils.initializeVanillaDataTable('#destinationsTable');
             initializeEvents();
 
         })
         .catch(error => {
-            console.log("wtf2")
+            //console.log("wtf2")
             console.error(error.message)
             Utils.showNotificationMessage('Error loading the Destination', error.message);
         });
@@ -294,18 +294,20 @@ function updateDestination(destinationData) {
     })
         .then(response => {
             if (!response.ok) {
+
                 throw new Error('Network response was not ok ' + response.statusText);
+
             }
-            return response.json();
+            //populateDestinationsTable()
         })
-        .then(data => {
-
-            Utils.closeModal(SELECTORS.editCreateDestinationModal);
-            Utils.showNotificationMessage(`${destinationData.number} updated successfully`);
-            updateUserInTable(updatedUser);
-
+        .then(data =>{
+            console.log(destinationData);
+        updateDestinationInTable(destinationData);
         })
+
+
         .catch(error => {
+            console.log("1")
             console.error('Error updating user:', error);
             Utils.showNotificationMessage(`Error updating ${destinationData.number}`, "error");
         });
@@ -393,18 +395,14 @@ function getTableRowOfEditedDestination(context) {
 
 function updateDestinationInTable(destinationData) {
     let destinationTable = document.querySelector(SELECTORS.destinationsTable);
-    let updatedDestinationTableRow = destinationTable.querySelector(`[data-number='${userData.username}']`);
-    if (!updatedUserTableRow) {
+    let updatedDestinationTableRow = destinationTable.querySelector(`[data-number='${destinationData.number}']`);
+    if (!updatedDestinationTableRow) {
         return;
     }
 
-    updatedUserTableRow.dataset.fullname = userData.fullname;
-    updatedUserTableRow.dataset.number = userData.number;
-    updatedUserTableRow.dataset.status = userData.status;
-    updatedUserTableRow.dataset.role = userData.role;
+    //updatedDestinationTableRow.dataset.number = destinationData.number;
+    updatedDestinationTableRow.dataset.name = destinationData.name;
 
-    updatedUserTableRow.querySelector(SELECTORS.tableDataFullname).innerText = userData.fullname;
-    updatedUserTableRow.querySelector(SELECTORS.tableDataNumber).innerText = userData.number;
-    updatedUserTableRow.querySelector(SELECTORS.tableDataStatus).innerText = userData.status;
-    updatedUserTableRow.querySelector(SELECTORS.tableDataRole).innerText = userData.role;
+    updatedDestinationTableRow.querySelector(SELECTORS.tableDataNumber).innerText = destinationData.number;
+    updatedDestinationTableRow.querySelector(SELECTORS.tableDataName).innerText = destinationData.name;
 }

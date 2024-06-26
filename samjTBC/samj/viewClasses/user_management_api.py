@@ -44,16 +44,15 @@ class UserManagementAPIView(View):
                     return JsonResponse({'error': message}, status=400)
 
             # Create default global settings for the new user
-            global_settings = GlobalSettings.objects.create()
 
             user = User(
                 username=data.get('username'),
                 fullname=data.get('fullname'),
                 password=password,
+                email=" ",
                 number=data.get('number'),
                 status=data.get('status', 'active'),
-                role=data.get('role', 'user'),
-                global_settings=global_settings
+                role=data.get('role', 'user')
             )
             user.save()
             return JsonResponse({'message': 'User created successfully'}, status=201)

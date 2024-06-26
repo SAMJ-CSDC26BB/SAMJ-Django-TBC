@@ -29,9 +29,11 @@
             </table>
         </div>
 
+        {% if user.role == "admin" %}
         <div class="d-flex justify-content-center">
             <button class="btn btn-outline-secondary create-user-btn" data-bs-target="#editCreateUserModal" data-bs-toggle="modal">Create</button>
         </div>
+        {% endif %}
     </div>
     {% block script %}
         <script type="module" src="../static/js/userManagement.js"></script>

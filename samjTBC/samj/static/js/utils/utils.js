@@ -76,3 +76,7 @@ export function getXMLDocFromString(str) {
     const parser = new DOMParser();
     return parser.parseFromString(str, "text/xml");
 }
+
+export function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+}

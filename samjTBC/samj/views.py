@@ -92,14 +92,14 @@ class GitHubLogin(SocialLoginView):
 
 
 class LogoutView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        logger.info('LogoutView GET request')
+    def post(self, request, *args, **kwargs):
+        logger.info('LogoutView POST request')
         auth_logout(request)
         if request.user.is_authenticated:
             logger.error('Logout failed.')
+            messages.error(request, 'Logout was not successful. Please try again.')
         else:
             logger.info('User logged out successfully')
-            messages.error(request, 'Logout was not successful. Please try again.')
         return redirect('login')
 
 

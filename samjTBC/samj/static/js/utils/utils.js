@@ -80,3 +80,18 @@ export function getXMLDocFromString(str) {
 export function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
+
+export function showMessagesOnDomLoad(messageSelector) {
+    let message = document.querySelector(messageSelector);
+    if (!message) {
+        return;
+    }
+    if (message.innerText.includes("Login successful")) { // work around
+        return;
+    }
+    if (message) {
+        let messageType = message.classList.contains("error") ? "error" : "success";
+        showNotificationMessage(message.innerText, messageType);
+        message.remove();
+    }
+}

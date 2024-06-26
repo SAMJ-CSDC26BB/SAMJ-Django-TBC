@@ -2,11 +2,7 @@
 import * as Utils from './utils/utils.js';
 
 document.addEventListener("DOMContentLoaded", function () {
-    let errormessage = document.querySelector('.authentication-error-message');
-    if (errormessage) {
-        Utils.showNotificationMessage(errormessage.innerText, "error");
-        errormessage.remove();
-    }
+    Utils.showMessagesOnDomLoad('.loginMessage');
 });
 
 var passwordField = document.querySelector('#id_password1');

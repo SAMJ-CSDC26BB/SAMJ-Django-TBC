@@ -23,7 +23,7 @@
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
-        <div {% if message.tags %} class="{{ message.tags }} login-success-message d-none" {% endif %}>
+        <div {% if message.tags %} class="{{ message.tags }} loginMessage d-none" {% endif %}>
             {{ message }}
         </div>
         {% endfor %}

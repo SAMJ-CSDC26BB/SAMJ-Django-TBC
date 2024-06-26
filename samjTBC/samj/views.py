@@ -106,18 +106,15 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
             'startDate',
             'endDate'
         )
-        logger.info(query)
         call_forwarding_list = []
         for item in query:
             call_forwarding_list.append(item)
         call_forwarding_list_wrapped = {'call_forwardings': call_forwarding_list}
-        logger.info(call_forwarding_list_wrapped)
 
         return JsonResponse(call_forwarding_list_wrapped)
 
     def post(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")
-        logger.info("post request triggered")
 
         try:
             data = json.loads(request.body)
@@ -136,7 +133,6 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
 
     def put(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")
-        logger.info("put request triggered")
 
         try:
             data = json.loads(request.body)
@@ -185,6 +181,9 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
             return JsonResponse({'error': str(e)}, status=400)
 
     def edit_create_tbc_entry(request):
+        logger = logging.getLogger('samj')
+        logger.info("XXXXXXXXX")
+
         called_numbers = CalledNumber.objects.all()
         destinations = DestinationNumber.objects.all()
 
@@ -193,6 +192,8 @@ class CallForwardingManagementAPIView(LoginRequiredMixin, View):
         'destinations': destinations,
         }
 
+        logger.info("XXXXXXXXX")
+        logger.info(context)
         return render(request, 'edit_create_TbcEntry.html', context)
 
 class UserManagementView(LoginRequiredMixin, TemplateView):
@@ -360,7 +361,6 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         logger = logging.getLogger("samj")
         query = DestinationNumber.objects.all().values('number', 'name')
-        logger.info(query)
         destinationList = []
         for item in query:
             destinationList.append(item)
@@ -370,9 +370,6 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
         return JsonResponse(destinations_list_wrapped) 
 
     def post(self, request, *args, **kwargs):
-        logger = logging.getLogger("samj")
-        logger.info("post request triggered")
-
         try:
             data = json.loads(request.body)
             destination = DestinationNumber(
@@ -387,22 +384,16 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
             return JsonResponse({'error': str(e)}, status=400)
 
     def put(self, request, *args, **kwargs):
-        logger = logging.getLogger("samj")
-        logger.info("put request triggered")
-
         try:
             data = json.loads(request.body)
-            logger.info(data)
+
             destination_number = data.get('number')
             destination_name = data.get('name')
             if not destination_number:
-                logger.info("if not destination number")
+
                 return JsonResponse({'error': 'Number is required for updating a destination'}, status=400)
             try:
-                logger.info("wft try")
-                logger.info(destination_number)
                 destination = DestinationNumber.objects.get(number=destination_number)
-                logger.info(destination)
             except Exception as e:
                 return JsonResponse({'error': 'Destination not found'}, status=404)
 
@@ -411,10 +402,8 @@ class DestinationManagementAPIView(LoginRequiredMixin, View):
             destination.save()
             return JsonResponse({'message': 'Destination updated successfully'}, status=200)
         except json.JSONDecodeError:
-            logger.info("wtf1")
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
         except Exception as e:
-            logger.info("wtf2")
             return JsonResponse({'error': str(e)}, status=400)
 
     def delete(self, request, *args, **kwargs):

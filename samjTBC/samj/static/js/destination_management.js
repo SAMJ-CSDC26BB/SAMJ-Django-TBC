@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     populateDestinationsTable();
 });
 
+
 function initializeEvents() {
     document.querySelectorAll(SELECTORS.editDestinationButton).forEach(button => {
         button.addEventListener('click', onEditButtonClick);

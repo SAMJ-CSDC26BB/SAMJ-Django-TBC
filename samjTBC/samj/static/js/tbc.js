@@ -1,6 +1,6 @@
 import * as Utils from './utils/utils.js';
 import { ButtonBuilder, ElementBuilder } from './builder/builder.js';
-import {resetForm} from "./utils/utils.js";
+
 
 
 
@@ -21,7 +21,7 @@ const SELECTORS = {
 
     // Form Inputs for Destination Management
     destinationNameInput: '#destinationName',
-    destinationNumberInput: '#destinationNumber',
+    destinationNumberInput: '#destination',
 
     // Tables and Table Body for Destination Management
     destinationsTable: '#destinationsTable',
@@ -45,7 +45,8 @@ const SELECTORS = {
     deleteTbcEntryModal: '#deleteTbcEntryModal',
     csrfToken: "[name=csrfmiddlewaretoken]",
     dataTableBottom: '.dataTable-bottom',
-    callForwardingTable: '#tbcTable'
+    callForwardingTable: '#tbcTable',
+    callForwardingForm: '#tbcEntryForm',
 };
 
 
@@ -205,6 +206,7 @@ function onCreateTbcEntryButtonClick(event) {
 
     // Reset the form and enable required inputs for creating a new entry
     tbcForm.reset();
+    fetchTbcEntryData()
     Utils.toggleRequiredInputsInForm(tbcForm, true);
 
     // Update the form action mode and modal title
@@ -384,7 +386,7 @@ function setTbcEntryModalTitle(title) {
 }
 
 function getTbcForm() {
-    return document.querySelector('#tbcEntryForm');  // Update with your actual form ID
+    return document.querySelector(SELECTORS.callForwardingForm);  // Update with your actual form ID
 }
 
 function setFormActionMode(mode, form = getTbcForm()) {
@@ -415,6 +417,69 @@ function getTableRowOfEditedTbcEntry(context) {
 }
 
 
+
+
+document.querySelector(SELECTORS.createTbcEntryButton).addEventListener('click', function() {
+    let callForwadingForm = getTbcForm()
+    Utils.resetForm(callForwadingForm);  // Function to reset the form fields
+    fetchTbcEntryData(); // Fetch data for the modal
+});
+
+function fetchTbcEntryData() {
+    fetch('/api/edit_create_tbc_entry/',{
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Cache-Control': 'max-age=1', // 12 hours
+        }
+    })
+
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update dropdowns with fetched data
+            console.log(data);
+
+            updateCalledNumberDropdown(data.call_forwardings);
+            updateDestinationDropdown(data.call_forwardings);
+
+            // Show the modal after data is loaded
+            let modal = new bootstrap.Modal(document.getElementById('editCreateTbcEntryModal'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error('Error fetching TBC entry data:', error);
+            // Handle error scenario
+        });
+}
+
+function updateCalledNumberDropdown(callForwardings) {
+    let calledNumberSelect = document.querySelector(SELECTORS.calledNumberInput);
+    calledNumberSelect.innerHTML = '<option value="">Select called number...</option>';  // Clear previous options
+
+    callForwardings.forEach(function(cf) {
+        let option = document.createElement('option');
+        option.value = cf.calledNumber__number;
+        option.textContent = cf.calledNumber__number;
+        calledNumberSelect.appendChild(option);
+    });
+}
+
+function updateDestinationDropdown(callForwardings) {
+    let destinationSelect = document.querySelector(SELECTORS.destinationInput);
+    destinationSelect.innerHTML = '<option value="">Select destination...</option>';  // Clear previous options
+
+    callForwardings.forEach(function(cf) {
+        let option = document.createElement('option');
+        option.value = cf.destination__number;
+        option.textContent = cf.destination__number;
+        destinationSelect.appendChild(option);
+    });
+}
 
 
 

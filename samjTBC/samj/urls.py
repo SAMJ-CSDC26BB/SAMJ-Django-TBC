@@ -60,6 +60,5 @@ urlpatterns = [
     path('api/callingNumberManagement/', callingNumberManagementAPIView.as_view(), name='callingNumberManagement_api'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/call_forwarding_management/', CallForwardingManagementAPIView.as_view(), name='call_forwarding_management'),
-    path('edit_create_tbc_entry/', CallForwardingManagementAPIView.as_view(), name='edit_create_tbc_entry'),
-
+    path('api/edit_create_tbc_entry/', CallForwardingManagementAPIView.as_view(), name='edit_create_tbc_entry'),
 ]

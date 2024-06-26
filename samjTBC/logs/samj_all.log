@@ -603,3 +603,27 @@
 [2024-06-26 12:10:18][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
 [2024-06-26 12:28:15][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
 [2024-06-26 12:28:15][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:36:26][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:36:26][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:43:08][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:43:08][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:43:47][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:43:47][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:50:17][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:50:17][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:53:10][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:53:10][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:57:23][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:57:23][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 12:59:25][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 12:59:25][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 13:01:29][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 13:01:29][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 13:01:53][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 13:01:53][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 13:03:49][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 13:03:49][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 13:03:54][INFO] <QuerySet [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]>
+[2024-06-26 13:03:54][INFO] {'call_forwardings': [{'calledNumber__number': '+4367763106443', 'destination__number': '+43123', 'startDate': datetime.date(2024, 6, 4), 'endDate': datetime.date(2024, 6, 6)}]}
+[2024-06-26 13:24:02][INFO] {'destinations': [{'number': '+43123', 'name': 'Test123'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123456', 'name': 'newdest'}]}
+[2024-06-26 13:24:08][INFO] {'destinations': [{'number': '+43123', 'name': 'Test123'}, {'number': '+439876', 'name': 'Test3'}, {'number': '+43988888', 'name': 'test6'}, {'number': '+4367763106443', 'name': 'Markus'}, {'number': '123456', 'name': 'newdest'}]}

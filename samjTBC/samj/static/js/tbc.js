@@ -76,9 +76,7 @@ function initializeEvents() {
         button.addEventListener('click', onCreateTbcEntryButtonClick);
     });
 
-    document.querySelectorAll(SELECTORS.saveTbcEntryButton).forEach(button => {
-        button.addEventListener('click', onSaveTbcEntryButtonClick)
-    });
+    document.querySelector(SELECTORS.saveTbcEntryButton).addEventListener('click', onSaveTbcEntryButtonClick);
 
 }
 
@@ -217,7 +215,7 @@ function onCreateTbcEntryButtonClick(event) {
 
 
 function onSaveTbcEntryButtonClick(event) {
-    console.log("save button clicked")
+    console.log("save Button clicked");
     const form = getTbcForm();
     if (!form || !form.dataset.mode) {
         return;
@@ -235,7 +233,7 @@ function createTbcEntry(tbcForm = getTbcForm()) {
         tbcForm.classList.add(DATA.bootstrapFormValidated);
         return;
     }
-
+    console.log("LOL1")
     const newTbcEntry = getTbcEntryDataFromForm(tbcForm);
     createNewTbcEntry(newTbcEntry);
 }

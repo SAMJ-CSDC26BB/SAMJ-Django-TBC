@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import GlobalSettings, User, CallForwarding, DestinationNumber, CalledNumber
 
 # Register your models here.

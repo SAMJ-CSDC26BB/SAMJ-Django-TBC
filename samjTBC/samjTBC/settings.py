@@ -10,13 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
-from .logger import CustomFormatter
-
 from pathlib import Path
 
-# Log and Signup URL
-LOGIN_URL = 'login'
-
+from .logger import CustomFormatter
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,8 +45,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.apple",
     "social_django",
     'rest_framework_swagger',
     'drf_yasg',
@@ -68,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
+    "samj.middleware.EnsureGlobalSettingsMiddleware"
 ]
 
 ROOT_URLCONF = "samjTBC.urls"
@@ -76,7 +71,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "samj/templates"],
-        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -143,43 +136,41 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = [
+    'samj.authentication.AuthBackend.AuthBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.apple.AppleIdAuth',
 ]
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'samj.pipeline.associate_by_email',  # Ensure this is correctly defined
+    'social_core.pipeline.user.get_username',
+    'samj.pipeline.create_user',  # Use the custom create_user function
+    'samj.pipeline.set_global_settings',  # Custom function to set global settings
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 SITE_ID = 1
-# Social  Auth
 
+AUTH_USER_MODEL = 'samj.User'
+
+# Social  Auth
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
-SOCIAL_AUTH_GITHUB_KEY = 'Ov23ligv0jGdSHhI6DTK'
-SOCIAL_AUTH_GOOGLE_KEY = '382133458640-bpt47r6gap2hklct3kfu1gv9u86mume5.apps.googleusercontent.com'
-
-SOCIAL_AUTH_APPLE_ID_REDIRECT_URI = 'https://localhost:8000/social-auth/complete/apple-id'
-SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
-SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True  # If you want to use email as username
-
-SOCIAL_AUTH_APPLE_ID_CLIENT = 'at.drozd.SAMJ-TBC'  # Your client_id com.application.your, aka "Service ID"
-SOCIAL_AUTH_APPLE_ID_TEAM = 'X2TCD4883M'  # Your Team ID, ie K2232113
-SOCIAL_AUTH_APPLE_ID_KEY = 'CG8UPH6YSM'  # Your Key ID, ie Y2P99J3N81K
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('GITHUB_KEY')
 # do not push these
-SOCIAL_AUTH_GITHUB_SECRET = 'e09300b6e16df574923d862cb128ec011763fff9'
-SOCIAL_AUTH_GOOGLE_SECRET = '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'
-SOCIAL_AUTH_APPLE_ID_SECRET = """-----BEGIN PRIVATE KEY-----
-MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQguTQtZNhfqSA2QMbO
-DIE5oGHGjCEh+AWfHCiitP+FbQWgCgYIKoZIzj0DAQehRANCAATTXBErtKRlr68u
-Pwa7PB58neorvr5Nz03+O34aq9Vs8vvfo3jhZxPAj9Ak9Kv1cJbO+GRMQ0AW82Zw
-ZzQ7gm+D
------END PRIVATE KEY-----"""
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('GITHUB_SECRET')
 
 SOCIALACCOUNT_PROVIDERS = {
-    "github": {
+    "github_api": {
         "APP": {
             "client_id": "YOUR_GITHUB_CLIENT_ID",
             "secret": "YOUR_GITHUB_SECRET_KEY",
@@ -190,6 +181,11 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Logging settings
+
+# Ensure log directory exists
+log_dir = os.path.join(BASE_DIR, 'logs')
+os.makedirs(log_dir, exist_ok=True)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -220,10 +216,22 @@ LOGGING = {
             "filename": "./logs/django_info.log",
             "formatter": "standard",
         },
+        "django_warning": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "./logs/django_warning.log",
+            "formatter": "standard",
+        },
         "django_error": {
             "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "./logs/django_error.log",
+            "formatter": "standard",
+        },
+        "django_critical": {
+            "level": "CRITICAL",
+            "class": "logging.FileHandler",
+            "filename": "./logs/django_critical.log",
             "formatter": "standard",
         },
         "samj_all": {
@@ -238,21 +246,33 @@ LOGGING = {
             "filename": "./logs/samj_info.log",
             "formatter": "standard",
         },
+        "samj_warning": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "./logs/samj_warning.log",
+            "formatter": "standard",
+        },
         "samj_error": {
             "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "./logs/samj_error.log",
             "formatter": "standard",
         },
+        "samj_critical": {
+            "level": "CRITICAL",
+            "class": "logging.FileHandler",
+            "filename": "./logs/samj_critical.log",
+            "formatter": "standard",
+        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "django_info", "django_error", "django_all"],
+            "handlers": ["console", "django_info", "django_warning", "django_error", "django_critical", "django_all"],
             "level": "DEBUG",
             "propagate": True,
         },
         "samj": {
-            "handlers": ["console", "samj_info", "samj_error", "samj_all"],
+            "handlers": ["console", "samj_info", "samj_warning", "samj_error", "samj_critical", "samj_all"],
             "level": "DEBUG",
             "propagate": True,
         },

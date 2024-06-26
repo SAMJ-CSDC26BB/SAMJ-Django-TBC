@@ -1,16 +1,17 @@
-from django.http import HttpResponse, JsonResponse
-from django.views import View
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import serializers
-from drf_yasg.utils import swagger_auto_schema
+import logging
+
 from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..businessLogic import getDestination
-import logging
+
 
 class DestinationSerializer(serializers.Serializer):
     destination = serializers.CharField()
+
 
 class api_v2_tbc(APIView):
     @swagger_auto_schema(
@@ -19,7 +20,8 @@ class api_v2_tbc(APIView):
             openapi.Parameter(
                 'number',
                 openapi.IN_QUERY,
-                description="get dest. number if current Time matches callforwarding Entry corresponding to callednumber",
+                description="get dest. number if current Time matches callforwarding Entry corresponding to "
+                            "called number",
                 type=openapi.TYPE_STRING,
             ),
         ],

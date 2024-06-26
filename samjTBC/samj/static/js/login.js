@@ -1,33 +1,49 @@
-// Function to handle successful login
-function handleSuccessfulLogin() {
-    alert('Login successful! You can now use our service.');
-    // Redirect to the service page
-    window.location.href = '/service';
-}
+// Function to handle successful authentication
+import * as Utils from './utils/utils.js';
 
-// Event listener for login button
-document.getElementById('login-button').addEventListener('click', function() {
-    // Perform login (this is just a placeholder - replace with your actual login code)
-    let loginSuccessful = true; // This should be the result of your login attempt
-
-    if (loginSuccessful) {
-        handleSuccessfulLogin();
-    } else {
-        alert('Login failed. Please try again.');
+document.addEventListener("DOMContentLoaded", function () {
+        let errormessage = document.querySelector('.authentication-error-message');
+        if (errormessage) {
+            Utils.showNotificationMessage(errormessage.innerText, "error");
+            errormessage.remove();
+        }
     }
+)
+;
+
+$(document).ready(function () {
+    $('.toast').toast('show');
 });
 
-$(document).ready(function() {
-    $("#show_hide_password a").on('click', function(event) {
-        event.preventDefault();
-        if($('#show_hide_password input').attr("type") === "text"){
-            $('#show_hide_password input').attr('type', 'password');
-            $('#show_hide_password i').addClass( "fa-eye-slash" );
-            $('#show_hide_password i').removeClass( "fa-eye" );
-        }else if($('#show_hide_password input').attr("type") === "password"){
-            $('#show_hide_password input').attr('type', 'text');
-            $('#show_hide_password i').removeClass( "fa-eye-slash" );
-            $('#show_hide_password i').addClass( "fa-eye" );
+document.addEventListener("DOMContentLoaded", function () {
+    let errormessage = document.querySelector('.authentication-error-message');
+    if (errormessage) {
+        Utils.showNotificationMessage(errormessage.innerText, "error");
+        errormessage.remove();
+    }
+
+    // Get the input fields and the submit button
+    let usernameInput = document.querySelector('#username_email_input');
+    let passwordInput = document.querySelector('#password_input');
+    let submitButton = document.querySelector('#submit');
+
+    // Function to check if both fields are filled
+    function checkInputFields() {
+        if (usernameInput.value && passwordInput.value) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
         }
-    });
+    }
+
+    // Check the input fields initially
+    checkInputFields();
+
+    // Check the input fields whenever their values change
+    usernameInput.addEventListener('input', checkInputFields);
+    passwordInput.addEventListener('input', checkInputFields);
+});
+
+$(document).ready(function () {
+    $('.toast').toast('show');
 });

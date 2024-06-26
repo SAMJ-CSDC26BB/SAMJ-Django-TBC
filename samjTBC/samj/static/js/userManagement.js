@@ -21,12 +21,14 @@ const SELECTORS = {
     'editCreateUserModalTitle'  : '.modal-title',
     'deleteUserModal'           : '#deleteUserModal',
     'csrfToken'                 : "[name=csrfmiddlewaretoken]",
+    'tableDataFullname'         : ".tableDataFullname",
     'tableDataNumber'           : ".tableDataNumber",
     'tableDataStatus'           : ".tableDataStatus",
     'tableDataRole'             : ".tableDataRole",
     'userForm'                  : '#userForm',
     'dataTableBottom'           : '.dataTable-bottom',
-    'passwordInputHelperText'   : '.passwordInputHelperText'
+    'passwordInputHelperText'   : '.passwordInputHelperText',
+    'bodySelector'              : 'body'
 };
 
 const DATA = {
@@ -38,87 +40,11 @@ const DATA = {
     'displayNoneClassName'    : 'd-none'
 };
 
+let inEditUserInitialData = {};
+
 document.addEventListener('DOMContentLoaded', function () {
     populateUserTable();
 });
-
-
-function populateUserTable() {
-    fetch('/api/user_management/', {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Cache-Control': 'max-age=43200', // 12 hours
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data.users) {
-                throw new Error("Error fetching users");
-            }
-
-            addUsersToTable(data.users);
-            Utils.initializeVanillaDataTable('#userTable');
-            initializeEvents();
-
-        })
-        .catch(error => {
-            console.log("Error loading users", error);
-            Utils.showNotificationMessage('Error loading the users', "error");
-        });
-}
-
-function addUsersToTable(users) {
-    if (!users) {
-        return;
-    }
-
-    let userTable = document.querySelector(SELECTORS.userTable);
-    if (!userTable) {
-        throw new Error("Error fetching users, no user table found");
-    }
-    users.forEach(user => {
-        addUserToTable(user);
-    });
-}
-
-function addUserToTable(user) {
-    let userTable = document.querySelector(SELECTORS.userTable);
-    let tableBody = userTable.querySelector(SELECTORS.tableBody);
-
-    let editButton = new ButtonBuilder()
-        .class("btn btn-primary btn-sm me-2 edit-user-btn")
-        .with("data-bs-target", SELECTORS.editCreateUserModal)
-        .with("data-bs-toggle", "modal")
-        .text("Edit");
-    let deleteButton = new ButtonBuilder("button")
-        .class("btn btn-danger btn-sm delete-user-btn")
-        .with("data-bs-toggle", "modal")
-        .with("data-bs-target", SELECTORS.deleteUserModal)
-        .text("Delete");
-
-    let tableRow = new ElementBuilder("tr")
-        .attr({
-            'data-username': user.username,
-            'data-fullname': user.fullname,
-            'data-number': user.number,
-            'data-status': user.status,
-            'data-role': user.role
-        })
-        .append(new ElementBuilder("td").class("tableDataUsername").text(user.username))
-        .append(new ElementBuilder("td").class("tableDataFullname").text(user.fullname))
-        .append(new ElementBuilder("td").class("tableDataNumber").text(user.number))
-        .append(new ElementBuilder("td").class("tableDataStatus").text(user.status))
-        .append(new ElementBuilder("td").class("tableDataRole").text(user.role))
-        .append(new ElementBuilder("td").class("tableDataActions").append(editButton).append(deleteButton));
-
-    tableBody.append(tableRow.element);
-}
 
 function initializeEvents() {
     document.querySelectorAll(SELECTORS.editUserButton).forEach(button => {
@@ -138,7 +64,6 @@ function initializeEvents() {
 }
 
 function onEditButtonClick(event) {
-    console.log(SELECTORS.editUserButton);
     let row = getTableRowOfEditedUser(this),
         userForm = getUserManagementForm();
 
@@ -156,6 +81,15 @@ function onEditButtonClick(event) {
     userForm.querySelector(SELECTORS.passwordInputHelperText).classList.remove(DATA.displayNoneClassName);
 
     setFormActionMode(DATA.editActionMode, userForm);
+
+    inEditUserInitialData = {
+        username: row.dataset.username,
+        fullname: row.dataset.fullname,
+        number: row.dataset.number,
+        status: row.dataset.status,
+        role: row.dataset.role
+    };
+
     userForm.querySelector(SELECTORS.fullnameInput).value = row.dataset.fullname;
     userForm.querySelector(SELECTORS.numberInput).value = row.dataset.number;
     userForm.querySelector(SELECTORS.statusInput).value = row.dataset.status;
@@ -179,6 +113,87 @@ function onCreateButtonClick(event) {
     setUserManagementModalTitle(DATA.createUserModalTitle);
 }
 
+function populateUserTable() {
+    fetch('/api/user_management/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/xml', // can also use application/json
+            'Cache-Control': 'max-age=43200', // 12 hours
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/xml")) {
+                return response.text();
+            }
+
+            return response.json();
+
+        })
+        .then(data => {
+            // we got xml response
+            if (typeof data === "string") {
+                // Process the XML to extract users
+                return extractUsersFromXML(Utils.getXMLDocFromString(data));
+            }
+
+            // JSON response
+            return data;
+        })
+        .then(data => {
+            if (!data || !data.users) {
+                throw new Error("Error fetching users");
+            }
+
+            addUsersToTable(data.users);
+            Utils.initializeVanillaDataTable('#userTable');
+            initializeEvents();
+
+        })
+        .catch(error => {
+            console.log("Error loading users", error);
+            Utils.showNotificationMessage('Error loading the users', "error");
+        });
+}
+
+/**
+ * Extract the users from an xmlDoc and return a JSON with users as key and users array as value.
+ */
+function extractUsersFromXML(xmlDoc) {
+    let users = [];
+    const userElements = xmlDoc.getElementsByTagName("users");
+    for (let i = 0; i < userElements.length; i++) {
+        let user = {
+            username: userElements[i].getElementsByTagName("username")[0].textContent,
+            fullname: userElements[i].getElementsByTagName("fullname")[0].textContent,
+            number: userElements[i].getElementsByTagName("number")[0].textContent,
+            status: userElements[i].getElementsByTagName("status")[0].textContent,
+            role: userElements[i].getElementsByTagName("role")[0].textContent,
+        };
+        users.push(user);
+    }
+
+    // Matching the expected JSON format
+    return { users: users };
+}
+
+function addUsersToTable(users) {
+    if (!users) {
+        return;
+    }
+
+    let userTable = document.querySelector(SELECTORS.userTable);
+    if (!userTable) {
+        throw new Error("Error fetching users, no user table found");
+    }
+    users.forEach(user => {
+        addUserRowToTable(user);
+    });
+}
 
 function onSaveButtonClick(event) {
     const form = getUserManagementForm();
@@ -223,7 +238,7 @@ function createNewUser(newUser) {
 
             Utils.closeModal(SELECTORS.editCreateUserModal);
             Utils.showNotificationMessage(`${newUser.username} created successfully`);
-            addUserToTable(newUser);
+            addUserRowToTable(newUser);
             initializeEvents();
 
             let tableBottom = document.querySelector(SELECTORS.dataTableBottom);
@@ -252,12 +267,12 @@ function editUser(userForm = getUserManagementForm()) {
     }
 
     const updatedUser = getUserDataFromForm(userForm);
-    updateUser(updatedUser);
+    updateUser(updatedUser, isShouldUsePUTRequest(updatedUser));
 }
 
-function updateUser(updatedUser) {
+function updateUser(updatedUser, fullUpdate=true) {
     fetch('/api/user_management/', {
-        method: 'PUT',
+        method: fullUpdate ? 'PUT' : 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCsrfTokenFromForm()
@@ -271,16 +286,18 @@ function updateUser(updatedUser) {
             return response.json();
         })
         .then(data => {
-
-            Utils.closeModal(SELECTORS.editCreateUserModal);
-            Utils.showNotificationMessage(`${updatedUser.username} updated successfully`);
-            updateUserInTable(updatedUser);
-
+            afterUpdateUserCallback(updatedUser);
         })
         .catch(error => {
             console.error('Error updating user:', error);
             Utils.showNotificationMessage(`Error updating ${updatedUser.username}`, "error");
         });
+}
+
+function afterUpdateUserCallback(updatedUser) {
+    Utils.closeModal(SELECTORS.editCreateUserModal);
+    Utils.showNotificationMessage(`${updatedUser.username} updated successfully`);
+    updateUserInTable(updatedUser);
 }
 
 function onDeleteButtonClick(event) {
@@ -330,6 +347,50 @@ function deleteUser(username, row) {
         });
 }
 
+function addUserRowToTable(user) {
+    let userTable = document.querySelector(SELECTORS.userTable);
+    let tableBody = userTable.querySelector(SELECTORS.tableBody);
+
+    let tableRow = new ElementBuilder("tr")
+        .attr({
+            'data-username': user.username,
+            'data-fullname': user.fullname,
+            'data-number': user.number,
+            'data-status': user.status,
+            'data-role': user.role
+        })
+        .append(new ElementBuilder("td").class("tableDataUsername").text(user.username))
+        .append(new ElementBuilder("td").class("tableDataFullname").text(user.fullname))
+        .append(new ElementBuilder("td").class("tableDataNumber").text(user.number))
+        .append(new ElementBuilder("td").class("tableDataStatus").text(user.status))
+        .append(new ElementBuilder("td").class("tableDataRole").text(user.role));
+
+    if (isUserAdmin()) {
+        let td = new ElementBuilder("td").class("tableDataActions");
+        let editButton = new ButtonBuilder()
+            .class("btn btn-primary btn-sm me-2 edit-user-btn")
+            .with("data-bs-target", SELECTORS.editCreateUserModal)
+            .with("data-bs-toggle", "modal")
+            .text("Edit");
+
+        td.append(editButton);
+
+        // user should not be able to delete its own user
+        if (!isUserLoggedInUser(user)) {
+            let deleteButton = new ButtonBuilder("button")
+                .class("btn btn-danger btn-sm delete-user-btn")
+                .with("data-bs-toggle", "modal")
+                .with("data-bs-target", SELECTORS.deleteUserModal)
+                .text("Delete");
+
+            td.append(deleteButton);
+        }
+
+        tableRow.append(td);
+    }
+
+    tableBody.append(tableRow.element);
+}
 
 function updateUserInTable(userData) {
     let userTable = document.querySelector(SELECTORS.userTable);
@@ -374,6 +435,13 @@ function getUserDataFromForm(form = getUserManagementForm()) {
     };
 }
 
+function isShouldUsePUTRequest(updateUserJSON) {
+    return updateUserJSON.fullname !== inEditUserInitialData.fullname
+        && updateUserJSON.number !== inEditUserInitialData.number
+        && updateUserJSON.status !== inEditUserInitialData.status
+        && updateUserJSON.role !== inEditUserInitialData.role;
+}
+
 function getCsrfTokenFromForm(form = getUserManagementForm()) {
     let token = form.querySelector(SELECTORS.csrfToken);
     if (token) {
@@ -384,4 +452,14 @@ function getCsrfTokenFromForm(form = getUserManagementForm()) {
 
 function getTableRowOfEditedUser(context) {
     return context.closest(SELECTORS.tableRow);
+}
+
+function isUserAdmin() {
+    let body = document.querySelector(SELECTORS.bodySelector);
+    return Utils.getPropertyFromDataset(body, "currentUserRole");
+}
+
+function isUserLoggedInUser(user) {
+    let body = document.querySelector(SELECTORS.bodySelector);
+    return Utils.getPropertyFromDataset(body, "currentUsername") === user.username;
 }
